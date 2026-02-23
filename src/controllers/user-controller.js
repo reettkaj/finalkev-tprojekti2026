@@ -68,18 +68,33 @@ const deleteUserById = async (req, res) => {
 
 // Käyttäjän lisäys (rekisteröityminen)
 // TODO: refaktoroi tietokantafunktiolle
+
 const postUser = async (req, res) => {
-  const {username, password, email} = req.body;
-
-  if (!(username && password && email)) {
-    return res.status(400).json({error: 'required fields missing'});
-  }
-
   try {
-    const result = await addUser(req.body);
+    console.log("BODY:", req.body);
+
+    const { username, password, email } = req.body;
+
+    if (!(username && password && email)) {
+      return res.status(400).json({
+        error: 'required fields missing'
+      });
+    }
+
+    // Kutsutaan oikeaa model-funktiota
+    const result = await addUser({
+      username,
+      password,
+      email
+    });
+
     res.status(201).json(result);
+
   } catch (error) {
-    res.status(500).json({error: error.message});
+    console.error(error);
+    res.status(500).json({
+      error: 'An error occurred'
+    });
   }
 };
   // Uusilla käyttäjillä pitää olla kaikki vaaditut ominaisuudet tai palautetaan virhe

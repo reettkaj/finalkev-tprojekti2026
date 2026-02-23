@@ -76,7 +76,7 @@ const findUserByUsername = async (username) => {
 
 const findUserById = async (id) => {
   const [rows] = await promisePool.query(
-    'SELECT id, username, email FROM users WHERE id = ?',
+    'SELECT user_id, username, email FROM Users WHERE user_id = ?',
     [id]
   );
   return rows[0];
