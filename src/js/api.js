@@ -1,5 +1,6 @@
 import '../css/api.css';
-import { getItems, getItemById, deleteItemById, addItem } from './items';
+import { getItems, getItemById, deleteItemById, addItem, updateItem, getItemsTable } from './items';
+import { addUser } from './users';
 
 console.log('Scripti starttaa');
 
@@ -105,3 +106,13 @@ deleteBtn.addEventListener('click', deleteItemById);
 //Etsitään formi, ei itse nappulaa ja tutkitaan SUBMIT eventtiä
 const addItemForm = document.querySelector('.add-item-form');
 addItemForm.addEventListener('submit', addItem);
+
+const putForm = document.querySelector('.put-item-form');
+putForm.addEventListener('submit', updateItem);
+
+const tableBtn = document.querySelector('.get_items_table');
+tableBtn.addEventListener('click', getItemsTable);
+
+const userForm = document.querySelector('.addform');
+console.log(userForm);
+userForm.addEventListener('submit', addUser);
