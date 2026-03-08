@@ -1,60 +1,74 @@
 import { fetchData } from './fetch.js';
 
-// Render Item in a List in the UI
-/////////////////////
+// ============================
+// Renderöi hedelmälistan UI:hin
+// ============================
+
 const renderFruitList = (items) => {
+
   console.log('Teen kohta listan');
-  // Haetaan fruitlist UL
+
+  // Haetaan UL elementti johon lista renderöidään
   const list = document.querySelector('.fruitlist');
+
+  // Tyhjennetään lista ennen uusien lisäämistä
   list.innerHTML = '';
 
   console.log(items);
 
+  // Loopataan kaikki items
   items.forEach((item) => {
+
     console.log(item.name);
+
+    // Luodaan uusi listaelementti
     let li = document.createElement('li');
+
+    // Lisätään teksti
     li.textContent = `Hedelmän id ${item.id} ja nimi ${item.name}`;
+
+    // Lisätään listaan
     list.appendChild(li);
+
   });
 
-  // ja lisätään loopissa kaikki yksittäiset
-  // hedelmät listaan
 };
 
-// GEt items
-/////////////////////
+// ============================
+// GET kaikki items
+// ============================
 
 const getItems = async () => {
-  //  const items = await fetchData(url, options);
+
+  // Haetaan kaikki items backendistä
   const items = await fetchData('http://localhost:3000/api/items');
 
-  // jos BE puolelta tulee virhe niin informoidaan
-  // joko consoleen tai käyttäjälle virheestä
-
+  // Jos backend palauttaa virheen
   if (items.error) {
     console.log(items.error);
     return;
   }
 
-  // tai jatketaan jä tehdään datalle jotain
-  // items.forEach((item) => {
-  //   console.log(item.name);
-  // });
-
+  // Renderöidään lista
   renderFruitList(items);
+
 };
 
-// GEt item by ID
-/////////////////////
+// ============================
+// GET item ID:n perusteella
+// ============================
 
 const getItemById = async (event) => {
+
   console.log('Haetaan IDn avulla!!!');
 
   event.preventDefault();
 
-  //const idInput = document.getElementById('itemID');
+  // Haetaan input kenttä
   const idInput = document.querySelector('#itemId');
+
   const itemId = idInput.value;
+
   console.log(itemId);
 
   const url = `http://localhost:3000/api/items/${itemId}`;
@@ -65,33 +79,41 @@ const getItemById = async (event) => {
 
   const item = await fetchData(url, options);
 
-  // jos BE puolelta tulee virhe niin informoidaan
-  // joko consoleen tai käyttäjälle virheestä
-
+  // Virhe backendistä
   if (item.error) {
     console.log(item.error);
     return;
   }
 
   console.log(item);
+
   alert(`Item found :) ${item.name}`);
+
 };
 
-  const deleteItemById = async (event) => {
+// ============================
+// DELETE item ID:n perusteella
+// ============================
+
+const deleteItemById = async (event) => {
+
   console.log('Deletoidaan IDn avulla!!!');
 
   event.preventDefault();
 
   const idInput = document.querySelector('#itemId');
+
   const itemId = idInput.value;
+
   console.log(itemId);
 
-  //Muista tarkistaa usein, että käyttäjä lähettää oikean datan
+  // Tarkistus että ID on annettu
   if(!itemId) {
     console.log('Item ID missing, fill in the details')
     return;
   }
 
+  // Varmistus käyttäjältä
   const confirmed = confirm(`Oletko varma että haluat poistaa itemin: ${itemId}`);
 
   if (!confirmed) return;
@@ -110,18 +132,23 @@ const getItemById = async (event) => {
   }
 
   console.log(item);
+
   alert(item.message);
 
+  // Päivitetään lista
   await getItems();
 
-  };
+};
 
-  //ADDitem
+// ============================
+// ADD item
+// ============================
+
 const addItem = async (event) => {
 
   event.preventDefault();
 
-  // Haetaan formikentät
+  // Haetaan form inputit
   const nameInput = document.querySelector('#newItemName');
   const weightInput = document.querySelector('#newItemWeight');
 
@@ -137,14 +164,18 @@ const addItem = async (event) => {
   const url = 'http://localhost:3000/api/items';
 
   const options = {
+
     method: 'POST',
+
     headers: {
       'Content-Type': 'application/json'
     },
+
     body: JSON.stringify({
       name: name,
       weight: weight
     })
+
   };
 
   const result = await fetchData(url, options);
@@ -155,12 +186,17 @@ const addItem = async (event) => {
   }
 
   console.log(result);
+
   alert(result.message);
 
   // Päivitetään lista
   await getItems();
 
 };
+
+// ============================
+// UPDATE item
+// ============================
 
 const updateItem = async (event) => {
 
@@ -172,6 +208,7 @@ const updateItem = async (event) => {
   const itemId = idInput.value;
   const newName = nameInput.value;
 
+  // Tarkistus
   if (!itemId || !newName) {
     alert('Täytä tiedot');
     return;
@@ -180,13 +217,17 @@ const updateItem = async (event) => {
   const url = `http://localhost:3000/api/items/${itemId}`;
 
   const options = {
+
     method: 'PUT',
+
     headers: {
       'Content-Type': 'application/json'
     },
+
     body: JSON.stringify({
       name: newName
     })
+
   };
 
   const result = await fetchData(url, options);
@@ -199,11 +240,17 @@ const updateItem = async (event) => {
   alert(result.message);
 
   await getItems();
+
 };
+
+// ============================
+// Renderöi items taulukkoon
+// ============================
 
 const renderTable = (items) => {
 
   const tbody = document.querySelector('.tbody');
+
   tbody.innerHTML = '';
 
   items.forEach(item => {
@@ -223,6 +270,10 @@ const renderTable = (items) => {
 
 };
 
+// ============================
+// GET items taulukkoon
+// ============================
+
 const getItemsTable = async () => {
 
   const items = await fetchData('http://localhost:3000/api/items');
@@ -236,8 +287,13 @@ const getItemsTable = async () => {
 
 };
 
+// ============================
+// Event delegation napeille
+// ============================
+
 document.addEventListener('click', async (event) => {
 
+  // Info nappi
   if (event.target.classList.contains('infoBtn')) {
 
     const id = event.target.dataset.id;
@@ -248,6 +304,7 @@ document.addEventListener('click', async (event) => {
 
   }
 
+  // Delete nappi
   if (event.target.classList.contains('deleteBtn')) {
 
     const id = event.target.dataset.id;
@@ -266,6 +323,10 @@ document.addEventListener('click', async (event) => {
 
 });
 
+// ============================
+// ADD user
+// ============================
+
 const addUser = async (event) => {
 
   event.preventDefault();
@@ -274,6 +335,7 @@ const addUser = async (event) => {
   const password = document.querySelector('#password').value;
   const email = document.querySelector('#email').value;
 
+  // Tarkistus
   if (!username || !password || !email) {
     alert('Täytä kaikki kentät');
     return;
@@ -282,15 +344,19 @@ const addUser = async (event) => {
   const url = 'http://localhost:3000/api/users';
 
   const options = {
+
     method: 'POST',
+
     headers: {
       'Content-Type': 'application/json'
     },
+
     body: JSON.stringify({
       username: username,
       password: password,
       email: email
     })
+
   };
 
   const result = await fetchData(url, options);
@@ -303,6 +369,16 @@ const addUser = async (event) => {
   alert('User lisätty onnistuneesti');
 
   document.querySelector('.addform').reset();
+
 };
 
-export { getItems, getItemById, deleteItemById, addItem, updateItem, getItemsTable, addUser };
+// Exportataan funktiot muihin tiedostoihin
+export {
+  getItems,
+  getItemById,
+  deleteItemById,
+  addItem,
+  updateItem,
+  getItemsTable,
+  addUser
+};

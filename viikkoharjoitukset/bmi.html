@@ -29,6 +29,7 @@
     <!-- Navigation -->
 
     <nav>
+      <button id="logout">Logout</button>
       <ul>
         <li><a href="" id="logo">HyteGym</a></li>
         <li>
@@ -45,10 +46,10 @@
           <a href="paivakirja.html" class="navlink">Päiväkirja</a>
         </li>
       </ul>
-      <div class="user-area">
-        Hei Käyttäjä: <span class="username">Vieras</span>
-        <span id="authButtons"></span>
-      </div>
+      <div>
+        Hei Käyttäjä:&nbsp;<span class="username">Vieras</span>
+        <button id="logout">Logout</button>
+</div>
     </nav>
 
     <main>
@@ -95,7 +96,6 @@
       </div>
     </main>
     <script type="module" src="src/js/loggedUser.js"></script>
-    <script type="module" src="src/js/navbar.js"></script>
   </body>
   <script type="module" src="src/js/bmi.js"></script>
 </html>

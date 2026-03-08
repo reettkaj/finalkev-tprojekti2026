@@ -1,5 +1,5 @@
 import { fetchData } from './fetch.js';
-
+// Käyttäjän rekisteröinti
 const addUser = async (event) => {
 
   event.preventDefault();
@@ -30,7 +30,7 @@ const addUser = async (event) => {
     alert(result.error);
     return;
   }
-
+// Ilmoittaa rekisteröidystä käyttäjästä
   alert("User added!");
 };
 

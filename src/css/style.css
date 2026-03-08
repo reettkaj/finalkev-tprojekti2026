@@ -1,23 +1,34 @@
-/* @import url('https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap'); */
+/* Google fontit */
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 
+/* Reset – poistaa selaimen oletus marginit ja paddings */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* Smooth scroll ankkurilinkeille */
 html {
   scroll-behavior: smooth;
 }
 
+/* Sivun perusasetukset */
 body {
-  font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  font-size: 1em;
+
+  font-family: "Open Sans", sans-serif;
+
+  /* Taustagradient koko sivulle */
+  background: linear-gradient(
+  180deg,
+  #f4f7fb 0%,
+  #eef3f9 40%,
+  #e6edf5 100%
+);
+min-height: 100vh;
 }
 
+/* Keskittää pääsisällön */
 nav,
 header,
 main {
@@ -26,118 +37,273 @@ main {
 }
 
 /*********************/
-/* utility & main classes */
+/* Utility classes (yleiskäyttöiset luokat) */
 
 .black_cl {
-  color: rgb(18, 25, 30);
+  color: rgba(24, 31, 37, 1);
 }
+
 .bolder {
   font-weight: bolder;
 }
+
 .light_font {
-  color: rgb(188, 201, 221);
+  color: rgb(202, 202, 202);
 }
+
+/* Sivun pääväri */
 .main_cl {
-  color: rgb(105, 210, 240);
+  color: rgb(86, 210, 216);
 }
+
 .fl {
   float: left;
 }
+
 .mb-10 {
   margin-bottom: 10px;
 }
+
 .fd-col {
   flex-direction: column;
 }
 
 /********************************/
-/* Navigaatio alueen tyylittely */
+/* Navigaatio */
 
-nav {
-  background-color: white;
-  color: #fff;
-  padding: 0.5rem 4rem;
-  font-weight: 100;
-  font-size: 1.2em;
-  background-color: rgb(30, 39, 46);
-  box-shadow: 0 8px 16px -6px black;
-  height: 100px;
+nav{
+
+position:sticky; /* pysyy yläreunassa scrollatessa */
+top:0;
+z-index:1000;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+background:#1e272e;
+
+padding:18px 40px;
+
+border-radius:12px;
+margin-top:15px;
+
+box-shadow:0 5px 20px rgba(0,0,0,0.15);
+
 }
+
+/* Button tyylit */
+
+button {
+
+  border-radius: 8px;
+
+  border: 1px solid rgb(216, 216, 216);
+
+  padding: 0.6em 1.2em;
+
+  font-size: 1em;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  background: white;
+
+  transition: all 0.2s ease;
+
+}
+
+/* Hover efekti */
+
+button:hover {
+
+  border-color: rgb(86,210,216);
+
+  background: rgb(86,210,216);
+
+  color: black;
+
+}
+
+/* Navigaation linkkilista */
+
 nav ul {
-  padding-top: 29px;
-  list-style-type: none;
+
+  display: flex;
+
+  gap: 20px;
+
+  list-style: none;
+
 }
 
 a {
   text-decoration: none;
 }
 
-/* Logon erityis liukuväri */
+/* Logo linkki – gradient text */
 
 nav ul li:first-child a {
-  /* Fallback: Set a background color. */
+
   background-color: rgb(65 77 159);
 
-  /* Create the gradient. */
-  /* background-image: linear-gradient(45deg, #f3ec78, #af4261);*/
   background-image: linear-gradient(45deg, rgb(86, 210, 216), rgb(65 77 159));
 
-  /* Set the background size and repeat properties. */
   background-size: 100%;
+
   background-repeat: repeat;
 
-  /* Use the text as a mask for the background. */
-  /* This will show the gradient as a text color rather than element bg. */
   background-clip: text;
+
   -webkit-background-clip: text;
+
   -webkit-text-fill-color: transparent;
+
   -moz-background-clip: text;
+
   -moz-text-fill-color: transparent;
+
   font-size: larger;
+
   font-family: 'Roboto Slab', serif;
+
   font-weight: 900;
+
   margin-right: 40px;
+
 }
+
+/* Nav linkkien väri */
 
 nav ul a {
+
   color: rgb(197, 197, 197);
+
   padding: 0.6rem;
+
   margin: 0 0.25em;
+
   font-size: smaller;
+
   transition: color 0.5s;
+
 }
 
-nav ul li {
-  float: left;
-}
+/* Hover väri */
+
 nav ul li a:hover {
-  color: rgb(110, 246, 244);
+
+  color: rgb(206, 255, 149);
+
 }
+
+/* Aktiivinen sivu */
 
 .selected {
-  border-bottom: 1px solid var(rgb(86, 210, 216));
-  color: var(rgb(86, 210, 216));
+
+  color: rgb(86,210,216);
+
+  border-bottom: 2px solid rgb(86,210,216);
+
 }
 
 /*********************/
-/* Herokuva */
+/* Hero / taustakuva */
 
 #taustakuva {
-  max-width: 1200px;
-  margin: auto;
-  width: 100%;
-  height: 300px;
-  background-color: aliceblue;
-  background-image: url("/fitnessequipment.jpg");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+
+position:relative;
+
+height:420px;
+
+border-radius:20px;
+
+/* tumma overlay kuvan päällä */
+
+background:
+
+linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+
+url("/fitnessequipment.jpg");
+
+background-size:cover;
+
+background-position:center;
+
+display:flex;
+
+align-items:center;
+
+padding:60px;
+
+}
+
+/* Hero tekstialue */
+
+.hero-text{
+
+color:white;
+
+max-width:500px;
+
+}
+
+.hero-text h1{
+
+font-size:38px;
+
+margin-bottom:20px;
+
+}
+
+/* korostettu sana */
+
+.hero-text span{
+
+color:rgb(86,210,216);
+
 }
 
 /*********************/
-/* Infoalueen tyylittely */
+/* Feature kortit */
+
+.features{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+gap:30px;
+
+margin-top:60px;
+
+}
+
+.feature-card{
+
+background:white;
+
+padding:30px;
+
+border-radius:16px;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+
+transition:all 0.2s;
+
+}
+
+/* hover animaatio */
+
+.feature-card:hover{
+
+transform:translateY(-6px);
+
+}
+
+/*********************/
+/* Info alue */
 
 .info-area {
   margin-top: 50px;
@@ -145,123 +311,199 @@ nav ul li a:hover {
 
 #info-text {
   text-align: center;
-  /* This way the text wont wrap */
   font-size: 1.5em;
 }
 
 /*********************/
-/* About osion tyylittely */
+/* About sivu */
 
 .about-us {
+
   min-height: 400px;
+
   background-color: #f0f0f0;
-  background-image: url("/img/hrv1.webp");
+
   background-position: right;
+
   background-size: cover;
+
   padding: 80px;
+
   padding-right: 30%;
+
   color: black;
+
   position: relative;
+
   margin-top: 50px;
-}
-.about-us p {
-  margin-bottom: 15px;
-}
-.card-inside {
-  margin-right: 50px;
-  margin-bottom: 30px;
-  max-width: 330px;
-  border-radius: 20px;
+
 }
 
 /*********************/
-/* BMI osion tyylittely */
+/* BMI kortti */
 
 .card {
+
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
   max-width: 500px;
+
   margin: 50px auto;
+
   padding: 30px;
-}
 
-.card > h2 {
-  margin-top: 15px;
-}
-
-.card p {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-.description {
-  color: grey;
-  font-size: 18px;
-}
-
-label {
-  display: block;
-}
-
-input[type='text'] {
-  width: 50%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.btn {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border: none;
-  outline: 0;
-  display: inline-block;
-  padding: 8px;
-  color: white;
-  background-color: rgb(30, 39, 46);
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  font-size: 18px;
-}
-
-.btn:hover,
-a:hover {
-  opacity: 0.7;
-}
-
-tbody {
-  background-color: #fff;
-}
-
-td {
-  border: 1px solid #ddd;
-  padding: 5px;
-}
-
-.lowBmi {
-  background-color: rgb(71, 178, 210);
-}
-.normalBmi {
-  background-color: rgb(112, 223, 112);
-}
-.highBmi {
-  background-color: rgb(244, 148, 30);
 }
 
 /*********************/
-/* Footer osion tyylittely */
+/* Footer */
 
-footer {
-  width: 100%;
-  text-align: center;
-  padding-top: 40px;
-  background-color: rgb(22, 27, 83);
-  filter: brightness(40%);
-  height: 100px;
+footer{
+
+margin-top:100px;
+
+padding:40px;
+
+background:#1e272e;
+
+color:#aaa;
+
+text-align:center;
+
+}
+
+/*********************/
+/* Diary kortit */
+
+.diary-card-area {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+  gap: 25px;
+
+  padding: 30px;
+
+}
+
+.diary-card {
+
+background:white;
+
+border-radius:14px;
+
+padding:20px;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+
+transition:all 0.2s ease;
+
+}
+
+/*********************/
+/* Login / Register */
+
+.auth-section {
+
   margin-top: 50px;
-  color: #fefefe;
+
+  text-align: center;
+
+}
+
+.auth-container {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 40px;
+
+  flex-wrap: wrap;
+
+}
+
+/*********************/
+/* Login layout */
+
+.login-wrapper{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+background:white;
+
+border-radius:20px;
+
+overflow:hidden;
+
+max-width:900px;
+
+margin:80px auto;
+
+box-shadow:0 20px 40px rgba(0,0,0,0.15);
+
+}
+
+/*********************/
+/* Diary page layout */
+
+.diary-page{
+
+max-width:1200px;
+
+margin:auto;
+
+padding:40px 20px;
+
+}
+
+.diary-layout{
+
+display:grid;
+
+grid-template-columns:350px 1fr;
+
+gap:50px;
+
+align-items:start;
+
+}
+
+/*********************/
+/* Responsive design */
+
+@media(max-width:900px){
+
+.login-wrapper{
+
+grid-template-columns:1fr;
+
+}
+
+.login-image{
+
+height:300px;
+
+}
+
+nav{
+
+flex-direction:column;
+
+gap:10px;
+
+}
+
+.diary-layout{
+
+grid-template-columns:1fr;
+
+}
+
 }
 
 /* Breakpointit tänne */

@@ -1,0 +1,124 @@
+<!-- Sivuston layout inspiraatio -->
+<!-- https://dribbble.com/shots/23369008-Gym-Fitness-Landing-Page -->
+
+<!doctype html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+<meta
+name="description"
+content="On tärkeää että pidät huolta itsestäsi. Seuraa treeniohjeitamme, tarkastele terveyttäsi
+HRV tiedon avulla ja voi kokonaisvaltaisesti hyvin. Suuntaa nyt hyvinvointia ja uutta
+elämääsi kohti."
+/>
+
+<title>HyteGym</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,300&family=Roboto+Slab:wght@100;200;300;400;500;600;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+rel="stylesheet"
+/>
+<script type="module" src="src/js/loggedUser.js"></script>
+</head>
+
+<body>
+
+<!---------------->
+<!-- Navigation -->
+
+<nav>
+<ul>
+
+<li><a href="" id="logo">HyteGym</a></li>
+
+<li>
+<a href="index.html" class="navlink">Koti</a>
+</li>
+
+<li>
+<a href="bmi.html" class="navlink">BMI laskuri</a>
+</li>
+
+<li>
+<a href="viikkoharjoitukset/viikkotehtävät.html" class="navlink">Viikkotehtävät</a>
+</li>
+
+<li>
+<a href="paivakirja.html" class="selected navlink">Päiväkirja</a>
+</li>
+</ul>
+<div class="user-area">
+  Hei Käyttäjä: <span class="username">Vieras</span>
+  <span id="authButtons"></span>
+</div>
+</nav>
+
+<main>
+
+<main class="diary-page">
+
+<h2>Päiväkirja</h2>
+
+<div class="diary-layout">
+
+<div class="entry-panel">
+
+<!-- nappi joka hakee merkinnät -->
+<button class="get_entries">Hae päiväkirjamerkinnät</button>
+
+<h2>Lisää päiväkirjamerkintä</h2>
+
+<form class="entry-form">
+
+<input type="date" name="entry_date" required>
+<input type="text" name="mood" placeholder="Mood" required>
+<input type="number" name="weight" placeholder="Weight (kg)" required>
+<input type="number" name="sleep_hours" placeholder="Sleep hours" required>
+<input type="number" name="energy_level" placeholder="Energy level (1-10)">
+<input type="number" step="0.1" name="water_liters" placeholder="Water (liters)">
+<input type="number" name="stress_level" placeholder="Stress level (1-10)">
+<input type="text" name="exercise" placeholder="Exercise">
+<input type="text" name="meal" placeholder="Meal">
+<input type="text" name="symptom" placeholder="Symptoms">
+<input type="text" name="medication" placeholder="Medication">
+<textarea name="notes" placeholder="Notes"></textarea>
+
+<button type="submit">Lisää merkintä</button>
+
+</form>
+</div>
+
+<!-- Flexbox pohja johon kortit luodaan -->
+<section class="diary-card-area">
+<!-- Kortit luodaan JavaScriptillä -->
+</section>
+</main>
+<footer>
+<p>Copyright, RK</p>
+</footer>
+
+<!-- Dialogi joka avautuu kun painetaan kortin "Avaa" -->
+<dialog class="diary_dialog">
+
+<h2>Päiväkirjamerkintä</h2>
+<p>Tiedot:</p>
+<div class="diary_id">ID</div>
+<button autofocus>Close</button>
+</dialog>
+<script type="module" src="src/js/login.js"></script>
+</body>
+
+<script type="module" src="src/js/diary.js"></script>
+<script type="module" src="src/js/loggedUser.js"></script>
+<script type="module" src="src/js/diaryAuth.js"></script>
+<script type="module" src="src/js/navbar.js"></script>
+
+
+</html>

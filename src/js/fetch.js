@@ -6,19 +6,21 @@
  *
  * @returns {Object} response json data
  */
-const fetchData = async (url, options = {}) => {
-  try {
-    const response = await fetch(url, options);
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      return { error: errorData.message || 'An error occurred' };
-    }
-    return await response.json(); // Return successful response data
-  } catch (error) {
-    console.error('fetchData() error:', error.message);
-    return { error: error.message };
+// Tokenilla on 1h vanhenemisaika. Nyt tämän avulla käyttäjä tietää automaattisesti kun token on vanhentunut, ja se pyytää kirjautumaan uusiksi.
+const fetchData = async (url, options = {}) => {
+  const response = await fetch(url, options);
+  // Jos token vanhentunut tai ei oikeuksia
+  if (response.status === 401 || response.status === 403) {
+    console.log("Token expired. Logging out...");
+    // poistetaan token
+    localStorage.removeItem("token");
+    // ohjataan login sivulle
+    window.location.href = "login.html";
+    return;
   }
+  const data = await response.json();
+  return data;
 };
 
 export { fetchData };

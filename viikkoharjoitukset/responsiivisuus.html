@@ -29,15 +29,6 @@
         }
       }
 
-      #kissa {
-        width: 100%;
-        max-width: 700px;
-      }
-      #kissa2 {
-        height: 100px;
-        width: 50%;
-        object-fit: cover;
-      }
       #taustakuva {
         width: 50%;
         height: 300px;
@@ -48,28 +39,16 @@
         background-size: cover;
       }
 
-      @media screen and (min-width: 720px) {
-        #kissa {
-          display: block;
-          margin: auto;
-        }
         #taustakuva {
           background-image: url(/images/bmi.jpeg);
           background-position: center top;
         }
-      }
     </style>
   </head>
   <body>
     <h3>Otsikko</h3>
 
     <p>Lorem ipsum dolor</p>
-
-    <h3>Normaali IMG kuva ja mediasäännöt</h3>
-    <img id="kissa" src="/images/cat.jpg" alt="" />
-
-    <h3>Object Fit</h3>
-    <img id="kissa2" src="/images/cat.jpg" alt="" />
 
     <h3>Taustakuva</h3>
     <div id="taustakuva"></div>
