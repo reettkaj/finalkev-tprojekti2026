@@ -1,0 +1,94 @@
+# Test HTTP requests
+### use with: REST Client extension
+@apiurl = http://localhost:3000/api
+@token = 
+### GET all items
+GET {{apiurl}}/items
+
+### GET item with id 1
+GET {{apiurl}}/items/1
+
+### Add new item
+POST {{apiurl}}/items
+Content-Type: application/json
+
+{"name": "Mandariini", "weight": 86}
+
+### Delete item with id 2
+DELETE {{apiurl}}/items/2
+
+### Update item with id 1
+PUT {{apiurl}}/items/1
+Content-Type: application/json
+
+{"name": "updated Omena"}
+
+##############################
+### users endpoints
+
+### Get all users (with token)
+GET {{apiurl}}/users
+Authorization: Bearer {{token}}
+
+### Get all users (FAIL without token)
+GET {{apiurl}}/users
+
+### Register new user
+POST {{apiurl}}/users
+Content-Type: application/json
+
+{
+  "username": "donald2",
+  "password": "duck",
+  "email": "donald2@example.com"
+}
+
+### Register new user FAIL (email missing)
+POST {{apiurl}}/users
+Content-Type: application/json
+
+{
+  "username": "donald",
+  "password": "duck"
+}
+
+### User login
+POST {{apiurl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "donald2",
+  "password": "duck"
+}
+
+### Get user info by token
+GET {{apiurl}}/users/me
+Authorization: Bearer {{token}}
+
+
+##############################
+### Diary entry endpoints
+
+### Get all entries (by user id in token)
+GET {{apiurl}}/entries
+Authorization: Bearer {{token}}
+
+### Get entry by id
+GET {{apiurl}}/entries/6
+
+### Delete entry by id
+DELETE {{apiurl}}/entries/6
+Authorization: Bearer {{token}}
+
+### Post new entry
+POST {{apiurl}}/entries
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "entry_date": "2026-02-04",
+  "mood": "really happy",
+  "weight": 66,
+  "sleep_hours": 5,
+  "notes": "normipäivä"
+}

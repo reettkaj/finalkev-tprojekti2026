@@ -1,0 +1,140 @@
+<!-- Sivuston layout inspiraatio -->
+<!-- https://dribbble.com/shots/23369008-Gym-Fitness-Landing-Page -->
+ <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="On tärkeää että pidät huolta itsestäsi. Seuraa treeniohjeitamme, tarkastele terveyttäsi
+      HRV tiedon avulla ja voi kokonaisvaltaisesti hyvin. Suuntaa nyt hyvinvointia ja uutta
+      elämääsi kohti."
+    />
+    <link rel="stylesheet" href="src/css/style.css">
+    <title>HyteGym</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,300&family=Roboto+Slab:wght@100;200;300;400;500;600;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!---------------->
+    <!-- Navigation -->
+
+    <nav>
+      <ul>
+        <li><a href="/" id="logo">HyteGym</a></li>
+        <li>
+          <a href="#" class="selected navlink">Koti</a>
+        </li>
+        <li>
+          <!-- <a href="./bmi/" class="navlink">BMI laskuri</a> -->
+          <a href="bmi.html" class="navlink">BMI laskuri</a>
+        </li>
+        <li>
+  <a href="viikkoharjoitukset/viikkotehtävät.html">Viikkotehtävät</a>
+</li>
+<li>
+          <a href="paivakirja.html" class="navlink">Päiväkirja</a>
+        </li>
+      </ul>
+      <span class="header-links"></span>
+      <div class="user-area">
+        Hei Käyttäjä: <span class="username">Vieras</span>
+        <span id="authButtons"></span>
+      </div>
+    </nav>
+
+    <div id="taustakuva"></div>
+    <div id="hero">
+
+<div class="hero-text">
+<h1>Taistele <span>HYVINVOINTISI</span> puolesta</h1>
+
+</div>
+</div>
+    <main>
+      <section class="info-area" id="info">
+        <div id="info-text">
+          Miten
+          <span class="main_cl">HyteGym</span>
+          auttaa sinua hyvinvointisi seuraamisessa
+        </div>
+      </section>
+
+      <section class="features">
+
+<div class="feature-card">
+
+<h3>Treeni ohjelmat</h3>
+
+<p>
+Saat henkilökohtaisia harjoitusohjelmia
+joilla kehität kuntoasi turvallisesti.
+</p>
+
+</div>
+<div class="feature-card">
+<h3>HRV seuranta</h3>
+<p>
+Seuraa sykevälivaihteluasi ja palautumistasi
+helposti.
+</p>
+</div>
+<div class="feature-card">
+<h3>Päiväkirja</h3>
+<p>
+Kirjaa päivittäinen hyvinvointisi ja seuraa
+kehitystäsi.
+</p>
+
+</div>
+
+</section>
+
+      <section class="about-us" id="contact">
+        <img
+          src="hrv1.webp"
+          alt="Sykevälivaihtelu"
+          class="fl card-inside"
+        />
+        <h2 class="black_cl bolder mb-10">Tämä on meidän tarinamme</h2>
+        <p>
+          Olemme joukko nuoria yrittäjiä, jotka uskovat HRV tiedon ja
+          treeniohjelman voimaan hyvinvoinnin seurannassa.
+        </p>
+        <p>
+          Sykevälivaihtelua tai HRV:tä käytetään fysiologisiin mittauksiin kuten
+          VO2-maksimaalinen hapenottokyky, SV-stressitesti, Suoritustaso,
+          Anaerobinen kynnys ja Harjoituksen tehokkuus. Yhdistämällä HRV
+          seurannan henkilökohtaiseen treeniohjelmaasi, voit saavuttaa nopeasti,
+          tehokkaasti sekä ennenkaikkea turvallisesti uusia tasoja kuntosi
+          kehityksessä.
+        </p>
+        <p>
+          Ohjelmamme tukee kehitystäsi eri treeniohjelmien muodossa, tarjoaa
+          päiväkirjan hvyinvointisi seurantaan sekä HRV tietojesi analysointiin.
+          Voit saada kauttamme myös yhteyden terveydenhuollon ammattilaisiin,
+          sekä personal trainer palveluihin.
+        </p>
+      </section>
+    </main>
+    <footer>
+      <p>Copyright, RK</p>
+    </footer>
+    <dialog class="diary_dialog">
+  <h2>Päiväkirjamerkintä</h2>
+  <div class="diary_id"></div>
+  <button>Sulje</button>
+</dialog>
+  </body>
+  <script type="module" src="src/js/main.js"></script>
+  <script type="module" src="src/js/loggedUser.js"></script>
+  <script type="module" src="src/js/navbar.js"></script>
+</html>

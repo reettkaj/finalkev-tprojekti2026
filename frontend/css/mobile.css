@@ -1,0 +1,26 @@
+@media screen and (max-width: 900px) {
+  .card-inside {
+    float: none;
+  }
+  .about-us {
+    padding-right: 80px;
+    background-image: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .card-inside {
+    width: 100%;
+  }
+
+  nav {
+    height: 190px;
+  }
+
+  nav ul li {
+    float: none;
+    height: 35px;
+  }
+}
+
+/* Määrittelyjä eri näyttökoolle  */
