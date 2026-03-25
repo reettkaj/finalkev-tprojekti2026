@@ -1,9 +1,2 @@
-<<<<<<< HEAD
 node_modules
-=======
-# OSX stuff
-.DS_Store
-
-# Windows image cache
-Thumbs.db
->>>>>>> 73e0406bbf14539e7a0fcc9f26097fc04e36ca38
+.env
