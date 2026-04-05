@@ -7,15 +7,27 @@ CREATE DATABASE Tietokanta;
 -- Valitaan juuri luotu tietokanta käyttöön
 USE Tietokanta;
 
+-- ROLES
+CREATE TABLE Roles (
+    role_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
 
--- Taulu käyttäjille (potilaat, lääkärit, ylläpitäjät)
-CREATE TABLE Kayttajat (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,      -- Yksilöllinen tunniste käyttäjälle
-    role ENUM('potilas', 'laakari', 'yllapitaja'), -- Käyttäjän rooli järjestelmässä
-    email VARCHAR(100) NOT NULL UNIQUE,          -- Sähköposti (uniikki)
-    password VARCHAR(255) NOT NULL,              -- Salasana (tulisi tallentaa hashattuna)
-    name VARCHAR(100),                           -- Käyttäjän nimi
-    age INT                                      -- Käyttäjän ikä
+-- Taulu käyttäjille
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255),
+    name VARCHAR(100),
+    age INT,
+    kubios_id VARCHAR(255) UNIQUE,
+    auth_provider ENUM('local', 'kubios') NOT NULL,
+    role_id INT NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_users_role
+        FOREIGN KEY (role_id) REFERENCES Roles(role_id)
 );
 
 -- Taulu hengitysharjoituksille, joita käyttäjät tekevät
@@ -64,16 +76,6 @@ CREATE TABLE Seulontakysely (
     tsq INT,                                     -- Trauma Screening Questionnaire -pisteet
     dsm5 INT,                                    -- DSM-5 mukaiset pisteet
     FOREIGN KEY (user_id) REFERENCES Kayttajat(user_id)
-);
-
-
--- Taulu ammattilaisten ja potilaiden välisille suhteille
-CREATE TABLE Ammattilainen_potilas (
-    id INT AUTO_INCREMENT PRIMARY KEY,           -- Yksilöllinen tunniste
-    ammattilainen_id INT NOT NULL,               -- Viittaus lääkäriin/ammattilaiseen
-    potilas_id INT NOT NULL,                     -- Viittaus potilaaseen
-    FOREIGN KEY (ammattilainen_id) REFERENCES Kayttajat(user_id),
-    FOREIGN KEY (potilas_id) REFERENCES Kayttajat(user_id)
 );
 
 
