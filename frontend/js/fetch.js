@@ -19,8 +19,16 @@ const fetchData = async (url, options = {}) => {
     window.location.href = "login.html";
     return;
   }
-  const data = await response.json();
-  return data;
+let data;
+
+try {
+  data = await response.json();
+} catch (error) {
+  console.error("Response is not JSON:", await response.text());
+  return { error: "Invalid JSON response" };
+}
+
+return data;
 };
 
 export { fetchData };

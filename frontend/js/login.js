@@ -82,7 +82,7 @@ const loginUser = async (event) => {
     password: password,
   };
 
-  const url = 'http://localhost:3000/api/auth/login';
+  const url = 'http://localhost:3000/api/users/login';
 
   const options = {
     body: JSON.stringify(bodyData),

@@ -1,9 +1,11 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import itemRouter from './routes/item-router.js';
 import userRouter from './routes/user-router.js';
 import requestLogger from './middlewares/logger.js';
 import entryRouter from './routes/entry-router.js';
+import {errorHandler, notFoundHandler} from './middlewares/error-handlers.js';
+import kubiosRouter from './routes/kubios-router.js';
 const hostname = '127.0.0.1';
 const app = express();
 const port = 3000;
@@ -28,9 +30,14 @@ app.use('/api/users', userRouter);
 // Diary entries resource router
 app.use('/api/entries', entryRouter);
 
+// Kubios data router
+app.use('/api/kubios', kubiosRouter);
 
-// Dummy items resource
-app.use('/api/items', itemRouter);
+// jos pyyntö ei "mätsää" minkään ylläolevan reitin kanssa, kyseessä on 404-tilanne
+app.use(notFoundHandler);
+// virheenkäsittelijälle ohjataa kaikki pyynnöt, jossa mukana on error objekti
+app.use(errorHandler);
+
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);

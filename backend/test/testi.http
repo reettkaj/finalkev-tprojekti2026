@@ -1,11 +1,8 @@
 # Test HTTP requests
 ### use with: REST Client extension
 @apiurl = http://localhost:3000/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwidXNlcm5hbWUiOiJyZWV0dGthakBtZXRyb3BvbGlhLmZpIiwiZW1haWwiOiJyZWV0dGthakBtZXRyb3BvbGlhLmZpIiwiY3JlYXRlZF9hdCI6IjIwMjYtMDMtMzBUMDc6MzU6NTguMDAwWiIsInVzZXJfbGV2ZWwiOiJyZWd1bGFyIiwiaWF0IjoxNzc1Mzc2NTgzLCJleHAiOjE3NzU0NjI5ODN9.xO-wae3RhJI97zPTGvEkqMa6751IhbZIkeV5ESXNxjU"
 
-### GET all items
-GET {{apiurl}}/items
-
-### GET item with id 1
 GET {{apiurl}}/items/1
 
 ### Add new item
@@ -26,7 +23,11 @@ Content-Type: application/json
 ##############################
 ### users endpoints
 
-### Get all users
+### Get all users (with token)
+GET {{apiurl}}/users
+Authorization: Bearer {{token}}
+
+### Get all users (FAIL without token)
 GET {{apiurl}}/users
 
 ### Register new user
@@ -34,48 +35,62 @@ POST {{apiurl}}/users
 Content-Type: application/json
 
 {
-  "username": "john",
-  "password": "doe",
-  "email": "donald@example.com"
+  "username": "reettkaj@metropolia.fi",
+  "password": "Fenix184!",
+  "email": "reettkaj@metropolia.fi"
 }
 
-### Register new user FAIL (email missing)
+### Register new user FAIL (email missing) - täytyy laittaa omat kubios sovelluksen tunnarit
 POST {{apiurl}}/users
 Content-Type: application/json
 
 {
-  "username": "donald",
-  "password": "duck"
+  "username": "",
+  "password": ""
 }
 
-### User login
+### User login - täytyy laittaa omat kubios sovelluksen tunnarit
 POST {{apiurl}}/users/login
 Content-Type: application/json
 
 {
-  "username": "bob_brown",
-  "password": "hashed_password"
+  "username": "",
+  "password": ""
 }
+
+### Get user info by token
+GET {{apiurl}}/users/me
+Authorization: Bearer {{token}}
 
 
 ##############################
 ### Diary entry endpoints
 
-### Get all entries
+### Get all entries (by user id in token)
 GET {{apiurl}}/entries
+Authorization: Bearer {{token}}
 
 ### Get entry by id
 GET {{apiurl}}/entries/6
 
+### Delete entry by id
+DELETE {{apiurl}}/entries/9
+Authorization: Bearer {{token}}
+
 ### Post new entry
 POST {{apiurl}}/entries
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "user_id": 3,
   "entry_date": "2026-02-04",
   "mood": "really happy",
   "weight": 66,
   "sleep_hours": 5,
   "notes": "normipäivä"
 }
+
+
+### Get Kubios data
+GET {{apiurl}}/kubios/user-data
+Authorization: Bearer {{token}}
