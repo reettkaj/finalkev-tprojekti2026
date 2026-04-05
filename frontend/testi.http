@@ -1,9 +1,7 @@
 # Test HTTP requests
 ### use with: REST Client extension
 @apiurl = http://localhost:3000/api
-@token = 
-### GET all items
-GET {{apiurl}}/items
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIyLCJrdWJpb3NJZFRva2VuIjoiZXlKcmFXUWlPaUpRVkVSUlVHWkxialUyYlhCNVJVOXBjSFZ4T0dSRlVEQlBlWGxKTVdoMVdsUXdNVkpWZWtkWFVTdFJQU0lzSW1Gc1p5STZJbEpUTWpVMkluMC5leUpoZEY5b1lYTm9Jam9pYkhONmVESnljR0poYUhGSFMwSldWMVYxWkU1aVp5SXNJbk4xWWlJNkltSm1aREV4T1RSbUxUazVNekl0TkRNNVpDMWhOVFV4TFdZMVpUUmtPRFV3TmpZMU5DSXNJbVZ0WVdsc1gzWmxjbWxtYVdWa0lqcDBjblZsTENKcGMzTWlPaUpvZEhSd2N6cGNMMXd2WTI5bmJtbDBieTFwWkhBdVpYVXRkMlZ6ZEMweExtRnRZWHB2Ym1GM2N5NWpiMjFjTDJWMUxYZGxjM1F0TVY5MVVXMUJaelExZUhraUxDSmpiMmR1YVhSdk9uVnpaWEp1WVcxbElqb2lZbVprTVRFNU5HWXRPVGt6TWkwME16bGtMV0UxTlRFdFpqVmxOR1E0TlRBMk5qVTBJaXdpWjJsMlpXNWZibUZ0WlNJNklrMWhkSFJwSWl3aVlYVmtJam9pTW5JNE16aGxiMmxrTVhabFlqQnhibkZuYmpneGNXRjFiVEFpTENKbGRtVnVkRjlwWkNJNkltWXlObUkzTm1JM0xXUTJNbVF0TkdJNU5DMDVPRGcxTFRFMk5UTmxaRFF4TURka05DSXNJblJ2YTJWdVgzVnpaU0k2SW1sa0lpd2lZWFYwYUY5MGFXMWxJam94TnpjME5EUTBOREExTENKbGVIQWlPakUzTnpRME5EZ3dNRFVzSW1saGRDSTZNVGMzTkRRME5EUXdOU3dpWm1GdGFXeDVYMjVoYldVaU9pSlFaU0lzSW1wMGFTSTZJakV4TkRaa05HVTNMV013TVRJdE5EVTRaaTA1TjJRekxUWXhZV1kzTkRneVlqazFZaUlzSW1WdFlXbHNJam9pYldGMGRIQmxRRzFsZEhKdmNHOXNhV0V1Wm1raWZRLm9DbjJOOXZia0FkWFZfbGt4TjZvNFd4ZHdXNDNsWDFidGN3X2pKSjlnZHdPTGdYWjlGVXMzZFZYVzBkV0JLdXY2Uld5dGczdGJpRWdIVmVPSnZvRjNNNHJlZzI5Tk1sa1NCaEo5TTRDNDNESk8zaEl5d1BzUnFGSWsyLXJhbWJYSi0xTEN0d29IcTVQY1dSdk0wZEFVYU1WOW12UV9sc2lPaFVHSXlVM1dwWWNQc1lrT05RM0xfQS00RUtJc1lMSDhhMVJwWVpGTXRVVXFmcHJzSEFtTlZjY04tMTl5WVpmZVlQbGNpTzZWdGdZT201Z2QtSjljMzJmdFBaRjY1SHBlNmFjTkpqY2xrQ2J6MFFWSnBQdFAyVmZMQnhQR0NibVBKRU9sMVZVVUM2VEZUaERQWmgtX2dBblpCY1hycXczQ0x6Yk9CUmZEWU9RUHppOGNFb0RWdyIsImlhdCI6MTc3NDQ0NDQwNiwiZXhwIjoxNzc0NDQ4MDA2fQ.z0-r5DBcKTctPhCHOMzrm5kE2D_5PpV85A74QJvwhk4
 
 ### GET item with id 1
 GET {{apiurl}}/items/1
@@ -38,9 +36,9 @@ POST {{apiurl}}/users
 Content-Type: application/json
 
 {
-  "username": "donald2",
-  "password": "duck",
-  "email": "donald2@example.com"
+  "username": "reettkaj@metropolia.fi",
+  "password": "Fenix184!",
+  "email": "reettkaj@metropolia.fi"
 }
 
 ### Register new user FAIL (email missing)
@@ -48,17 +46,17 @@ POST {{apiurl}}/users
 Content-Type: application/json
 
 {
-  "username": "donald",
-  "password": "duck"
+  "username": "reettkaj@metropolia.fi",
+  "password": "Fenix184!"
 }
 
 ### User login
-POST {{apiurl}}/auth/login
+POST {{apiurl}}/users/login
 Content-Type: application/json
 
 {
-  "username": "donald2",
-  "password": "duck"
+  "username": "reettkaj@metropolia.fi",
+  "password": "Fenix184!"
 }
 
 ### Get user info by token
@@ -77,7 +75,7 @@ Authorization: Bearer {{token}}
 GET {{apiurl}}/entries/6
 
 ### Delete entry by id
-DELETE {{apiurl}}/entries/6
+DELETE {{apiurl}}/entries/9
 Authorization: Bearer {{token}}
 
 ### Post new entry
@@ -92,3 +90,8 @@ Authorization: Bearer {{token}}
   "sleep_hours": 5,
   "notes": "normipäivä"
 }
+
+
+### Get Kubios data
+GET {{apiurl}}/kubios/user-data
+Authorization: Bearer {{token}}
