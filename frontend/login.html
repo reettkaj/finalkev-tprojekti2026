@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>HyteGym Login</title>
+
+<link rel="stylesheet" href="src/css/style.css">
+
+<!-- Google fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Slab&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+
+<ul>
+
+<li><a href="index.html" id="logo">HyteGym</a></li>
+
+<li>
+<a href="index.html" class="navlink">Koti</a>
+</li>
+
+<li>
+<a href="bmi.html" class="navlink">BMI laskuri</a>
+</li>
+
+<li>
+<a href="viikkoharjoitukset/viikkotehtävät.html" class="navlink">Viikkotehtävät</a>
+</li>
+
+<li>
+<a href="paivakirja.html" class="navlink">Päiväkirja</a>
+</li>
+
+</ul>
+
+<div class="user-area">
+  Hei Käyttäjä: <span class="username">Vieras</span>
+  <span id="authButtons"></span>
+</div>
+
+</nav>
+
+
+<!-- HERO KUVA -->
+<div id="taustakuva"></div>
+
+
+<!-- LOGIN AREA -->
+<main>
+
+<section class="auth-section">
+
+<h2 class="auth-title">HyteGym käyttäjätili</h2>
+
+<div class="auth-container">
+
+<!-- REGISTER -->
+<div class="auth-card">
+
+<h3>Luo uusi käyttäjä</h3>
+
+<form class="registerForm">
+
+<label>Username</label>
+<input type="text" name="username" required>
+
+<label>Password</label>
+<small>Salasanan pitää olla vähintään 8 merkkiä</small>
+<input type="password" name="password" minlength="8" required>
+
+<label>Email</label>
+<input type="email" name="email" required>
+
+<button type="submit" class="btn">Register</button>
+
+</form>
+
+</div>
+
+
+<!-- LOGIN -->
+<div class="auth-card">
+
+<h3>Kirjaudu sisään</h3>
+
+<form class="loginForm">
+
+<label>Username</label>
+<input type="text" name="username" required>
+<label>Password</label>
+<input type="password" name="password" minlength="8" required>
+<button type="submit" class="btn">Login</button>
+</form>
+<div id="loginResponse"></div>
+</div>
+</div>
+
+
+<!-- API TEST (voit pitää jos haluat) -->
+<section class="api-test">
+
+<h3>Authenticated request</h3>
+
+<button id="meRequest" class="btn">
+Testaa käyttäjätoken
+</button>
+
+<div id="meResponse"></div>
+
+<hr>
+
+<button id="clearButton" class="btn">
+Clear localStorage
+</button>
+
+<code id="clearResponse"></code>
+
+</section>
+
+</section>
+
+</main>
+
+
+<footer>
+<p>Copyright, RK</p>
+</footer>
+
+
+<script type="module" src="src/js/login.js"></script>
+<script type="module" src="src/js/navbar.js"></script>
+
+</body>
+</html>
