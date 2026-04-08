@@ -24,111 +24,30 @@
     />
   </head>
   <body>
-    <!---------------->
-    <!-- Navigation -->
+    <div class="content-container">
 
-    <nav>
-      <ul>
-        <li><a href="/" id="logo">PTSD- ja hyvinvointiseurantasovellus</a></li>
-        <li>
-          <a href="#" class="selected navlink">Koti</a>
-        </li>
-        <li><a href="hrv.html" class="navlink">HRV-tiedot</a></li>
-        <li><a href="hengitys.html" class="navlink">Hengitysharjoitus</a></li>
-        <li><a href="paivakirja.html" class="navlink">Oirepäiväkirja</a></li>
-        <li><a href="asetukset.html" class="navlink">Asetukset</a></li>
-      </ul>
-      <span class="header-links"></span>
-      <div class="user-area">
-        Hei Käyttäjä: <span class="username">Vieras</span>
-        <span id="authButtons"></span>
-      </div>
-    </nav>
+    <div class="PatientloginForm">
+      <form class="PatientloginForm">
+        <label for="email">Sähköposti</label>
+        <input type="email" name="email" placeholder="esimerkki@sähköposti.fi" />
+        <label for="password">Salasana</label>
+        <input type="password" name="password" placeholder="salasana" />
+        <input name="submit" type="submit" value="Kirjaudu sisään" class="Patientloginform"/>
+      </form>
+      <button id="showProfessionalLogin">Kirjaudu sisään ammattilaisena</button>
+    </div>
 
-    <div id="taustakuva"></div>
-    <div id="hero">
-
-<div class="hero-text">
-<h1>Taistele <span>HYVINVOINTISI</span> puolesta</h1>
-
-</div>
-</div>
-    <main>
-      <section class="info-area" id="info">
-        <div id="info-text">
-          Miten
-          <span class="main_cl">PTSD- ja hyvinvointiseurantasovellus</span>
-          auttaa sinua hyvinvointisi seuraamisessa
-        </div>
-      </section>
-
-      <section class="features">
-
-<div class="feature-card">
-
-<h3>Treeni ohjelmat</h3>
-
-<p>
-Saat henkilökohtaisia harjoitusohjelmia
-joilla kehität kuntoasi turvallisesti.
-</p>
-
-</div>
-<div class="feature-card">
-<h3>HRV seuranta</h3>
-<p>
-Seuraa sykevälivaihteluasi ja palautumistasi
-helposti.
-</p>
-</div>
-<div class="feature-card">
-<h3>Oirepäiväkirja</h3>
-<p>
-Kirjaa päivittäinen hyvinvointisi ja seuraa
-kehitystäsi.
-</p>
-
-</div>
-
-</section>
-
-      <section class="about-us" id="contact">
-        <img
-          src="hrv1.webp"
-          alt="Sykevälivaihtelu"
-          class="fl card-inside"
-        />
-        <h2 class="black_cl bolder mb-10">Tämä on meidän tarinamme</h2>
-        <p>
-          Olemme joukko nuoria yrittäjiä, jotka uskovat HRV tiedon ja
-          treeniohjelman voimaan hyvinvoinnin seurannassa.
-        </p>
-        <p>
-          Sykevälivaihtelua tai HRV:tä käytetään fysiologisiin mittauksiin kuten
-          VO2-maksimaalinen hapenottokyky, SV-stressitesti, Suoritustaso,
-          Anaerobinen kynnys ja Harjoituksen tehokkuus. Yhdistämällä HRV
-          seurannan henkilökohtaiseen treeniohjelmaasi, voit saavuttaa nopeasti,
-          tehokkaasti sekä ennenkaikkea turvallisesti uusia tasoja kuntosi
-          kehityksessä.
-        </p>
-        <p>
-          Ohjelmamme tukee kehitystäsi eri treeniohjelmien muodossa, tarjoaa
-          päiväkirjan hvyinvointisi seurantaan sekä HRV tietojesi analysointiin.
-          Voit saada kauttamme myös yhteyden terveydenhuollon ammattilaisiin,
-          sekä personal trainer palveluihin.
-        </p>
-      </section>
-    </main>
-    <footer>
-      <p>Copyright, RK</p>
-    </footer>
-    <dialog class="diary_dialog">
-  <h2>Päiväkirjamerkintä</h2>
-  <div class="diary_id"></div>
-  <button>Sulje</button>
-</dialog>
+    <div class="ProfessionalLoginForm hidden">
+      <form class="ProfessionalLoginForm">
+        <label for="email">Sähköposti</label>
+        <input type="email" name="email" placeholder="esimerkki@sähköposti.fi" />
+        <label for="password">Salasana</label>
+        <input type="password" name="password" placeholder="salasana" />
+        <input name="submit" type="submit" value="Kirjaudu sisään" class="ProfessionalLoginform"/>
+      </form>
+      <button id="showPatientLogin">Kirjaudu sisään potilaana</button>
+    </div>
+  </div>
   </body>
-  <script type="module" src="js/main.js"></script>
-  <script type="module" src="js/loggedUser.js"></script>
-  <script type="module" src="js/navbar.js"></script>
+  <script type="module" src="src/js/main.js"></script>
 </html>

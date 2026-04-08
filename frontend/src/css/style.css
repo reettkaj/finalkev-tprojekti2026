@@ -579,4 +579,9 @@ grid-template-columns:1fr;
 
 }
 
+/* Piilotettu elementti */
+.hidden {
+    display: none;
+}
+
 /* Breakpointit tänne */
