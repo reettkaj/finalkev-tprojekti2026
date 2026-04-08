@@ -19,8 +19,8 @@
  // customError function not created in this project
  import {
    addUser,
-   selectUserByEmail,
-   selectUserById,
+   findUserByEmail,
+   findUserById,
  } from '../models/user-model.js';
 
  // Kubios API base URL should be set in .env
@@ -108,12 +108,11 @@
  const syncWithLocalUser = async (kubiosUser) => {
    // Check if user exists in local db
    let userId;
-   const result = await selectUserByEmail(kubiosUser.email);
+   const result = await findUserByEmail(kubiosUser.email);
    // If user with the email not found, create new user, otherwise use existing
    if (result.error) {
      // Create user
      const newUser = {
-       username: kubiosUser.email,
        email: kubiosUser.email,
        // Random password, quick workaround for the required field
        password: v4(),
@@ -135,7 +134,7 @@
  * @param {function} next
  * @return {object} user if username & password match
  */
- const postLogin = async (req, res, next) => {
+ const kubiospostLogin = async (req, res, next) => {
    const {username, password} = req.body;
    // console.log('login', req.body);
    try {
@@ -171,9 +170,9 @@
  * @param {object} res
  * @return {object} user info
  */
- const getMe = async (req, res) => {
-   const user = await selectUserById(req.user.userId);
+ const kubiosgetMe = async (req, res) => {
+   const user = await findUserById(req.user.userId);
    res.json({user, kubios_token: req.user.kubiosIdToken});
  };
 
- export {postLogin, getMe};
+ export {kubiospostLogin, kubiosgetMe};

@@ -9,6 +9,7 @@ import {
   deleteUserById
 } from '../controllers/user-controller.js';
 import {authenticateToken} from '../middlewares/authentication.js';
+import {kubiospostLogin, kubiosgetMe} from '../controllers/kubios-auth-controller.js';
 
 const userRouter = express.Router();
 
@@ -22,9 +23,12 @@ userRouter.route('/')
 // POST user login
 userRouter.post('/login', postLogin);
 
+userRouter.post('/kubioslogin', kubiospostLogin);
+
 // Get user info based on token
 userRouter.get('/me', authenticateToken, getMe);
 
+userRouter.get('/kubiosme', authenticateToken, kubiosgetMe);
 
 // TODO: get user by id
 // app.get('/api/users/:id');

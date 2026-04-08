@@ -1,10 +1,10 @@
 // HUOM: mokkidata on poistettu modelista
 //import users from '../models/user-model.js';
-
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import {
-  findUserByUsername,
-  listAllUsers,
+  findUserByEmail,
+  getAllUsers,
   findUserById,
   addUser,
   updateUser,
@@ -17,7 +17,7 @@ import {
 // TODO: refaktoroi tietokantafunktiolle
 const getUsers = async (req, res) => {
   try {
-    const users = await listAllUsers();
+    const users = await getAllUsers();
     res.json(users);
   } catch (error) {
     res.status(500).json({error: error.message});
@@ -69,47 +69,36 @@ const deleteUserById = async (req, res) => {
 // Käyttäjän lisäys (rekisteröityminen)
 // TODO: refaktoroi tietokantafunktiolle
 
-const postUser = async (req, res) => {
-  try {
-    console.log("BODY:", req.body);
-
-    const { username, password, email } = req.body;
-
-    if (!(username && password && email)) {
-      return res.status(400).json({
-        error: 'required fields missing'
-      });
-    }
-
-    // Kutsutaan oikeaa model-funktiota
-    const result = await addUser({
-      username,
-      password,
-      email
-    });
-
-    res.status(201).json(result);
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      error: 'An error occurred'
-    });
-  }
-};
-  // Uusilla käyttäjillä pitää olla kaikki vaaditut ominaisuudet tai palautetaan virhe
+const postUser = async (pyynto, vastaus) => {
+  const newUser = pyynto.body;
 
   // HUOM: ÄLÄ ikinä loggaa käyttäjätietoja ensimmäisten pakollisten testien jälkeen!!! (tietosuoja)
   //console.log('registering new user', newUser);
 
+  // Lasketaan salasanasta tiiviste (hash)
+  const hash = await bcrypt.hash(newUser.password, 10);
+  //console.log('salasanatiiviste:', hash);
+  // Korvataan selväkielinen salasana tiivisteellä ennen kantaan tallennusta
+  newUser.password = hash;
+  try {
+    const newUserId = await addUser(newUser);
+    vastaus.status(201).json({message: 'new user added', user_id: newUserId});
+  } catch (error) {
+    // uuden virheen heittäminen käsitellään oletus error handlerilla
+    // vaihtoehto next(error) käyttöön
+    throw new Error(error.message);
+  }
+};
+
 // Tietokantaversio valmis
 const postLogin = async (req, res) => {
-  const {username, password} = req.body;
+  const {email, password} = req.body;
   // haetaan käyttäjä-objekti käyttäjän nimen perusteella
-  const user = await findUserByUsername(username);
+  const user = await findUserByEmail(email);
   //console.log('postLogin user from db', user);
   if (user) {
-    if (user.password === password) {
+    // jos asiakkaalta tullut salasana vastaa tietokannasta haettua tiivistettä, ehto on tosi
+    if (await bcrypt.compare(password, user.password)) {
       delete user.password;
       // generate & sign token using a secret and expiration time
       // read from .env file
@@ -135,8 +124,7 @@ export {
   deleteUserById,
   postUser,
   postLogin,
-  getMe,
-  listAllUsers
+  getMe
 };
 // ChatGPT:tä hyödynnettiin:
 // - Async/await-rakenteen toteutuksessa

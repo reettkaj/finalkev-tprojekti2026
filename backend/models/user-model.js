@@ -11,7 +11,7 @@ const getAllUsers = async () => {
 };
 
 // GET /api/users/:id
-const getUserById = async (id) => {
+const findUserById = async (id) => {
   const sql = `
     SELECT user_id, username, email, created_at, user_level
     FROM Users
@@ -23,17 +23,18 @@ const getUserById = async (id) => {
 
 // POST /api/users
 const addUser = async (user) => {
-  const { username, password, email } = user;
+  const { email, password, auth_provider, role_id } = user;
 
   const sql = `
-    INSERT INTO Users (username, password, email)
-    VALUES (?, ?, ?)
+    INSERT INTO Users (email, password, auth_provider, role_id)
+    VALUES (?, ?, ?, ?)
   `;
 
   const [result] = await promisePool.execute(sql, [
-    username,
-    password,
     email,
+    password,
+    auth_provider,
+    role_id,
   ]);
 
   return { user_id: result.insertId };
@@ -68,34 +69,32 @@ const deleteUser = async (id) => {
 };
 
 // LOGIN helper
-const findUserByUsername = async (username) => {
-  const sql = 'SELECT * FROM Users WHERE username = ?';
-  const [rows] = await promisePool.execute(sql, [username]);
-  return rows[0];
-};
-
-const findUserById = async (id) => {
-  const [rows] = await promisePool.query(
-    'SELECT user_id, username, email FROM Users WHERE user_id = ?',
-    [id]
-  );
-  return rows[0];
-};
-
-const listAllUsers = async () => {
-  const [rows] = await promisePool.query('SELECT * FROM Users');
-  return rows;
+const findUserByEmail = async (email) => {
+  try {
+    const sql = 'SELECT * FROM Users WHERE email=?';
+    const params = [email];
+    const [rows] = await promisePool.query(sql, params);
+    // console.log(rows);
+    // if nothing is found with the user id, result array is empty []
+    if (rows.length === 0) {
+      return {error: 404, message: 'user not found'};
+    }
+    // Remove password property from result
+    //delete rows[0].password;
+    return rows[0];
+  } catch (error) {
+    console.error('selectUserByEmail', error);
+    return {error: 500, message: 'db error'};
+  }
 };
 
 export {
   getAllUsers,
-  getUserById,
+  findUserById,
   addUser,
   updateUser,
   deleteUser,
-  findUserById,
-  findUserByUsername,
-  listAllUsers
+  findUserByEmail
 };
 
 // ChatGPT:tä on hyödynnetty  yleisesti user-modelissa:

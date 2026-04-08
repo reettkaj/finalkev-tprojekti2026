@@ -35,8 +35,8 @@ CREATE TABLE Hengitysharjoitukset (
     harjoitus_id INT AUTO_INCREMENT PRIMARY KEY, -- Yksilöllinen tunniste harjoitukselle
     user_id INT,                                 -- Viittaus käyttäjään, joka teki harjoituksen
     harjoitus VARCHAR(100) NOT NULL,             -- Harjoituksen nimi tai kuvaus
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP -- Aikaleima milloin harjoitus luotiin
-    FOREIGN KEY (user_id) REFERENCES Kayttajat(user_id) -- Viite käyttäjätauluun
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- Aikaleima milloin harjoitus luotiin
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) -- Viite käyttäjätauluun
 );
 
 -- Taulu HRV-mittauksille (sykevälivaihtelu)
@@ -48,7 +48,7 @@ CREATE TABLE HRV_mittaukset (
     hf_hrv FLOAT,                                -- High Frequency HRV
     pns_index FLOAT,                             -- Parasympaattisen hermoston indeksi
     sns_index FLOAT,                             -- Sympaattisen hermoston indeksi
-    FOREIGN KEY (user_id) REFERENCES Kayttajat(user_id) -- Viite käyttäjätauluun
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) -- Viite käyttäjätauluun
 );
 
 
@@ -63,7 +63,7 @@ CREATE TABLE Kyselyt (
     mieliala INT,                                -- Mieliala
     vapaamuotoinen_vastaus VARCHAR(255),         -- Avoin tekstivastaus
     mittaus_id INT,                              -- Viittaus HRV-mittaukseen (jos liittyy siihen)
-    FOREIGN KEY (user_id) REFERENCES Kayttajat(user_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (mittaus_id) REFERENCES HRV_mittaukset(id)
 );
 
@@ -75,18 +75,15 @@ CREATE TABLE Seulontakysely (
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Aikaleima
     tsq INT,                                     -- Trauma Screening Questionnaire -pisteet
     dsm5 INT,                                    -- DSM-5 mukaiset pisteet
-    FOREIGN KEY (user_id) REFERENCES Kayttajat(user_id)
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
+INSERT INTO Roles (name)
+VALUES 
+  ('ylläpitäjä'),
+  ('ammattilainen'),
+  ('potilas');
 
 -- =========================
 -- TESTIDATA
 -- =========================
-
--- Lisätään esimerkkikäyttäjä (potilas)
-INSERT INTO Kayttajat (role, email, password)
-VALUES ('potilas', 'test@test.com', '123');
-
--- Lisätään esimerkkimittaus käyttäjälle (user_id = 1)
-INSERT INTO HRV_mittaukset (user_id, rmssd, hf_hrv)
-VALUES (1, 45.2, 120.5);
