@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Hengitys</title>
+</head>
+
+<body>
+
+<nav>
+  <ul>
+    <li><a href="index.html" id="logo">PTSD- ja hyvinvointiseurantasovellus</a></li>
+    <li><a href="index.html" class="navlink">Koti</a></li>
+    <li><a href="hrv.html" class="navlink">HRV-tiedot</a></li>
+    <li><a href="hengitys.html" class="navlink selected">Hengitysharjoitus</a></li>
+    <li><a href="paivakirja.html" class="navlink">Oirepäiväkirja</a></li>
+    <li><a href="asetukset.html" class="navlink">Asetukset</a></li>
+  </ul>
+
+  <div class="user-area">
+    Hei Käyttäjä: <span class="username">Vieras</span>
+    <span id="authButtons"></span>
+  </div>
+</nav>
+
+<main class="page">
+
+  <h1>Hengitysharjoitus</h1>
+
+  <div class="breathing-container">
+    <div class="circle" id="circle"></div>
+    <h2 id="instruction">Valmis?</h2>
+  </div>
+
+  <button class="primary-btn" id="startBtn">▶ Aloita harjoitus</button>
+
+</main>
+
+<script>
+const instruction = document.getElementById("instruction");
+const circle = document.getElementById("circle");
+const btn = document.getElementById("startBtn");
+
+let cycles = 0;
+const maxCycles = 10;
+
+btn.addEventListener("click", () => {
+  btn.style.display = "none"; // piilota nappi
+  startCountdown();
+});
+
+function startCountdown() {
+  let count = 3;
+  instruction.textContent = "Valmistaudu... " + count;
+
+  const interval = setInterval(() => {
+    count--;
+    if (count > 0) {
+      instruction.textContent = "Valmistaudu... " + count;
+    } else {
+      clearInterval(interval);
+      startBreathing();
+    }
+  }, 1000);
+}
+
+function startBreathing() {
+  cycles = 0;
+  breatheIn();
+}
+
+function breatheIn() {
+  instruction.textContent = "Hengitä sisään...";
+  circle.style.transform = "scale(1.5)";
+
+  setTimeout(holdBreath, 4000);
+}
+
+function holdBreath() {
+  instruction.textContent = "Pidätä...";
+  setTimeout(breatheOut, 4000);
+}
+
+function breatheOut() {
+  instruction.textContent = "Hengitä ulos...";
+  circle.style.transform = "scale(1)";
+
+  setTimeout(() => {
+    cycles++;
+
+    if (cycles < maxCycles) {
+      breatheIn();
+    } else {
+      finishExercise();
+    }
+  }, 6000);
+}
+
+function finishExercise() {
+  instruction.textContent = "Hienoa! Nyt tee HRV -mittaus ja halutessasi voit täyttää oirekyselyn.";
+  circle.style.transform = "scale(1)";
+}
+</script>
+<script type="module" src="js/loggedUser.js"></script>
+<script type="module" src="js/navbar.js"></script>
+</body>
