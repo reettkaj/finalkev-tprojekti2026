@@ -1,17 +1,19 @@
 import '../css/style.css';
 import {fetchData} from './fetch.js';
 
-// Endpoint
-const url = 'https://127.0.0.1:3000';
 
 const loginProfessional = async (event) => {
+  // Endpoint
+const url = 'http://127.0.0.1:3000/api/users/login/';
+
+
   event.preventDefault();
 
   // Haetaan oikea formi
   const ProfessionalLoginForm = document.querySelector('.ProfessionalLoginForm');
 
   // Haetaan formista arvot, tällä kertaa käyttäen attribuuutti selektoreita
-  const email = ProfessionalLoginForm.querySelector('input[email=email]').value;
+  const email = ProfessionalLoginForm.querySelector('input[name=email]').value;
   const password = ProfessionalLoginForm.querySelector('input[name=password]').value;
 
   // Luodaan body lähetystä varten taustapalvelun vaatimaan muotoon
@@ -46,17 +48,20 @@ const loginProfessional = async (event) => {
   }
 
   console.log(response);
-  loginForm.reset(); // tyhjennetään formi
+  Form.reset(); // tyhjennetään formi
 };
 
 const loginPatient = async (event) => {
+  // Endpoint
+const url = 'http://127.0.0.1:3000/api/users/kubioslogin/';
+
   event.preventDefault();
 
   // Haetaan oikea formi
   const patientloginForm = document.querySelector('.PatientloginForm');
 
   // Haetaan formista arvot, tällä kertaa käyttäen attribuuutti selektoreita
-  const email = patientloginForm.querySelector('input[email=email]').value;
+  const email = patientloginForm.querySelector('input[name=email]').value;
   const password = patientloginForm.querySelector('input[name=password]').value;
 
   // Luodaan body lähetystä varten taustapalvelun vaatimaan muotoon
@@ -91,11 +96,11 @@ const loginPatient = async (event) => {
   }
 
   console.log(response);
-  loginForm.reset(); // tyhjennetään formi
+  Form.reset(); // tyhjennetään formi
 };
 
-const ProfessionalLoginForm = document.querySelector('.professionalLoginForm');
-ProfessionalLoginForm.addEventListener('submit', loginProfessional);
+const ProfessionalloginForm = document.querySelector('.ProfessionalLoginForm');
+ProfessionalloginForm.addEventListener('submit', loginProfessional);
 
-const patientloginForm = document.querySelector('.patientloginForm');
+const patientloginForm = document.querySelector('.PatientloginForm');
 patientloginForm.addEventListener('submit', loginPatient);
