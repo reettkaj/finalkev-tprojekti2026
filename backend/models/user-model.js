@@ -23,16 +23,17 @@ const findUserById = async (id) => {
 
 // POST /api/users
 const addUser = async (user) => {
-  const { email, password, auth_provider, role_id } = user;
+  const { email, password, name, auth_provider, role_id } = user;
 
   const sql = `
-    INSERT INTO Users (email, password, auth_provider, role_id)
-    VALUES (?, ?, ?, ?)
+    INSERT INTO Users (email, password, name, auth_provider, role_id)
+    VALUES (?, ?, ?, ?, ?)
   `;
 
   const [result] = await promisePool.execute(sql, [
     email,
     password,
+    name,
     auth_provider,
     role_id,
   ]);

@@ -19,8 +19,6 @@ CREATE TABLE Users (
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255),
     name VARCHAR(100),
-    age INT,
-    kubios_id VARCHAR(255) UNIQUE,
     auth_provider ENUM('local', 'kubios') NOT NULL,
     role_id INT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

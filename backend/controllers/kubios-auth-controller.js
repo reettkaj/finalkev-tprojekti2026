@@ -108,6 +108,7 @@
  const syncWithLocalUser = async (kubiosUser) => {
    // Check if user exists in local db
    let userId;
+   const fullName = `${kubiosUser.given_name} ${kubiosUser.family_name}`;
    const result = await findUserByEmail(kubiosUser.email);
    // If user with the email not found, create new user, otherwise use existing
    if (result.error) {
@@ -115,8 +116,8 @@
      const newUser = {
        email: kubiosUser.email,
        // Random password, quick workaround for the required field
-       // kubiosUser.given_name kubiosUser.family_name 
        password: v4(),
+       name: fullName,
        auth_provider: "kubios",
        role_id: "3",
      };
