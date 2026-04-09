@@ -115,6 +115,7 @@
      const newUser = {
        email: kubiosUser.email,
        // Random password, quick workaround for the required field
+       // kubiosUser.given_name kubiosUser.family_name 
        password: v4(),
        auth_provider: "kubios",
        role_id: "3",
