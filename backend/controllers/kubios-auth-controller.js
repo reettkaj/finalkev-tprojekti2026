@@ -29,17 +29,17 @@
  /**
  * Creates a POST login request to Kubios API
  * @async
- * @param {string} username Username in Kubios
+ * @param {string} email email in Kubios
  * @param {string} password Password in Kubios
  * @return {string} idToken Kubios id token
  */
- const kubiosLogin = async (username, password) => {
+ const kubiosLogin = async (email, password) => {
    const csrf = v4();
    const headers = new Headers();
    headers.append('Cookie', `XSRF-TOKEN=${csrf}`);
    headers.append('User-Agent', process.env.KUBIOS_USER_AGENT);
    const searchParams = new URLSearchParams();
-   searchParams.set('username', username);
+   searchParams.set('username', email);
    searchParams.set('password', password);
    searchParams.set('client_id', process.env.KUBIOS_CLIENT_ID);
    searchParams.set('redirect_uri', process.env.KUBIOS_REDIRECT_URI);
@@ -116,6 +116,8 @@
        email: kubiosUser.email,
        // Random password, quick workaround for the required field
        password: v4(),
+       auth_provider: "kubios",
+       role_id: "3",
      };
      const newUserResult = await addUser(newUser);
      userId = newUserResult.user_id;
@@ -135,11 +137,11 @@
  * @return {object} user if username & password match
  */
  const kubiospostLogin = async (req, res, next) => {
-   const {username, password} = req.body;
+   const {email, password} = req.body;
    // console.log('login', req.body);
    try {
      // Try to login with Kubios
-     const kubiosIdToken = await kubiosLogin(username, password);
+     const kubiosIdToken = await kubiosLogin(email, password);
      const kubiosUser = await kubiosUserInfo(kubiosIdToken);
      const localUserId = await syncWithLocalUser(kubiosUser);
      // Include kubiosIdToken in the auth token used in this app
