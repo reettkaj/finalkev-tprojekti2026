@@ -35,6 +35,7 @@ main {
   padding: 20px;
   max-width: 1200px;
   margin: auto;
+  margin-top: 40px;
 }
 
 /* Containerit */
@@ -497,34 +498,23 @@ align-items:start;
 
 @media(max-width:900px){
 
-.login-wrapper{
+  .login-wrapper{
+    grid-template-columns:1fr;
+  }
 
-grid-template-columns:1fr;
+  .login-image{
+    height:300px;
+  }
 
-}
+  nav{
+    flex-direction:column;
+    gap:10px;
+    backdrop-filter: blur(10px);
+  }
 
-.login-image{
-
-height:300px;
-
-}
-
-nav{
-
-nav {
-  backdrop-filter: blur(10px);
-}
-
-flex-direction:column;
-
-gap:10px;
-
-}
-
-.diary-layout{
-
-grid-template-columns:1fr;
-
+  .diary-layout{
+    grid-template-columns:1fr;
+  }
 }
 
 /* HRV SECTION */
@@ -617,6 +607,93 @@ grid-template-columns:1fr;
   border-radius: 12px;
 }
 
+/* Hengitysharjoitusosio */
+
+.breathing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+}
+
+.circle {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4fd1c5, #63b3ed);
+  box-shadow: 0 0 40px rgba(79, 209, 197, 0.4);
+  transition: transform 4s ease-in-out;
+  margin-bottom: 30px;
+}
+
+#instruction {
+  font-size: 28px;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.primary-btn {
+  margin-top: 30px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #4fd1c5, #63b3ed);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.primary-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+nav ul {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.settings-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 400px;
+  margin-top: 40px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.danger-btn {
+  margin-top: 20px;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.danger-btn:hover {
+  background: #ff4d4d;
+}
+
+.page > h1 {
+  margin-bottom: 40px;
 }
 
 /* Piilotettu elementti */
