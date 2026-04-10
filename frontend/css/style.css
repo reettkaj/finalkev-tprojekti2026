@@ -578,5 +578,106 @@ grid-template-columns:1fr;
 }
 
 }
+/* =========================
+   Diary + TSQ layout
+========================= */
 
+.diary-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.entry-panel,
+.tsq-panel {
+  background: #253240;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.entry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.entry-form input,
+.entry-form textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d7dde5;
+  font-size: 1rem;
+}
+
+.entry-form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.tsq-toggle {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: #2f4154;
+  color: white;
+  border: 1px solid #67d4ff;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.tsq-toggle:hover {
+  background: #385066;
+}
+
+.tsq-content {
+  margin-top: 18px;
+}
+
+.hidden {
+  display: none;
+}
+
+.tsq-intro {
+  margin-bottom: 16px;
+  line-height: 1.6;
+  color: white;
+}
+
+.tsq-question {
+  background: #f4f7fb;
+  color: #1f2a36;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+.tsq-question p {
+  margin-bottom: 10px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.tsq-question label {
+  margin-right: 16px;
+}
+
+@media (max-width: 900px) {
+  .diary-layout {
+    grid-template-columns: 1fr;
+  }
+}
+.entry-form label {
+  display: block;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: white;
+}
+ .entry-panel h2 {
+  color: rgb(86,210,216); /* sama väri kuin navissa */
+}
 /* Breakpointit tänne */
