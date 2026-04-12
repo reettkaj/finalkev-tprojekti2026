@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <title>HRV Visualisointi</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="js/kubios.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    canvas {
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>HRV Visualisointi</h1>
+
+<h2>RR-aikasarja</h2>
+<canvas id="rrChart"></canvas>
+
+<h2>Poincaré Plot</h2>
+<canvas id="poincareChart"></canvas>
+
+<h2>RMSSD</h2>
+<p id="rmssd"></p>
+
+</body>
+</html>

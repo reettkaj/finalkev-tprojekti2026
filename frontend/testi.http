@@ -55,8 +55,8 @@ POST {{apiurl}}/users/login
 Content-Type: application/json
 
 {
-  "username": "reettkaj@metropolia.fi",
-  "password": "Fenix184!"
+  "username": "",
+  "password": ""
 }
 
 ### Get user info by token
