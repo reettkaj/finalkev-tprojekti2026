@@ -6,7 +6,6 @@ const loginProfessional = async (event) => {
   // Endpoint
 const url = 'http://127.0.0.1:3000/api/users/login/';
 
-
   event.preventDefault();
 
   // Haetaan oikea formi
@@ -36,15 +35,19 @@ const url = 'http://127.0.0.1:3000/api/users/login/';
   const response = await fetchData(url, options);
 
   if (response.error) {
-    console.error('Error adding a new user:', response.error);
+    console.error('Error login in:', response.error);
     return;
   }
 
   if (response.message) {
     console.log(response.message, 'success');
     localStorage.setItem('token', response.token);
-    localStorage.setItem('sähköposti', response.user.email);
-    window.location.href = "./etusivu.html";
+    localStorage.setItem('username', response.user.name);
+    console.log('Token tallennettu:', response.token);
+      // Ohjataan käyttäjä etusivulle
+    setTimeout(function () {
+      window.location.href = 'ammattilaissivut.html';
+    }, 1000);
   }
 
   console.log(response);
@@ -84,16 +87,22 @@ const url = 'http://127.0.0.1:3000/api/users/kubioslogin/';
   const response = await fetchData(url, options);
 
   if (response.error) {
-    console.error('Error adding a new user:', response.error);
+    console.error('Error logging in:', response.error);
     return;
   }
 
-  if (response.message) {
+     if (response.message) {
+      const name = `${response.user.given_name} ${response.user.family_name}`;
     console.log(response.message, 'success');
     localStorage.setItem('token', response.token);
-    localStorage.setItem('sähköposti', response.user.email);
-    window.location.href = "./etusivu.html";
+    localStorage.setItem('username', name);
+    console.log('Token tallennettu:', response.token);
+      // Ohjataan käyttäjä etusivulle
+    setTimeout(function () {
+      window.location.href = 'etusivu.html';
+    }, 1000);
   }
+  
 
   console.log(response);
   Form.reset(); // tyhjennetään formi
