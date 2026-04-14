@@ -2,111 +2,244 @@
 <!-- https://dribbble.com/shots/23369008-Gym-Fitness-Landing-Page -->
 
 <!doctype html>
-<html lang="en">
+<html lang="fi">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta
+    name="description"
+    content="On tärkeää että pidät huolta itsestäsi. Seuraa vointiasi, tarkastele terveyttäsi HRV-tiedon avulla ja tue hyvinvointiasi kokonaisvaltaisesti."
+  />
 
-<meta
-name="description"
-content="On tärkeää että pidät huolta itsestäsi. Seuraa treeniohjeitamme, tarkastele terveyttäsi
-HRV tiedon avulla ja voi kokonaisvaltaisesti hyvin. Suuntaa nyt hyvinvointia ja uutta
-elämääsi kohti."
-/>
+  <title>PTSD- ja hyvinvointiseurantasovellus</title>
 
-<title>PTSD- ja hyvinvointiseurantasovellus</title>
-
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,300&family=Roboto+Slab:wght@100;200;300;400;500;600;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-rel="stylesheet"
-/>
-<script type="module" src="js/loggedUser.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,300&family=Roboto+Slab:wght@100;200;300;400;500;600;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet"
+  />
 </head>
 
 <body>
+  <nav>
+    <ul>
+      <li><a href="index.html" id="logo">PTSD- ja hyvinvointiseurantasovellus</a></li>
+      <li><a href="index.html" class="navlink">Koti</a></li>
+      <li><a href="hrv.html" class="navlink">HRV-tiedot</a></li>
+      <li><a href="hengitys.html" class="navlink">Hengitysharjoitus</a></li>
+      <li><a href="paivakirja.html" class="navlink selected">Oirepäiväkirja</a></li>
+      <li><a href="asetukset.html" class="navlink">Asetukset</a></li>
+    </ul>
 
-<!---------------->
-<!-- Navigation -->
+    <div class="user-area">
+      Hei Käyttäjä: <span class="username">Vieras</span>
+      <span id="authButtons"></span>
+    </div>
+  </nav>
 
-<nav>
-  <ul>
-    <li><a href="etusivu.html" id="logo">PTSD- ja hyvinvointiseurantasovellus</a></li>
-    <li><a href="etusivu.html" class="navlink">Koti</a></li>
-    <li><a href="hrv.html" class="navlink">HRV-tiedot</a></li>
-    <li><a href="hengitys.html" class="navlink">Hengitysharjoitus</a></li>
-    <li><a href="paivakirja.html" class="navlink selected">Oirepäiväkirja</a></li>
-    <li><a href="asetukset.html" class="navlink">Asetukset</a></li>
-  </ul>
+  <main class="diary-page">
+    <h2>Päiväkirja</h2>
 
-  <div class="user-area">
-    Hei Käyttäjä: <span class="username">Vieras</span>
-  </div>
-</nav>
+    <div class="diary-layout">
+      <div class="entry-panel">
+        <button class="get_entries">Hae päiväkirjamerkinnät</button>
 
-<main>
+        <h2>Lisää päiväkirjamerkintä</h2>
 
-<main class="diary-page">
+        <form class="entry-form">
+          <label for="entry_date">Mikä päivä on kyseessä?</label>
+          <input id="entry_date" type="date" name="entry_date" required />
 
-<h2>Päiväkirja</h2>
+          <label for="mood">Millainen olosi oli tänään?</label>
+          <input
+            id="mood"
+            type="text"
+            name="mood"
+            placeholder="esim. ahdistunut, rauhallinen, väsynyt"
+            required
+          />
 
-<div class="diary-layout">
+          <label for="weight">Mikä oli painosi tänään?</label>
+          <input
+            id="weight"
+            type="number"
+            name="weight"
+            placeholder="esim. 68.5"
+            required
+          />
 
-<div class="entry-panel">
+          <label for="sleep_hours">Kuinka monta tuntia nukuit viime yönä?</label>
+          <input
+            id="sleep_hours"
+            type="number"
+            name="sleep_hours"
+            placeholder="esim. 7"
+            required
+          />
 
-<!-- nappi joka hakee merkinnät -->
-<button class="get_entries">Hae päiväkirjamerkinnät</button>
+          <label for="energy_level">Mikä oli energiatasosi tänään?</label>
+          <input
+            id="energy_level"
+            type="number"
+            name="energy_level"
+            placeholder="1 = erittäin matala, 10 = erittäin hyvä"
+          />
 
-<h2>Lisää päiväkirjamerkintä</h2>
+          <label for="water_liters">Kuinka paljon joit vettä tänään?</label>
+          <input
+            id="water_liters"
+            type="number"
+            step="0.1"
+            name="water_liters"
+            placeholder="esim. 1.5 litraa"
+          />
 
-<form class="entry-form">
+          <label for="stress_level">Kuinka stressaantunut olit tänään?</label>
+          <input
+            id="stress_level"
+            type="number"
+            name="stress_level"
+            placeholder="1 = ei lainkaan, 10 = erittäin paljon"
+          />
 
-<input type="date" name="entry_date" required>
-<input type="text" name="mood" placeholder="Mood" required>
-<input type="number" name="weight" placeholder="Weight (kg)" required>
-<input type="number" name="sleep_hours" placeholder="Sleep hours" required>
-<input type="number" name="energy_level" placeholder="Energy level (1-10)">
-<input type="number" step="0.1" name="water_liters" placeholder="Water (liters)">
-<input type="number" name="stress_level" placeholder="Stress level (1-10)">
-<input type="text" name="exercise" placeholder="Exercise">
-<input type="text" name="meal" placeholder="Meal">
-<input type="text" name="symptom" placeholder="Symptoms">
-<input type="text" name="medication" placeholder="Medication">
-<textarea name="notes" placeholder="Notes"></textarea>
+          <label for="exercise">Liikuitko tänään?</label>
+          <input
+            id="exercise"
+            type="text"
+            name="exercise"
+            placeholder="esim. kävely, venyttely, ei liikuntaa"
+          />
 
-<button type="submit">Lisää merkintä</button>
+          <label for="meal">Mitä söit tänään?</label>
+          <input
+            id="meal"
+            type="text"
+            name="meal"
+            placeholder="esim. lämmin ruoka, kevyt iltapala"
+          />
 
-</form>
-</div>
+          <label for="symptom">Oliko sinulla oireita?</label>
+          <input
+            id="symptom"
+            type="text"
+            name="symptom"
+            placeholder="esim. ahdistus, univaikeudet, ylivireys"
+          />
 
-<!-- Flexbox pohja johon kortit luodaan -->
-<section class="diary-card-area">
-<!-- Kortit luodaan JavaScriptillä -->
-</section>
-</main>
-<footer>
-<p>Copyright, RK</p>
-</footer>
+          <label for="medication">Käytitkö lääkitystä tänään?</label>
+          <input
+            id="medication"
+            type="text"
+            name="medication"
+            placeholder="kirjoita tarvittaessa"
+          />
 
-<!-- Dialogi joka avautuu kun painetaan kortin "Avaa" -->
-<dialog class="diary_dialog">
+          <label for="notes">Haluatko kirjoittaa päivästäsi tarkemmin?</label>
+          <textarea
+            id="notes"
+            name="notes"
+            placeholder="Kuvaile vointiasi, tapahtumia, mahdollisia laukaisijoita tai muita huomioita..."
+          ></textarea>
 
-<h2>Päiväkirjamerkintä</h2>
-<p>Tiedot:</p>
-<div class="diary_id">ID</div>
-<button autofocus>Close</button>
-</dialog>
-<script type="module" src="js/login.js"></script>
+          <button type="submit">Lisää merkintä</button>
+        </form>
+      </div>
+
+      <aside class="tsq-panel">
+        <button type="button" id="toggle-tsq" class="tsq-toggle">
+          Psyykkisten traumaoireiden seulontakysely (TSQ)
+        </button>
+
+        <div id="tsq-content" class="tsq-content hidden">
+          <p class="tsq-intro">
+            Merkitse kyllä tai ei sen mukaan, oletko kokenut seuraavia vähintään kahdesti viimeisen viikon aikana.
+          </p>
+
+          <div class="tsq-question">
+            <p>1. Järkyttäviä ajatuksia tai muistoja tapahtumasta, jotka ovat tulleet mieleesi oman tahtosi vastaisesti.</p>
+            <label><input type="radio" name="tsq1" value="kylla" /> Kyllä</label>
+            <label><input type="radio" name="tsq1" value="ei" /> Ei</label>
+          </div>
+
+          <div class="tsq-question">
+            <p>2. Järkyttäviä unia tapahtumasta.</p>
+            <label><input type="radio" name="tsq2" value="kylla" /> Kyllä</label>
+            <label><input type="radio" name="tsq2" value="ei" /> Ei</label>
+          </div>
+
+          <div class="tsq-question">
+            <p>3. Toimimista tai tunnetta ikään kuin traumaattinen kokemus tapahtuisi uudelleen.</p>
+            <label><input type="radio" name="tsq3" value="kylla" /> Kyllä</label>
+            <label><input type="radio" name="tsq3" value="ei" /> Ei</label>
+          </div>
+
+          <div class="tsq-question">
+            <p>4. Tapahtumasta muistuttavien tekijöiden aiheuttamaa järkytyksen tunnetta.</p>
+            <label><input type="radio" name="tsq4" value="kylla" /> Kyllä</label>
+            <label><input type="radio" name="tsq4" value="ei" /> Ei</label>
+          </div>
+
+          <div class="tsq-question">
+            <p>5. Ruumiillisia reaktioita (kuten nopea sydämen syke, vatsan väänteet, hikoilu, huimaus) jonkin muistutettaessa tapahtumasta.</p>
+            <label><input type="radio" name="tsq5" value="kylla" /> Kyllä</label>
+            <label><input type="radio" name="tsq5" value="ei" /> Ei</label>
+          </div>
+
+          <div class="tsq-question">
+            <p>6. Vaikeutta nukahtaa tai pysyä unessa.</p>
+            <label><input type="radio" name="tsq6" value="kylla" /> Kyllä</label>
+            <label><input type="radio" name="tsq6" value="ei" /> Ei</label>
+          </div>
+
+          <div class="tsq-question">
+            <p>7. Ärtyisyyttä tai vihan purkauksia.</p>
+            <label><input type="radio" name="tsq7" value="kylla" /> Kyllä</label>
+            <label><input type="radio" name="tsq7" value="ei" /> Ei</label>
+          </div>
+
+          <div class="tsq-question">
+            <p>8. Keskittymisvaikeuksia.</p>
+            <label><input type="radio" name="tsq8" value="kylla" /> Kyllä</label>
+            <label><input type="radio" name="tsq8" value="ei" /> Ei</label>
+          </div>
+
+          <div class="tsq-question">
+            <p>9. Voimistunutta tietoisuutta mahdollisista vaaroista itsellesi tai toisille.</p>
+            <label><input type="radio" name="tsq9" value="kylla" /> Kyllä</label>
+            <label><input type="radio" name="tsq9" value="ei" /> Ei</label>
+          </div>
+
+          <div class="tsq-question">
+            <p>10. Hermostuneisuutta tai säikkymistä jotain odottamatonta kohtaan.</p>
+            <label><input type="radio" name="tsq10" value="kylla" /> Kyllä</label>
+            <label><input type="radio" name="tsq10" value="ei" /> Ei</label>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="diary-card-area">
+      <!-- Kortit luodaan JavaScriptillä -->
+    </section>
+  </main>
+
+  <footer>
+    <p>Copyright, RK</p>
+  </footer>
+
+  <dialog class="diary_dialog">
+    <h2>Päiväkirjamerkintä</h2>
+    <p>Tiedot:</p>
+    <div class="diary_id">ID</div>
+    <button autofocus>Close</button>
+  </dialog>
+
+  <script type="module" src="js/diary.js"></script>
+  <script type="module" src="js/loggedUser.js"></script>
+  <script type="module" src="js/diaryAuth.js"></script>
+  <script type="module" src="js/navbar.js"></script>
 </body>
-
-<script type="module" src="js/diary.js"></script>
-<script type="module" src="js/loggedUser.js"></script>
-<script type="module" src="js/diaryAuth.js"></script>
-<script type="module" src="js/navbar.js"></script>
-
-
 </html>

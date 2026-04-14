@@ -33,5 +33,44 @@
     <input type="time" />
     <input type="url" />
     <input type="week" />
+
+    <form id="userForm">
+      <label for="fname">Etunimi:</label>
+      <input type="text" id="fname" name="fname" />
+
+      <label for="lname">Sukunimi:</label>
+      <input type="text" id="lname" name="lname" />
+
+      <button type="submit">Lähetä</button>
+    </form>
   </body>
+
+  <script>
+    const form = document.getElementById('userForm');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      // Luodaan FormData-olio
+      const formData = new FormData(form);
+
+      // Haetaan arvot name-attribuutin perusteella
+      const firstName = formData.get('fname');
+      const lastName = formData.get('lname');
+
+      console.log('Etunimi:', firstName);
+      console.log('Sukunimi:', lastName);
+
+      body = {};
+
+      // fetch('http://localhost:3000/api/users', {
+      //   method: 'POST',
+      //   body: formData,
+      // });
+
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+    });
+  </script>
 </html>
