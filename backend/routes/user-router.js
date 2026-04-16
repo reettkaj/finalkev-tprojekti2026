@@ -6,7 +6,8 @@ import {
   postUser,
   getUserById,
   putUserById,
-  deleteUserById
+  deleteUserById,
+  getPatients
 } from '../controllers/user-controller.js';
 import {authenticateToken} from '../middlewares/authentication.js';
 import {kubiospostLogin, kubiosgetMe} from '../controllers/kubios-auth-controller.js';
@@ -29,6 +30,8 @@ userRouter.post('/kubioslogin', kubiospostLogin);
 userRouter.get('/me', authenticateToken, getMe);
 
 userRouter.get('/kubiosme', authenticateToken, kubiosgetMe);
+
+userRouter.get('/patients/:id', getPatients)
 
 // TODO: get user by id
 // app.get('/api/users/:id');

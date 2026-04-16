@@ -8,7 +8,8 @@ import {
   findUserById,
   addUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  findPatients
 } from '../models/user-model.js';
 
 // TODO: lisää tietokantafunktiot user modeliin
@@ -117,6 +118,18 @@ const getMe = (req, res) => {
   res.json(req.user);
 };
 
+const getPatients = async (req, res) => {
+  try {
+    const users = await findPatients(req.params.id);
+    if (!users) {
+      return res.status(404).json({error: 'patients not found'});
+    }
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({error: error.message});
+  }
+}
+
 export {
   getUsers,
   getUserById,
@@ -124,7 +137,8 @@ export {
   deleteUserById,
   postUser,
   postLogin,
-  getMe
+  getMe,
+  getPatients
 };
 // ChatGPT:tä hyödynnettiin:
 // - Async/await-rakenteen toteutuksessa

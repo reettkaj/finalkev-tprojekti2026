@@ -96,6 +96,21 @@ VALUES
   ('ammattilainen'),
   ('potilas');
 
+  -- Ylläpitäjä
+INSERT INTO Users (email, password, name, auth_provider, role_id)
+VALUES 
+('admin@testi.fi', '$2b$10$/BTSzCvPEXl3M73cFwfBfuP5trd/vRmXqVBE7uecnfDnxIhZffWIq', 'Admin Käyttäjä', 'local', 1);
+
+-- Ammattilainen (lääkäri)
+INSERT INTO Users (email, password, name, auth_provider, role_id)
+VALUES 
+('laakari@testi.fi', '$2b$10$/BTSzCvPEXl3M73cFwfBfuP5trd/vRmXqVBE7uecnfDnxIhZffWIq', 'Tohtori Testi', 'local', 2);
+
 -- =========================
 -- TESTIDATA
 -- =========================
+-- Potilaat (viittaus doctor_id = 2)
+INSERT INTO Users (email, password, name, auth_provider, role_id, doctor_id)
+VALUES 
+('potilas1@testi.fi', 'hashed_password_3', 'Matti Meikäläinen', 'local', 3, 2),
+('potilas2@testi.fi', 'hashed_password_4', 'Maija Meikäläinen', 'kubios', 3, 2);

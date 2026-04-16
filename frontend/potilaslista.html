@@ -39,25 +39,41 @@
         Hei Käyttäjä: <span class="username">Vieras</span>
       </div>
     </nav>
-
-    <div id="taustakuva"></div>
-    <div id="hero">
-
-<div class="hero-text">
-<h1>Taistele <span>HYVINVOINTISI</span> puolesta</h1>
-
-</div>
-</div>
     <main>
-      <section class="info-area" id="info">
-        <div id="info-text">
-          Miten
-          <span class="main_cl">PTSD- ja hyvinvointiseurantasovellus</span>
-          auttaa sinua hyvinvointisi seuraamisessa
-        </div>
-      </section>
 
       <section class="features">
+
+    <h3>Haetaan nappia painamalla kaikki käyttäjät</h3>
+
+      <pre>GET http://localhost:3000/api/users/patients/(user_id_from_local_storage)</pre>
+
+    <button class="get_users">Get all users</button>
+
+      <div class="forms">
+        <div style="flex: 1">
+          <h3>GET</h3>
+
+          <p>
+            Hae käyttäjän tiedot painamalla alla olevaa nappia. Tämä hakee
+            tiedot sekä luo taulukon tbody osan. Jokaiselle riville luodaan
+            nappulat. Info hakee yksittäisen rivin tiedot ja avaa alert-popupin.
+            Delete poistaa yksittäisen rivin ja varmistaa tapahtuman confirm()
+            kun reitti on valmiina. metodilla. Info on kotitehtävä ja Delete
+            toiminto lisätään myöhemmin
+          </p>
+          <table class="styled-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Info</th>
+      <th>ID</th>
+    </tr>
+  </thead>
+  <tbody id="taulukko" class="tbody">
+  </tbody>
+</table>
+</div>
 
 
 
@@ -66,13 +82,9 @@
     <footer>
       <p>Copyright, RK</p>
     </footer>
-    <dialog class="diary_dialog">
-  <h2>Päiväkirjamerkintä</h2>
-  <div class="diary_id"></div>
-  <button>Sulje</button>
-</dialog>
   </body>
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/loggedUser.js"></script>
   <script type="module" src="js/navbar.js"></script>
+  <script type="module" src="js/potilaslista.js"></script>
 </html>
