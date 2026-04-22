@@ -114,3 +114,11 @@ INSERT INTO Users (email, password, name, auth_provider, role_id, doctor_id)
 VALUES 
 ('potilas1@testi.fi', 'hashed_password_3', 'Matti Meikäläinen', 'local', 3, 2),
 ('potilas2@testi.fi', 'hashed_password_4', 'Maija Meikäläinen', 'kubios', 3, 2);
+
+CREATE TABLE kubios_results (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  date DATE,
+  readiness FLOAT,
+  stress_index FLOAT
+);
