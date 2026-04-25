@@ -31,6 +31,8 @@ if (username && token) {
     // poistetaan kirjautumistiedot
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    localStorage.removeItem('isNew');
+    localStorage.removeItem('user_id');
 
     // ohjataan takaisin etusivulle
     window.location.href = "../index.html";

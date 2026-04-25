@@ -1,5 +1,6 @@
 import '../css/style.css';
 import {fetchData} from './fetch.js';
+import {saveUserId, checkIfNewUser} from './checkuser.js'
 
 
 const loginProfessional = async (event) => {
@@ -45,6 +46,7 @@ const url = 'http://127.0.0.1:3000/api/users/login/';
     localStorage.setItem('username', response.user.name);
     localStorage.setItem('user_id', response.user.user_id);
     localStorage.setItem('role_id', response.user.role_id);
+    localStorage.setItem('isNewUser', response.user.isNew);
     console.log('Token tallennettu:', response.token);
       // Ohjataan käyttäjä etusivulle
     setTimeout(function () {
@@ -96,10 +98,14 @@ const url = 'http://127.0.0.1:3000/api/users/kubioslogin/';
      if (response.message) {
       const name = `${response.user.given_name} ${response.user.family_name}`;
     console.log(response.message, 'success');
+    console.log('user', response.user);
     localStorage.setItem('token', response.token);
     localStorage.setItem('username', name);
     console.log('Token tallennettu:', response.token);
-      // Ohjataan käyttäjä etusivulle
+    await  saveUserId();
+    await checkIfNewUser();
+    //initTSQBlocking();
+    // Ohjataan käyttäjä etusivulle
     setTimeout(function () {
       window.location.href = 'etusivu.html';
     }, 1000);

@@ -7,10 +7,12 @@ import {
   getUserById,
   putUserById,
   deleteUserById,
-  getPatients
+  getPatients,
+  updateIsNew
 } from '../controllers/user-controller.js';
 import {authenticateToken} from '../middlewares/authentication.js';
 import {kubiospostLogin, kubiosgetMe} from '../controllers/kubios-auth-controller.js';
+import { noLongerNewUser } from '../models/user-model.js';
 
 const userRouter = express.Router();
 
@@ -31,7 +33,9 @@ userRouter.get('/me', authenticateToken, getMe);
 
 userRouter.get('/kubiosme', authenticateToken, kubiosgetMe);
 
-userRouter.get('/patients/:id', getPatients)
+userRouter.get('/patients/:id', getPatients);
+
+userRouter.put('/newuser/:id', updateIsNew);
 
 // TODO: get user by id
 // app.get('/api/users/:id');

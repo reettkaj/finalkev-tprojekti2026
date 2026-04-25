@@ -21,6 +21,7 @@ CREATE TABLE Users (
     name VARCHAR(100),
     auth_provider ENUM('local', 'kubios') NOT NULL,
     role_id INT NOT NULL,
+    isNew BOOLEAN NOT NULL DEFAULT TRUE,
     doctor_id INT,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -31,16 +32,6 @@ CREATE TABLE Users (
     CONSTRAINT fk_users_doctor
     FOREIGN KEY (doctor_id) REFERENCES Users(user_id)
     ON DELETE SET NULL
-);
-
--- Taulu hengitysharjoituksille, joita käyttäjät tekevät
-CREATE TABLE Hengitysharjoitukset (
-    harjoitus_id INT AUTO_INCREMENT PRIMARY KEY, -- Yksilöllinen tunniste harjoitukselle
-    user_id INT,                                 -- Viittaus käyttäjään, joka teki harjoituksen
-    harjoitus VARCHAR(100) NOT NULL,             -- Harjoituksen nimi tai kuvaus
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- Aikaleima milloin harjoitus luotiin
-    FOREIGN KEY (user_id) REFERENCES Users(user_id) -- Viite käyttäjätauluun
-    ON DELETE CASCADE
 );
 
 -- Taulu HRV-mittauksille (sykevälivaihtelu)
@@ -54,6 +45,14 @@ CREATE TABLE HRV_mittaukset (
     sns_index FLOAT,                             -- Sympaattisen hermoston indeksi
     FOREIGN KEY (user_id) REFERENCES Users(user_id) -- Viite käyttäjätauluun
     ON DELETE CASCADE
+);
+
+CREATE TABLE kubios_results (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  date DATE,
+  readiness FLOAT,
+  stress_index FLOAT
 );
 
 
@@ -97,14 +96,14 @@ VALUES
   ('potilas');
 
   -- Ylläpitäjä
-INSERT INTO Users (email, password, name, auth_provider, role_id)
+INSERT INTO Users (email, password, name, auth_provider, role_id, isNew)
 VALUES 
-('admin@testi.fi', '$2b$10$/BTSzCvPEXl3M73cFwfBfuP5trd/vRmXqVBE7uecnfDnxIhZffWIq', 'Admin Käyttäjä', 'local', 1);
+('admin@testi.fi', '$2b$10$/BTSzCvPEXl3M73cFwfBfuP5trd/vRmXqVBE7uecnfDnxIhZffWIq', 'Admin Käyttäjä', 'local', 1, FALSE);
 
 -- Ammattilainen (lääkäri)
-INSERT INTO Users (email, password, name, auth_provider, role_id)
+INSERT INTO Users (email, password, name, auth_provider, role_id, isNew)
 VALUES 
-('laakari@testi.fi', '$2b$10$/BTSzCvPEXl3M73cFwfBfuP5trd/vRmXqVBE7uecnfDnxIhZffWIq', 'Tohtori Testi', 'local', 2);
+('laakari@testi.fi', '$2b$10$/BTSzCvPEXl3M73cFwfBfuP5trd/vRmXqVBE7uecnfDnxIhZffWIq', 'Tohtori Testi', 'local', 2, FALSE);
 
 -- =========================
 -- TESTIDATA
@@ -115,10 +114,3 @@ VALUES
 ('potilas1@testi.fi', 'hashed_password_3', 'Matti Meikäläinen', 'local', 3, 2),
 ('potilas2@testi.fi', 'hashed_password_4', 'Maija Meikäläinen', 'kubios', 3, 2);
 
-CREATE TABLE kubios_results (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT,
-  date DATE,
-  readiness FLOAT,
-  stress_index FLOAT
-);
