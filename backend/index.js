@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import userRouter from './routes/user-router.js';
+import tsqRouter from './routes/tsq-router.js';
 import requestLogger from './middlewares/logger.js';
 import entryRouter from './routes/entry-router.js';
 import {errorHandler, notFoundHandler} from './middlewares/error-handlers.js';
@@ -29,6 +30,8 @@ app.get('/api', (req, res) => {
 app.use('/api/users', userRouter);
 // Diary entries resource router
 app.use('/api/entries', entryRouter);
+
+app.use('/api/tsq', tsqRouter)
 
 // Kubios data router
 app.use('/api/kubios', kubiosRouter);

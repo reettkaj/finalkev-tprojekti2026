@@ -80,11 +80,21 @@ CREATE TABLE Kyselyt (
 
 
 -- Taulu seulontakyselyille (esim. PTSD tai muut mittarit)
-CREATE TABLE Seulontakysely (
+CREATE TABLE TraumaScreeningQuestionnaire (
     id INT AUTO_INCREMENT PRIMARY KEY,           -- Yksilöllinen tunniste
     user_id INT NOT NULL,                        -- Viittaus käyttäjään
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Aikaleima
-    tsq INT,                                     -- Trauma Screening Questionnaire -pisteet
+    points INT,                                     -- Trauma Screening Questionnaire -pisteet
+    q1 BOOLEAN,                                 -- TSQ kysymykset 0=ei 1=kyllä
+    q2 BOOLEAN,
+    q3 BOOLEAN,
+    q4 BOOLEAN,
+    q5 BOOLEAN,
+    q6 BOOLEAN,
+    q7 BOOLEAN,
+    q8 BOOLEAN,
+    q9 BOOLEAN,
+    q10 BOOLEAN,
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
     ON DELETE CASCADE
 );
