@@ -34,7 +34,11 @@
  * @return {string} idToken Kubios id token
  */
  const kubiosLogin = async (email, password) => {
-   const csrf = v4();
+  
+  console.log("KUBIOS_LOGIN_URL:", process.env.KUBIOS_LOGIN_URL);
+  console.log("KUBIOS_CLIENT_ID:", process.env.KUBIOS_CLIENT_ID);
+
+  const csrf = v4();
    const headers = new Headers();
    headers.append('Cookie', `XSRF-TOKEN=${csrf}`);
    headers.append('User-Agent', process.env.KUBIOS_USER_AGENT);
