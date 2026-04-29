@@ -18,7 +18,7 @@
  //import {customError} from '../middlewares/error-handler.js';
  // customError function not created in this project
  import {
-   addUser,
+   addPatient,
    findUserByEmail,
    findUserById,
  } from '../models/user-model.js';
@@ -121,7 +121,7 @@
        auth_provider: "kubios",
        role_id: "3",
      };
-     const newUserResult = await addUser(newUser);
+     const newUserResult = await addPatient(newUser);
      userId = newUserResult.user_id;
    } else {
      userId = result.user_id;

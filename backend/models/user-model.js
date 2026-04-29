@@ -41,6 +41,25 @@ const addUser = async (user) => {
   return { user_id: result.insertId };
 };
 
+const addPatient = async (user) => {
+  const { email, password, name, auth_provider, role_id } = user;
+
+  const sql = `
+    INSERT INTO Users (email, password, name, auth_provider, role_id, doctor_id)
+    VALUES (?, ?, ?, ?, ?, 2)
+  `;
+
+  const [result] = await promisePool.execute(sql, [
+    email,
+    password,
+    name,
+    auth_provider,
+    role_id,
+  ]);
+
+  return { user_id: result.insertId };
+};
+
 // PUT /api/users/:id (optional)
 const updateUser = async (id, user) => {
   const { username, password, email, user_level } = user;
@@ -118,7 +137,8 @@ export {
   deleteUser,
   findUserByEmail,
   findPatients,
-  noLongerNewUser
+  noLongerNewUser,
+  addPatient
 };
 
 // ChatGPT:tä on hyödynnetty  yleisesti user-modelissa:

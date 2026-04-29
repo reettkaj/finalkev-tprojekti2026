@@ -10,7 +10,8 @@ import {
   updateUser,
   deleteUser,
   findPatients,
-  noLongerNewUser
+  noLongerNewUser,
+  addPatient
 } from '../models/user-model.js';
 
 // TODO: lisää tietokantafunktiot user modeliin
