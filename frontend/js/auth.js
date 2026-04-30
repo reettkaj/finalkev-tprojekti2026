@@ -46,7 +46,6 @@ const url = 'http://127.0.0.1:3000/api/users/login/';
     localStorage.setItem('username', response.user.name);
     localStorage.setItem('user_id', response.user.user_id);
     localStorage.setItem('role_id', response.user.role_id);
-    localStorage.setItem('isNewUser', response.user.isNew);
     console.log('Token tallennettu:', response.token);
       // Ohjataan käyttäjä etusivulle
     setTimeout(function () {

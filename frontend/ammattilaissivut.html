@@ -40,26 +40,37 @@
       </div>
     </nav>
 
-    <div id="taustakuva"></div>
-    <div id="hero">
-
 <div class="hero-text">
 <h1>Taistele <span>HYVINVOINTISI</span> puolesta</h1>
 
 </div>
 </div>
     <main>
-      <section class="info-area" id="info">
-        <div id="info-text">
-          Miten
-          <span class="main_cl">PTSD- ja hyvinvointiseurantasovellus</span>
-          auttaa sinua hyvinvointisi seuraamisessa
-        </div>
-      </section>
+      
+      <div class="laakarincontent hidden">Olet lääkäri</div>
+
+      <div class="yllapitajancontent hidden">
+          <button id="show-register-form">Lisää uusi käyttäjä</button>
+
+          <div id="register-form-container" class="hidden">
+            <h3>Rekisteröi uusi käyttäjä</h3>
+
+            <form id="register-form">
+              <input type="email" id="email" placeholder="Sähköposti" required />
+              <input type="text" id="name" placeholder="Nimi" required />
+              <input type="password" id="password" placeholder="Salasana" required />
+
+              <select id="role">
+                <option value="2">Lääkäri</option>
+                <option value="1">Ylläpitäjä</option>
+              </select>
+
+              <button type="submit">Luo käyttäjä</button>
+            </form>
+          </div>
+      </div>
 
       <section class="features">
-
-
 
 </section>
     </main>
@@ -75,4 +86,5 @@
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/loggedUser.js"></script>
   <script type="module" src="js/navbar.js"></script>
+  <script type="module" src="js/ammattilaissivut.js"></script>
 </html>

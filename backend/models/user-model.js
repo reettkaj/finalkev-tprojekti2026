@@ -26,8 +26,8 @@ const addUser = async (user) => {
   const { email, password, name, auth_provider, role_id } = user;
 
   const sql = `
-    INSERT INTO Users (email, password, name, auth_provider, role_id)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO Users (email, password, name, auth_provider, role_id, isNew)
+    VALUES (?, ?, ?, ?, ?, 0)
   `;
 
   const [result] = await promisePool.execute(sql, [
