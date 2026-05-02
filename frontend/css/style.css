@@ -150,29 +150,25 @@ nav {
   z-index: 1000;
 
   display: flex;
-
   align-items: center;
 
   background: #ffffff;
   padding: 10px 24px;
-  border-radius: 0;
-  margin-top: 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
+/* NAV LINKIT KESKELLE */
 nav ul {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 70px;
   list-style: none;
+  margin: 0 auto;
+  padding: 0;
 }
 
-nav ul li:first-child {
-  display: none;
-}
-
-nav ul a,
+/* LINKIT */
 .navlink {
   display: flex;
   flex-direction: column;
@@ -181,26 +177,27 @@ nav ul a,
 
   color: #1f2937;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   padding: 8px 12px;
   border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
 }
 
-nav ul li a:hover {
+/* HOVER */
+.navlink:hover {
   color: #2563eb;
 }
 
-.selected,
+/* AKTIIVINEN SIVU */
 .navlink.selected {
-  color: #2563eb;
-  border-bottom: 3px solid #2563eb;
+  color: #1f2937;        /* musta */
+  font-size: 18px;       /* isompi */
+  font-weight: 600;
+  border-bottom: none;
 }
 
-.user-area {
-  display: none;
-}
-
+/* LOGO VASEMMALLE */
 #logo {
   font-family: 'Roboto Slab', serif;
   font-weight: 900;
@@ -218,120 +215,9 @@ nav ul li a:hover {
   white-space: nowrap;
 }
 
-/* Button tyylit */
-
-button {
-
-  border-radius: 8px;
-
-  border: 1px solid rgb(216, 216, 216);
-
-  padding: 0.6em 1.2em;
-
-  font-size: 1em;
-
-  font-weight: 500;
-
-  cursor: pointer;
-
-  background: white;
-
-  transition: all 0.2s ease;
-
-}
-
-/* Hover efekti */
-
-button:hover {
-
-  border-color: rgb(86,210,216);
-
-  background: rgb(86,210,216);
-
-  color: black;
-
-}
-
-/* Navigaation linkkilista */
-
-nav ul {
-
-  display: flex;
-
-  gap: 20px;
-
-  list-style: none;
-
-}
-
-a {
-  text-decoration: none;
-}
-
-/* Logo linkki – gradient text */
-
-nav ul li:first-child a {
-
-  background-color: rgb(65 77 159);
-
-  background-image: linear-gradient(45deg, rgb(86, 210, 216), rgb(65 77 159));
-
-  background-size: 100%;
-
-  background-repeat: repeat;
-
-  background-clip: text;
-
-  -webkit-background-clip: text;
-
-  -webkit-text-fill-color: transparent;
-
-  -moz-background-clip: text;
-
-  -moz-text-fill-color: transparent;
-
-  font-size: larger;
-
-  font-family: 'Roboto Slab', serif;
-
-  font-weight: 900;
-
-  margin-right: 40px;
-
-}
-
-/* Nav linkkien väri */
-
-nav ul a {
-
-  color: rgb(197, 197, 197);
-
-  padding: 0.6rem;
-
-  margin: 0 0.25em;
-
-  font-size: smaller;
-
-  transition: color 0.5s;
-
-}
-
-/* Hover väri */
-
-nav ul li a:hover {
-
-  color: rgb(206, 255, 149);
-
-}
-
-/* Aktiivinen sivu */
-
-.selected {
-
-  color: rgb(86,210,216);
-
-  border-bottom: 2px solid rgb(86,210,216);
-
+/* USER AREA PIILOON (jos et käytä) */
+.user-area {
+  display: none;
 }
 
 /*********************/

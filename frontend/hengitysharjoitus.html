@@ -3,51 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
   <title>Hengitys</title>
 </head>
 
 <body>
 
-<nav>
+  <nav>
 
-  <!-- LOGO VASEMMALLE -->
+  <!-- LOGO -->
   <a href="etusivu.html" id="logo">
     PTSD- ja hyvinvointiseurantasovellus
   </a>
 
-    <!-- NAV LINKIT -->
+  <!-- NAV LINKIT -->
   <ul>
-    <li><a href="etusivu.html" class="navlink">⌂<span>Koti</span></a></li>
     <li><a href="hrv.html" class="navlink">♡<span>HRV-tiedot</span></a></li>
     <li><a href="hengitysharjoitus.html" class="navlink selected">⌁<span>Hengitysharjoitus</span></a></li>
     <li><a href="paivakirja.html" class="navlink">▤<span>Oirepäiväkirja</span></a></li>
     <li><a href="asetukset.html" class="navlink">⚙<span>Asetukset</span></a></li>
   </ul>
-</nav>
 
-  <div class="user-area">
-    Hei Käyttäjä: <span class="username">Vieras</span>
-    <span id="authButtons"></span>
-  </div>
-</nav>
+  </nav>
+
+
 
 <main class="page">
 
-  <h1>Hengitysharjoitus</h1>
+  <section id="introView">
+    <h1>Hengitysharjoitus</h1>
 
-  <div class="breathing-container">
-    <div class="circle" id="circle"></div>
-    <h2 id="instruction">Valmis?</h2>
-  </div>
+    <button class="primary-btn" id="startBtn">▶ Aloita harjoitus</button>
 
-  <button class="primary-btn" id="startBtn">▶ Aloita harjoitus</button>
+    <div class="info-box">
+      <h3>Miksi hengitysharjoitus auttaa?</h3>
+
+      <p>
+        Rauhallinen ja rytmitetty hengitys aktivoi parasympaattista hermostoa,
+        joka vastaa kehon palautumisesta ja rauhoittumisesta. Tämä vähentää
+        stressireaktiota ja auttaa laskemaan sykettä.
+      </p>
+
+      <p>
+        Erityisesti pidennetty uloshengitys lisää vagushermon aktiivisuutta,
+        mikä parantaa sykevälivaihtelua (HRV). Korkeampi HRV on yhteydessä
+        parempaan stressinsietokykyyn ja autonomisen hermoston tasapainoon.
+      </p>
+
+      <p>
+        Tutkimusten mukaan hidas hengitystahti voi lisätä parasympaattista
+        aktiivisuutta ja auttaa PTSD-oireiden hallinnassa.
+      </p>
+
+      <p>Voit istua tai maata mukavasti harjoituksen ajan.</p>
+      <p>Seuraa ohjattua hengitystä. Harjoituksessa on 10 sykliä ja harjoitus loppuu itsestään.</p>
+      <p>Harjoituksen jälkeen tee HRV-mittaus.</p>
+    </div>
+  </section>
+
+  <section id="exerciseView" class="hidden">
+    <h1>Hengitysharjoitus</h1>
+
+    <div class="breathing-container">
+      <div class="circle" id="circle"></div>
+      <h2 id="instruction">Valmis?</h2>
+    </div>
+  </section>
 
 </main>
 
 <script>
+const introView = document.getElementById("introView");
+const exerciseView = document.getElementById("exerciseView");
 const instruction = document.getElementById("instruction");
 const circle = document.getElementById("circle");
 const btn = document.getElementById("startBtn");
@@ -56,7 +85,8 @@ let cycles = 0;
 const maxCycles = 10;
 
 btn.addEventListener("click", () => {
-  btn.style.display = "none"; // piilota nappi
+  introView.classList.add("hidden");
+  exerciseView.classList.remove("hidden");
   startCountdown();
 });
 
@@ -66,6 +96,7 @@ function startCountdown() {
 
   const interval = setInterval(() => {
     count--;
+
     if (count > 0) {
       instruction.textContent = "Valmistaudu... " + count;
     } else {
@@ -82,8 +113,7 @@ function startBreathing() {
 
 function breatheIn() {
   instruction.textContent = "Hengitä sisään...";
-  circle.style.transform = "scale(1.5)";
-
+  circle.style.transform = "scale(1.3)";
   setTimeout(holdBreath, 4000);
 }
 
@@ -108,10 +138,13 @@ function breatheOut() {
 }
 
 function finishExercise() {
-  instruction.textContent = "Hienoa! Nyt tee HRV -mittaus ja halutessasi voit täyttää oirekyselyn.";
+  instruction.textContent = "Hienoa! Nyt tee HRV-mittaus ja halutessasi voit täyttää oirekyselyn.";
   circle.style.transform = "scale(1)";
 }
 </script>
+
 <script type="module" src="/js/loggedUser.js"></script>
 <script type="module" src="/js/navbar.js"></script>
+
 </body>
+</html>
