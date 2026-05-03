@@ -12,42 +12,35 @@
 <body>
 
   <nav>
+    <a href="etusivu.html" id="logo">
+      PTSD- ja hyvinvointiseurantasovellus
+    </a>
+  
+    <ul>
+      <li><a href="hrv.html" class="navlink">♡<span>HRV-tiedot</span></a></li>
+      <li><a href="hengitysharjoitus.html" class="navlink">⌁<span>Hengitysharjoitus</span></a></li>
+      <li><a href="paivakirja.html" class="navlink">▤<span>Oirepäiväkirja</span></a></li>
+      <li><a href="asetukset.html" class="navlink selected">⚙<span>Asetukset</span></a></li>
+    </ul>
+  </nav>
 
-  <!-- LOGO -->
-  <a href="etusivu.html" id="logo">
-    PTSD- ja hyvinvointiseurantasovellus
-  </a>
+  <main class="settings-page">
+    <section class="settings-panel">
+      <h1>Asetukset</h1>
+      <p class="settings-text">Täältä voit hallita käyttäjäasetuksia ja kirjautumista.</p>
+  
+      <button id="logoutBtn" class="danger-btn">Kirjaudu ulos</button>
+    </section>
+  
+    <section class="settings-panel">
+      <h2>Käyttäjäasetukset</h2>
+      <p>Käyttäjäasetukset tulossa...</p>
+    </section>
+  </main>
+<!-- script type="module" src="js/login.js"></script> -->
+<!-- script type="module" src="js/loggedUser.js"></script> -->
+<!-- <script type="module" src="js/navbar.js"></script> -->
 
-  <!-- NAV LINKIT -->
-  <ul>
-    <li><a href="hrv.html" class="navlink">♡<span>HRV-tiedot</span></a></li>
-    <li><a href="hengitysharjoitus.html" class="navlink">⌁<span>Hengitysharjoitus</span></a></li>
-    <li><a href="paivakirja.html" class="navlink">▤<span>Oirepäiväkirja</span></a></li>
-    <li><a href="asetukset.html" class="navlink selected">⚙<span>Asetukset</span></a></li>
-  </ul>
 
-
-
-  <div class="user-area">
-    Hei Käyttäjä: <span class="username">Vieras</span>
-    <span id="authButtons"></span>
-  </div>
-
-</nav>
-
-<main class="page">
-  <h1>Asetukset</h1>
-
-<div class="settings-card">
-  <button id="logoutBtn" class="danger-btn">Kirjaudu ulos</button>
-</div>
-
-  <div class="card">
-    <p>Käyttäjäasetukset tulossa...</p>
-  </div>
-</main>
-<script type="module" src="js/login.js"></script>
-<script type="module" src="js/loggedUser.js"></script>
-<script type="module" src="js/navbar.js"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 /* Google fontit */
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 
+
 /* Reset – poistaa selaimen oletus marginit ja paddings */
 * {
   box-sizing: border-box;
@@ -34,10 +35,6 @@ main {
   padding: 20px;
   max-width: 1200px;
   margin: auto;
-}
-nav {
-  width: 100%;
-  padding: 10px 24px;
 }
 
 /* login Containerit */
@@ -184,7 +181,7 @@ nav ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 200px;
+  gap: 60px;
   list-style: none;
   margin: 0 auto;
   padding: 0;
@@ -464,26 +461,16 @@ box-shadow:0 20px 40px rgba(0,0,0,0.15);
 /*********************/
 /* Diary page layout */
 
-.diary-page{
-
-max-width:1200px;
-
-margin:auto;
-
-padding:40px 20px;
-
+.diary-page {
+  max-width: 1300px;
+  margin: 60px auto;
+  padding: 0 24px;
 }
 
-.diary-layout{
-
-display:grid;
-
-grid-template-columns:350px 1fr;
-
-gap:50px;
-
-align-items:start;
-
+.diary-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 28px;
 }
 
 /*********************/
@@ -625,10 +612,11 @@ grid-template-columns:1fr;
 
 .entry-panel,
 .tsq-panel {
-  background: #253240;
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+  color: #1f2937;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
 .entry-form {
@@ -773,3 +761,103 @@ body {
   opacity: 0.9;
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  margin: 0 !important;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+body > nav {
+  margin-top: 0 !important;
+}
+
+/* Asetukset-sivun yhtenäistys */
+.settings-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.settings-page h1 {
+  font-size: 48px;
+  margin-bottom: 24px;
+}
+
+.settings-page .settings-card {
+  margin-bottom: 40px;
+}
+
+.settings-page .card {
+  margin: 40px auto;
+}
+
+.settings-page {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.settings-panel {
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  margin-bottom: 24px;
+}
+
+.settings-panel h1 {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.settings-text {
+  margin-bottom: 24px;
+  color: #4b5563;
+}
+
+.danger-btn {
+  background: #1f2937;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+}
+
+.entry-panel h2,
+.tsq-panel h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+/* Korjaa päiväkirjan tekstivärit vaaleassa teemassa */
+.entry-panel,
+.entry-panel label,
+.entry-panel p,
+.entry-panel h2,
+.tsq-panel,
+.tsq-panel label,
+.tsq-panel p,
+.tsq-panel h2,
+.tsq-panel h3,
+.tsq-question,
+.tsq-question p,
+.tsq-question label {
+  color: #1f2937 !important;
+}
+
+.tsq-intro {
+  color: #1f2937 !important;
+}
+
+.tsq-question {
+  background: #f4f7fb;
+  border-radius: 12px;
+  padding: 16px;
+}
