@@ -34,15 +34,21 @@
     </div>
 
   </nav>
-
-    <!-- yleinen css -->
-    <link rel="stylesheet" href="css/style.css" />
     <!-- tämä viimeiseksi -->
     <link rel="stylesheet" href="css/kubios.css" />
   </head>
   <body>
 
     <main class="kubios-page">
+
+          <div class="hrv-cards">
+
+    <div class="hrv-card">
+      <p>Viimeisin HRV</p>
+      <h2 class="current-hrv">-</h2>
+    </div>
+
+  </div>
 
         <aside class="kubios-card kubios-card--actions">
           <h2 class="kubios-section-title">Hyvinvointidata</h2>
@@ -64,7 +70,6 @@
             </button>
           </div>
         </aside>
-      </section>
 
       <section class="kubios-results">
         <div class="kubios-card">
@@ -74,10 +79,6 @@
           </div>
         </div>
 
-        <div class="kubios-card">
-          <h2 class="kubios-section-title">amCharts tulos</h2>
-          <div id="chartdiv" class="kubios-amchart"></div>
-        </div>
       </section>
     </main>
 
@@ -93,26 +94,6 @@
   </body>
 </html>
 
-<main class="page">
-  <h1>HRV-tiedot</h1>
-
-  <div class="hrv-cards">
-    <div class="hrv-card">
-      <p>Nykyinen HRV</p>
-      <h2>placeholder</h2>
-    </div>
-
-    <div class="hrv-card">
-      <p>Keskiarvo</p>
-      <h2>placeholder</h2>
-    </div>
-
-    <div class="hrv-card">
-      <p>Mittausta tänään</p>
-      <h2>1</h2>
-    </div>
-  </div>
-</main>
 <script type="module" src="js/loggedUser.js"></script>
 <script type="module" src="js/navbar.js"></script>
 </body>
