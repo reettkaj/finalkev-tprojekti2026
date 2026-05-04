@@ -69,6 +69,7 @@ const handleRegister = () => {
   });
 };
 
+
 document.addEventListener("DOMContentLoaded", () => {
   renderByRole();        
   initRegisterToggle();

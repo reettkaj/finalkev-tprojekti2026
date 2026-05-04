@@ -97,6 +97,50 @@ main {
   color: white;
 }
 
+.user-menu {
+  position: relative;
+  cursor: pointer;
+  list-style: none;
+}
+
+#username-display::after {
+  content: " ▼";
+  font-size: 0.7em;
+}
+
+.dropdown {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  min-width: 150px;
+  z-index: 1000;
+}
+
+.dropdown li {
+  width: 100%;
+}
+
+.dropdown a,
+.dropdown button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown a:hover,
+.dropdown button:hover {
+  background: #f0f0f0;
+}
+
 .tsq-overlay {
   position: fixed;
   top: 0;

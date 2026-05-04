@@ -20,7 +20,14 @@
       <li><a href="hrv.html" class="navlink">♡<span>HRV-tiedot</span></a></li>
       <li><a href="hengitysharjoitus.html" class="navlink">⌁<span>Hengitysharjoitus</span></a></li>
       <li><a href="paivakirja.html" class="navlink">▤<span>Oirepäiväkirja</span></a></li>
-      <li><a href="asetukset.html" class="navlink selected">⚙<span>Asetukset</span></a></li>
+      <li class="navlink user-menu" class="navlink selected" id="user-menu">
+  <span id="username-display">Vieras</span>
+
+  <ul id="dropdown" class="dropdown hidden">
+    <li><a href="asetukset.html">Profiili</a></li>
+    <li><button id="logout-btn">Kirjaudu ulos</button></li>
+  </ul>
+</li>
     </ul>
   </nav>
 
@@ -39,7 +46,7 @@
   </main>
 <!-- script type="module" src="js/login.js"></script> -->
 <!-- script type="module" src="js/loggedUser.js"></script> -->
-<!-- <script type="module" src="js/navbar.js"></script> -->
+ <script type="module" src="js/navbar.js"></script>
 
 
 </body>
