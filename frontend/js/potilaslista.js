@@ -23,34 +23,22 @@ const renderUsers = (users) => {
   users.forEach((user) => {
     const row = document.createElement("tr");
 
-    const nameCell = document.createElement("td");
-    nameCell.textContent = user.name;
-
-    const emailCell = document.createElement("td");
-    emailCell.textContent = user.email;
-
-    const infoCell = document.createElement("td");
-    const infoButton = document.createElement("button");
-    infoButton.textContent = "Info";
-
-    infoButton.addEventListener("click", () => {
-      alert(
-        `ID: ${user.id}\nName: ${user.name}\nEmail: ${user.email}`
-      );
-    });
-
-    infoCell.appendChild(infoButton);
-
-    const idCell = document.createElement("td");
-    idCell.textContent = user.id;
-
-    row.appendChild(nameCell);
-    row.appendChild(emailCell);
-    row.appendChild(infoCell);
-    row.appendChild(idCell);
+    row.innerHTML = `
+      <td>${user.name}</td>
+      <td>${user.email}</td>
+      <td>
+        <button class="info-btn" data-id="${user.user_id}">
+          Info
+        </button>
+      </td>
+      <td>${user.user_id}</td>
+    `;
 
     tableBody.appendChild(row);
   });
+
+  // 🔑 tärkeä
+  addInfoListeners();
 };
 
 // FETCH DATA
@@ -77,11 +65,116 @@ const getUsers = async () => {
     }
 
     renderUsers(users);
+    console.log(users)
 
   } catch (error) {
     console.error("Virhe haettaessa potilaita:", error);
   }
 };
 
+const getPatientById = async (id) => {
+  const token = localStorage.getItem("token");
+
+  return await fetchData(`http://localhost:3000/api/users/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const getTSQByUserId = async (id) => {
+  const token = localStorage.getItem("token");
+
+  return await fetchData(`http://localhost:3000/api/tsq/user/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const renderPatientDialog = (patient, tsqData) => {
+  const dialog = document.querySelector(".diary_dialog");
+  const patientInfo = dialog.querySelector(".patient-info");
+  const tsqInfo = dialog.querySelector(".tsq-info");
+
+  console.log("TSQ DATA:", tsqData);
+
+  patientInfo.innerHTML = `
+    <p><strong>Nimi:</strong> ${patient.name}</p>
+    <p><strong>Email:</strong> ${patient.email}</p>
+    <p><strong>ID:</strong> ${patient.user_id}</p>
+  `;
+
+  // 🔑 FIX: pakota arrayksi
+  const tsqArray = Array.isArray(tsqData)
+    ? tsqData
+    : tsqData
+      ? [tsqData]
+      : [];
+
+  if (tsqArray.length === 0) {
+    tsqInfo.innerHTML = "<p>Ei TSQ dataa</p>";
+  } else {
+    tsqInfo.innerHTML = tsqArray.map(entry => `
+      <div class="tsq-entry">
+        <p><strong>Pisteet:</strong> ${entry.points}</p>
+        <p><small>${entry.created_at}</small></p>
+      </div>
+    `).join("");
+  }
+
+  dialog.showModal();
+};
+
+const addInfoListeners = () => {
+  const buttons = document.querySelectorAll(".info-btn");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      const userId = e.target.dataset.id;
+
+      const dialog = document.querySelector(".diary_dialog");
+      const patientInfo = dialog.querySelector(".patient-info");
+      const tsqInfo = dialog.querySelector(".tsq-info");
+
+      // loading state
+      patientInfo.innerHTML = "<p>Ladataan...</p>";
+      tsqInfo.innerHTML = "";
+      dialog.showModal();
+
+      try {
+        const patient = await getPatientById(userId);
+        const tsqData = await getTSQByUserId(userId);
+
+        if (!patient || patient.error) {
+          patientInfo.innerHTML = "<p>Virhe potilaan haussa</p>";
+          return;
+        }
+
+        renderPatientDialog(patient, tsqData);
+
+      } catch (error) {
+        console.error(error);
+        patientInfo.innerHTML = "<p>Virhe haussa</p>";
+      }
+    });
+  });
+};
+
+const initDialog = () => {
+  const dialog = document.querySelector(".diary_dialog");
+  const closeBtn = document.getElementById("close-dialog");
+
+  if (!dialog || !closeBtn) return;
+
+  closeBtn.addEventListener("click", () => {
+    dialog.close();
+  });
+};
+
+document.addEventListener("DOMContentLoaded", initDialog);
+
 // EVENT LISTENER
-getUsersButton.addEventListener("click", getUsers);
+if (getUsersButton) {
+  getUsersButton.addEventListener("click", getUsers);
+}

@@ -34,20 +34,98 @@
 
   <main class="settings-page">
     <section class="settings-panel">
-      <h1>Asetukset</h1>
-      <p class="settings-text">Täältä voit hallita käyttäjäasetuksia ja kirjautumista.</p>
+      <h1>Profiili</h1>
+      <p class="settings-text">Täältä voit hallita käyttäjäasetuksia.</p>
   
-      <button id="logoutBtn" class="danger-btn">Kirjaudu ulos</button>
     </section>
   
     <section class="settings-panel">
       <h2>Käyttäjäasetukset</h2>
-      <p>Käyttäjäasetukset tulossa...</p>
+      <button class="delete-user">Poista käyttäjä</button>
+
+        <button id="open-tsq-btn" class="tsq-open-btn">
+          vastaa TSQ-kyselyyn uudestaan
+        </button>
+      <div id="tsq-overlay" class="tsq-overlay hidden">
+        <div class="tsq-modal">
+          <h2>Traumaseulontakysely</h2>
+
+          <p class="tsq-intro">
+            Vastaa kaikkiin kysymyksiin ennen kuin voit jatkaa.
+          </p>
+
+          <form id="tsq-form">
+            <div class="tsq-question">
+                  <p>1. Järkyttäviä ajatuksia tai muistoja tapahtumasta, jotka ovat tulleet mieleesi oman tahtosi vastaisesti.</p>
+                  <label><input type="radio" name="tsq1" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq1" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>2. Järkyttäviä unia tapahtumasta.</p>
+                  <label><input type="radio" name="tsq2" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq2" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>3. Toimimista tai tunnetta ikään kuin traumaattinen kokemus tapahtuisi uudelleen.</p>
+                  <label><input type="radio" name="tsq3" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq3" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>4. Tapahtumasta muistuttavien tekijöiden aiheuttamaa järkytyksen tunnetta.</p>
+                  <label><input type="radio" name="tsq4" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq4" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>5. Ruumiillisia reaktioita (kuten nopea sydämen syke, vatsan väänteet, hikoilu, huimaus) jonkin muistutettaessa tapahtumasta.</p>
+                  <label><input type="radio" name="tsq5" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq5" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>6. Vaikeutta nukahtaa tai pysyä unessa.</p>
+                  <label><input type="radio" name="tsq6" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq6" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>7. Ärtyisyyttä tai vihan purkauksia.</p>
+                  <label><input type="radio" name="tsq7" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq7" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>8. Keskittymisvaikeuksia.</p>
+                  <label><input type="radio" name="tsq8" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq8" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>9. Voimistunutta tietoisuutta mahdollisista vaaroista itsellesi tai toisille.</p>
+                  <label><input type="radio" name="tsq9" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq9" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>10. Hermostuneisuutta tai säikkymistä jotain odottamatonta kohtaan.</p>
+                  <label><input type="radio" name="tsq10" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq10" value="ei" /> Ei</label>
+                </div>
+
+            <button type="submit">Lähetä</button>
+          </form>
+        </div>
+      </div>
     </section>
   </main>
 <!-- script type="module" src="js/login.js"></script> -->
 <!-- script type="module" src="js/loggedUser.js"></script> -->
  <script type="module" src="js/navbar.js"></script>
+ <script type="module" src="js/tsq.js"></script>
+ <script type="module" src="js/settings.js"></script>
 
 
 </body>

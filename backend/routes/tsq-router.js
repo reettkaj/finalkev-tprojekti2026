@@ -6,12 +6,14 @@ const tsqRouter = express.Router();
 
 tsqRouter.route('/')
 
-.get(authenticateToken, getTsq)
-
 .post(authenticateToken, postTsq);
 
 tsqRouter.route('/:id')
 
 .get(authenticateToken, getTsqById);
+
+tsqRouter.route('/user/:id')
+
+.get(authenticateToken, getTsq);
 
 export default tsqRouter;

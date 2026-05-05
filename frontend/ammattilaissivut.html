@@ -51,7 +51,28 @@
 </div>
     <main>
       
-      <div class="laakarincontent hidden">Olet lääkäri</div>
+      <div class="laakarincontent hidden">
+          <h3>Hae potilaat</h3>
+
+    <button class="get_users">Hae omat potilaat</button>
+
+      <div class="forms">
+        <div style="flex: 1">
+          <table class="styled-table">
+  <thead>
+    <tr>
+      <th>Nimi</th>
+      <th>Sähköposti</th>
+      <th>Info</th>
+      <th>ID</th>
+    </tr>
+  </thead>
+  <tbody id="taulukko" class="tbody">
+  </tbody>
+</table>
+      </div>
+      </div>
+      </div>
 
       <div class="yllapitajancontent hidden">
           <button id="show-register-form">Lisää uusi käyttäjä</button>
@@ -82,13 +103,17 @@
       <p>Copyright, RK</p>
     </footer>
     <dialog class="diary_dialog">
-  <h2>Päiväkirjamerkintä</h2>
-  <div class="diary_id"></div>
-  <button>Sulje</button>
+  <h2>Potilaan tiedot</h2>
+
+  <div class="patient-info"></div>
+  <div class="tsq-info"></div>
+
+  <button id="close-dialog">Sulje</button>
 </dialog>
   </body>
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/loggedUser.js"></script>
   <script type="module" src="js/navbar.js"></script>
   <script type="module" src="js/ammattilaissivut.js"></script>
+  <script type="module" src="js/potilaslista.js"></script>
 </html>

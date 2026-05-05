@@ -58,14 +58,22 @@ const removeNewUserTag = async () => {
 const initTSQBlocking = () => {
   const isNew = localStorage.getItem("isNew");
 
-  if (!(isNew === "1" || isNew === "true")) return;
-
   const overlay = document.querySelector("#tsq-overlay");
   const form = document.querySelector("#tsq-form");
 
   if (!overlay || !form) return;
 
-  overlay.classList.remove("hidden");
+  // 🔹 pakollinen onboarding
+  if (isNew === "1" || isNew === "true") {
+    overlay.classList.remove("hidden");
+  }
+
+  // 🔹 nappi avaa TSQ:n aina
+  const tsqButton = document.querySelector("#open-tsq-btn");
+
+  if (tsqButton) {
+    tsqButton.addEventListener("click", openTSQModal);
+  }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -77,11 +85,9 @@ const initTSQBlocking = () => {
       return;
     }
 
-    // 🔒 estä tuplaklikkaus
     const button = form.querySelector("button");
     button.disabled = true;
 
-    // 1. TSQ
     const tsqResponse = await sendTSQ(answers);
 
     if (!tsqResponse || tsqResponse.error) {
@@ -90,7 +96,6 @@ const initTSQBlocking = () => {
       return;
     }
 
-    // 2. isNew
     const updateResponse = await removeNewUserTag();
 
     if (!updateResponse) {
@@ -99,11 +104,27 @@ const initTSQBlocking = () => {
       return;
     }
 
-    // 3. UI
     overlay.classList.add("hidden");
 
     console.log("Kysely suoritettu onnistuneesti");
   });
 };
 
+const openTSQModal = () => {
+  const overlay = document.querySelector("#tsq-overlay");
+
+  if (!overlay) {
+    console.error("TSQ overlay puuttuu DOM:sta");
+    return;
+  }
+
+  overlay.classList.remove("hidden");
+};
+
 document.addEventListener("DOMContentLoaded", initTSQBlocking);
+
+const tsqButton = document.querySelector("#open-tsq-btn");
+
+if (tsqButton) {
+  tsqButton.addEventListener("click", openTSQModal);
+}
