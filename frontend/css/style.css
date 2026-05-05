@@ -99,43 +99,55 @@ main {
 
 .user-menu {
   position: relative;
-  cursor: pointer;
   list-style: none;
 }
-
-#username-display::after {
-  content: " ▼";
-  font-size: 0.7em;
+.user-menu:hover .dropdown {
+  display: block;
 }
 
+/* Dropdown piilossa oletuksena */
 .dropdown {
   position: absolute;
-  top: 120%;
-  right: 0;
+  top: 100%;
+
+  left: 50%;
+  transform: translateX(-50%);
+
   background: white;
   border: 1px solid #ccc;
+  min-width: 160px;
+
   padding: 0;
   margin: 0;
   list-style: none;
-  min-width: 150px;
-  z-index: 1000;
+
+  display: none;
 }
 
-.dropdown li {
-  width: 100%;
+ .dropdown li {
+  margin: 0;
+  padding: 0;
 }
 
+/* Linkit ja buttonit */
 .dropdown a,
 .dropdown button {
   display: block;
   width: 100%;
-  padding: 10px;
-  text-align: left;
-  background: none;
-  border: none;
-  cursor: pointer;
+
+  padding: 8px 12px;
+  margin: 0;
+  text-decoration: none;   /* poistaa alleviivauksen */
+  color: black;          /* käyttää samaa väriä kuin muu teksti */
+
+  line-height: 1.2;
 }
 
+.dropdown button {
+  font: inherit;       /* sama fontti kuin linkillä */
+}
+
+/* Hover efekti */
 .dropdown a:hover,
 .dropdown button:hover {
   background: #f0f0f0;
