@@ -34,19 +34,6 @@ CREATE TABLE Users (
     ON DELETE SET NULL
 );
 
--- Taulu HRV-mittauksille (sykevälivaihtelu)
-CREATE TABLE HRV_mittaukset (
-    id INT AUTO_INCREMENT PRIMARY KEY,           -- Yksilöllinen tunniste mittaukselle
-    user_id INT NOT NULL,                        -- Viittaus käyttäjään, jolta mittaus on
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Mittauksen aikaleima
-    rmssd FLOAT,                                 -- RMSSD-arvo (HRV:n mittari)
-    hf_hrv FLOAT,                                -- High Frequency HRV
-    pns_index FLOAT,                             -- Parasympaattisen hermoston indeksi
-    sns_index FLOAT,                             -- Sympaattisen hermoston indeksi
-    FOREIGN KEY (user_id) REFERENCES Users(user_id) -- Viite käyttäjätauluun
-    ON DELETE CASCADE
-);
-
 CREATE TABLE kubios_results (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT,
@@ -57,25 +44,20 @@ CREATE TABLE kubios_results (
 
 
 -- Taulu kyselyvastauksille (itsearviointi)
-CREATE TABLE Kyselyt (
-    kysely_id INT AUTO_INCREMENT PRIMARY KEY,    -- Yksilöllinen tunniste kyselylle
+CREATE TABLE DiaryEntries (
+    id INT AUTO_INCREMENT PRIMARY KEY,    -- Yksilöllinen tunniste kyselylle
     user_id INT NOT NULL,                        -- Viittaus käyttäjään
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Vastausaika
-    mood VARCHAR (50),                               -- mieliala
     weight INT,                                 -- paino
     sleep INT,                                  -- uni
     energy INT,                                 -- energia
-    water FLOAT,                                -- vesi
     stress INT,                                 -- Stressitaso
-    exercise VARCHAR (100),                           -- harjoitus
-    meal VARCHAR (100),                               -- ruoka
+    mood VARCHAR (50),                               -- mieliala
     symptoms VARCHAR (255),                           -- oireet
     medication VARCHAR (255),                         -- lääkkeet
     notes TEXT,                                 -- Avoin tekstivastaus
-    mittaus_id INT,                              -- Viittaus HRV-mittaukseen (jos liittyy siihen)
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (mittaus_id) REFERENCES HRV_mittaukset(id)
-    ON DELETE SET NULL
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+    ON DELETE CASCADE
 );
 
 

@@ -1,4 +1,4 @@
-import {listAllEntries, findEntryById, addEntry} from "../models/entry-model.js";
+import {listAllEntries, findEntryById, addEntry, listEntriesByUserId} from "../models/entry-model.js";
 
 const getEntries = async (req, res) => {
   // Kutsutaan modelin funktiota, joka hakee kaikki merkinnät
@@ -28,30 +28,48 @@ const getEntryById = async (req, res) => {
 };
 
 const postEntry = async (req, res) => {
-  // Puretaan pyynnön body:sta tarvittavat kentät
-  const {entry_date, mood, weight, sleep_hours, notes} = req.body;
+  try {
+    const user_id = req.user.userId; // 🔒 tokenista, ei frontendista
 
-  // user_id lisätään req-objektiin authenticateToken-middlewaresta
-  const user_id = req.user.user_id;
+    const {
+      entry_date,
+      weight,
+      sleep_hours,
+      energy_level,
+      stress_level,
+      mood,
+      symptom,
+      medication,
+      notes
+    } = req.body;
 
-  // Tarkistetaan että pakolliset tiedot löytyvät
-  if (entry_date && (weight || mood || sleep_hours || notes) && user_id) {
+const entry = {
+  user_id,
+  created_at: entry_date,
+  weight,
+  sleep: sleep_hours,
+  energy: energy_level,
+  stress: stress_level,
+  mood,
+  symptoms: symptom,
+  medication,
+  notes
+};
 
-    // Lisätään uusi merkintä tietokantaan
-    const result = await addEntry({user_id, ...req.body});
+    const result = await addEntry(entry);
 
-    // Jos lisäys onnistui ja saatiin entry_id takaisin
-    if (result.entry_id) {
-      res.status(201);
-      res.json({message: 'New entry added.', ...result});
-    } else {
-      // Jos tietokantavirhe
-      res.status(500);
-      res.json(result);
+    if (result.error) {
+      return res.status(500).json({ error: result.error });
     }
-  } else {
-    // Jos validointi epäonnistuu, palautetaan 400 Bad Request
-    res.sendStatus(400);
+
+    res.status(201).json({
+      message: "entry created",
+      id: result.entry_id
+    });
+
+  } catch (error) {
+    console.error("postEntry", error);
+    res.status(500).json({ error: "server error" });
   }
 };
 
@@ -65,7 +83,20 @@ const deleteEntry = (req, res) => {
   res.sendStatus(200);
 };
 
-export {getEntries, getEntryById, postEntry, putEntry, deleteEntry};
+const getEntriesByUser = async (req, res) => {
+    // Haetaan merkintä URL-parametrin id:n perusteella
+  const entry = await listEntriesByUserId(req.params.id);
+
+  if (entry) {
+    // Jos merkintä löytyy, palautetaan se JSONina
+    res.json(entry);
+  } else {
+    // Jos ei löydy, palautetaan 404 Not Found
+    res.sendStatus(404);
+  }
+};
+
+export {getEntries, getEntryById, postEntry, putEntry, deleteEntry, getEntriesByUser};
 
 // ChatGPT:tä hyödynnettiin:
 // - Async controller -rakenteessa
