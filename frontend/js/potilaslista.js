@@ -37,7 +37,7 @@ const renderUsers = (users) => {
     tableBody.appendChild(row);
   });
 
-  // 🔑 tärkeä
+  // tärkeä
   addInfoListeners();
 };
 
@@ -56,7 +56,7 @@ const getUsers = async () => {
       },
     });
 
-    // 🔧 NORMALISOINTI
+    // NORMALISOINTI
     const users = response?.users || response?.data || response;
 
     if (!Array.isArray(users)) {
@@ -92,7 +92,7 @@ const getTSQByUserId = async (id) => {
   });
 };
 
-const renderPatientDialog = (patient, tsqData) => {
+  const renderPatientDialog = (patient, tsqData, entries, kubiosData) => {
   const dialog = document.querySelector(".diary_dialog");
   const patientInfo = dialog.querySelector(".patient-info");
   const tsqInfo = dialog.querySelector(".tsq-info");
@@ -105,7 +105,7 @@ const renderPatientDialog = (patient, tsqData) => {
     <p><strong>ID:</strong> ${patient.user_id}</p>
   `;
 
-  // 🔑 FIX: pakota arrayksi
+  // FIX: pakota arrayksi
   const tsqArray = Array.isArray(tsqData)
     ? tsqData
     : tsqData
@@ -122,6 +122,109 @@ const renderPatientDialog = (patient, tsqData) => {
       </div>
     `).join("");
   }
+
+// Päiväkirjamerkinnät
+const entryHtml =
+  !entries || entries.length === 0
+    ? "<p>Ei päiväkirjamerkintöjä</p>"
+    : entries.map(entry => `
+        <div class="tsq-entry">
+
+          <p><strong>Päivämäärä:</strong>
+            ${new Date(entry.created_at).toLocaleDateString('fi-FI')}
+          </p>
+
+          <p><strong>Paino:</strong>
+            ${entry.weight ?? "-"} kg
+          </p>
+
+          <p><strong>Uni:</strong>
+            ${entry.sleep ?? "-"} h
+          </p>
+
+          <p><strong>Energiataso:</strong>
+            ${entry.energy ?? "-"} / 10
+          </p>
+
+          <p><strong>Stressitaso:</strong>
+            ${entry.stress ?? "-"} / 10
+          </p>
+
+          <p><strong>Mieliala:</strong>
+            ${entry.mood ?? "-"}
+          </p>
+
+          <p><strong>Oireet:</strong>
+            ${entry.symptoms ?? "-"}
+          </p>
+
+          <p><strong>Lääkitys:</strong>
+            ${entry.medication ?? "-"}
+          </p>
+
+          <p><strong>Muistiinpanot:</strong>
+            ${entry.notes ?? "-" }
+          </p>
+
+          <hr>
+        </div>
+      `).join("");
+
+tsqInfo.innerHTML += `
+  <hr>
+  <h3>Päiväkirjamerkinnät</h3>
+  ${entryHtml}
+`;
+
+
+const kubiosArray = Array.isArray(kubiosData)
+  ? kubiosData
+  : kubiosData?.results || [];
+
+const latestKubios =
+  kubiosData?.results?.[0];
+
+if (latestKubios) {
+
+const readiness =
+  Math.round(latestKubios.readiness ?? 0);
+
+const stress =
+  Math.round(latestKubios.stress_index ?? 0);
+
+  const readinessColor =
+    readiness >= 80
+      ? "green"
+      : readiness >= 60
+      ? "orange"
+      : "red";
+
+        const stressColor =
+    stress <= 10
+      ? "green"
+      : stress <= 20
+      ? "orange"
+      : "red";
+
+  tsqInfo.innerHTML += `
+    <hr>
+
+    <h3>HRV / Hyvinvointidata</h3>
+
+    <p>
+      <strong>Palautuminen:</strong>
+      <span style="color:${readinessColor}">
+        ${readiness}
+      </span>
+    </p>
+
+    <p>
+      <span style="color:${stressColor}">
+      ${stress}
+      </span>
+    </p>
+  `;
+}
 
   dialog.showModal();
 };
@@ -145,13 +248,17 @@ const addInfoListeners = () => {
       try {
         const patient = await getPatientById(userId);
         const tsqData = await getTSQByUserId(userId);
+        const entries = await getEntriesByUserId(userId);
+
+        const kubiosData =
+          await getKubiosDataByUserId(userId);
 
         if (!patient || patient.error) {
           patientInfo.innerHTML = "<p>Virhe potilaan haussa</p>";
           return;
         }
 
-        renderPatientDialog(patient, tsqData);
+        renderPatientDialog(patient, tsqData, entries, kubiosData);
 
       } catch (error) {
         console.error(error);
@@ -178,3 +285,32 @@ document.addEventListener("DOMContentLoaded", initDialog);
 if (getUsersButton) {
   getUsersButton.addEventListener("click", getUsers);
 }
+
+const getEntriesByUserId = async (id) => {
+  const token = localStorage.getItem("token");
+
+  return await fetchData(
+    `http://localhost:3000/api/entries/user/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+const getKubiosDataByUserId = async (id) => {
+  const token = localStorage.getItem("token");
+
+  return await fetchData(
+    `http://localhost:3000/api/kubios/user-data/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+console.log("PATIENT:", patient);
+console.log("KUBIOS:", kubiosData);

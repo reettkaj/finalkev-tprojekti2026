@@ -52,13 +52,14 @@ const getUserData = async () => {
 
   console.log('Formatted Data', formattedData);
 
-  drawAMChart(formattedData);
+  // drawAMChart(formattedData);
 
   if (formattedData.length > 0) {
     const latest = formattedData[formattedData.length - 1];
+    console.log("LATEST:", latest);
 
     document.querySelector('.current-hrv').textContent =
-      latest.readiness ?? '-';
+      Math.round(latest.readiness) ?? '-';
 
     document.querySelector('.avg-hrv').textContent =
       Math.round(
@@ -68,12 +69,33 @@ const getUserData = async () => {
 
     document.querySelector('.today-measurements').textContent =
       formattedData.length;
-  }
-};
 
-// You need to formulate data into correct structure in the BE
-// OR you can extract the data here in FE from one or multiple sources
-// Extract data: https://www.w3schools.com/jsref/jsref_map.asp
+    document.querySelector('.current-stress').textContent =
+      Math.round(latest.stressIndex);
+
+          const stressColor =
+        latest.stressIndex <= 10
+          ? '#16a34a'
+          : latest.stressIndex <= 20
+          ? '#f59e0b'
+          : '#dc2626';
+
+      document.querySelector('.current-stress').style.color =
+        stressColor;
+
+      updateRecoveryMessage(latest.readiness);
+
+        const readinessColor =
+        latest.readiness >= 80
+          ? '#16a34a'
+          : latest.readiness >= 60
+          ? '#f59e0b'
+          : '#dc2626';
+
+      document.querySelector('.current-hrv').style.color =
+        readinessColor;
+      }
+};
 
 const formatKubiosResults = (userData) => {
   const formatter = new Intl.DateTimeFormat('fi-FI', {
@@ -94,11 +116,35 @@ const formatKubiosResults = (userData) => {
       return {
         date: dateObject.getTime(),
         label: formatter.format(dateObject),
-        readiness: entry.result.readiness,
-        stressIndex: entry.result.stress_index,
+        readiness: Number(entry.result?.readiness ?? 0),
+        stressIndex: Number(entry.result?.stress_index ?? 0),
+        
       };
     })
     .filter(Boolean);
+};
+
+const updateRecoveryMessage = (readiness) => {
+
+  const messageElement =
+    document.querySelector('.recovery-message');
+
+  if (!messageElement) return;
+
+  if (readiness >= 80) {
+    messageElement.textContent =
+      'Viimeisimmän mittauksen mukaan palautumisesi näyttää erittäin hyvältä. Kehosi reagoi stressiin tehokkaasti.';
+  }
+
+  else if (readiness >= 60) {
+    messageElement.textContent =
+      'Viimeisimmän mittauksen mukaan palautumisesi on kohtalainen. Muista riittävä lepo ja palautuminen.';
+  }
+
+  else {
+    messageElement.textContent =
+      'Viimeisimmän mittauksen mukaan stressitasosi näyttää kohonneelta. Kevyt päivä ja lepo voivat auttaa palautumisessa.';
+  }
 };
 
 // Let us try these together
@@ -134,12 +180,12 @@ const drawChart = (userData) => {
       labels: labels,
       datasets: [
         {
-          label: 'Readiness',
+          label: 'Palautuminen',
           data: readiness,
           borderColor: 'red',
         },
         {
-          label: 'Stress Index',
+          label: 'Stressitaso',
           data: stressIndex,
           borderColor: 'blue',
         },

@@ -7,6 +7,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="css/kubios.css" />
   <title>HRV</title>
 </head>
 
@@ -25,14 +26,13 @@
     <li><a href="hengitysharjoitus.html" class="navlink">⌁<span>Hengitysharjoitus</span></a></li>
     <li><a href="paivakirja.html" class="navlink">▤<span>Oirepäiväkirja</span></a></li>
     <li class="navlink user-menu">
-  <span id="username-display">Vieras</span>
+  <span class="username">Vieras</span>
 
   <ul class="dropdown">
     <li><a href="asetukset.html">Profiili</a></li>
-    <li><button id="logout-btn">Kirjaudu ulos</button></li>
+    <li><button id="logout">Kirjaudu ulos</button></li>
   </ul>
 </li>
-
     <!-- USER AREA -->
     <div class="user-area">
       Hei Käyttäjä: <span class="username">Vieras</span>
@@ -40,8 +40,6 @@
     </div>
 
   </nav>
-    <!-- tämä viimeiseksi -->
-    <link rel="stylesheet" href="css/kubios.css" />
   </head>
   <body>
 
@@ -49,43 +47,79 @@
 
           <div class="hrv-cards">
 
-    <div class="hrv-card">
-      <p>Viimeisin HRV</p>
-      <h2 class="current-hrv">-</h2>
-    </div>
-
   </div>
 
         <aside class="kubios-card kubios-card--actions">
           <h2 class="kubios-section-title">Hyvinvointidata</h2>
         <p class="kubios-text">
-            Hae ja visualisoi Kubiosin mittaama palautumis- ja stressidata.
+            Voit tarkastella KubiosHRV:n mittaamaa palautumis- ja stressidataa täältä.
         </p>
 
-          <div class="kubios-action-group">
-            <h3 class="kubios-subtitle">Kubios käyttäjätiedot console logiin</h3>
-            <button class="kubios-btn get_user_info">
-              Käyttäjätiedot
-            </button>
-          </div>
+                <div class="hrv-summary-grid">
+
+      <div class="hrv-summary-card">
+        <h3>Viimeisin palautuminen</h3>
+        <p class="current-hrv">-</p>
+      </div>
+
+      <div class="hrv-summary-card">
+        <h3>Keskimääräinen palautuminen</h3>
+        <p class="avg-hrv">-</p>
+      </div>
+
+        <div class="hrv-summary-card">
+        <h3>Viimeisin stressitaso</h3>
+        <p class="current-stress">-</p>
+      </div>
+
+      <div class="hrv-summary-card">
+        <h3>Mittauksia tehty:</h3>
+        <p class="today-measurements">-</p>
+      </div>
+
+    </div>
+
+    <div class="hrv-info-box">
+  <p>
+    <span class="green-dot"></span>
+    80-100: Hyvä palautuminen / matala stressi
+  </p>
+
+  <p>
+    <span class="yellow-dot"></span>
+    60-79: Kohtalainen tila
+  </p>
+
+  <p>
+    <span class="red-dot"></span>
+    0-59: Kohonnut stressi / heikompi palautuminen
+  </p>
+</div>
 
           <div class="kubios-action-group">
             <h3 class="kubios-subtitle">Kubios käyttäjädata</h3>
-            <button class="kubios-btn get_user_data">
-              Hae mittausdata
-            </button>
           </div>
         </aside>
 
       <section class="kubios-results">
         <div class="kubios-card">
-          <h2 class="kubios-section-title">Chart.js tulos</h2>
+          <h2 class="kubios-section-title">Kubioksen mittaustiedot</h2>
           <div class="kubios-canvas-wrap">
             <canvas id="jsChart"></canvas>
           </div>
         </div>
 
       </section>
+      <div class="kubios-card recovery-status">
+  <h2 class="kubios-section-title">
+    Hyvinvointiyhteenveto
+  </h2>
+
+  <p class="recovery-message">
+    Dataa ladataan...
+  </p>
+</div>
+
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -98,9 +132,4 @@
     <script type="module" src="/js/kubios.js"></script>
     <script type="module" src="/js/loggedUser.js"></script>
   </body>
-</html>
-
-<script type="module" src="js/loggedUser.js"></script>
-<script type="module" src="js/navbar.js"></script>
-</body>
 </html>

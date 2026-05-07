@@ -323,12 +323,15 @@ nav ul {
 .hero-text {
   color: white;
   max-width: 800px;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .hero-text h1 {
   font-size: 56px;
   font-weight: 700;
   line-height: 1.2;
+  color: black
 }
 
 .hero-text span {
@@ -916,4 +919,58 @@ body > nav {
   background: #f4f7fb;
   border-radius: 12px;
   padding: 16px;
+}
+
+.hrv-info-box {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  font-size: 0.95rem;
+}
+
+.hrv-info-box p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.4rem 0;
+}
+
+.green-dot,
+.yellow-dot,
+.red-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.green-dot {
+  background: #16a34a;
+}
+
+.yellow-dot {
+  background: #f59e0b;
+}
+
+.red-dot {
+  background: #dc2626;
+}
+
+.diary_dialog {
+  width: 700px;
+  max-width: 90%;
+  border: none;
+  border-radius: 16px;
+  padding: 2rem;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.diary_dialog::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+
+.tsq-entry {
+  margin-bottom: 1rem;
 }
