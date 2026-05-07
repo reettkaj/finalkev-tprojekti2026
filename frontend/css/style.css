@@ -699,18 +699,11 @@ grid-template-columns:1fr;
 
 .entry-panel,
 .tsq-panel {
-<<<<<<< HEAD
-  background: #253240;
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-=======
   background: #ffffff;
   color: #1f2937;
   padding: 32px;
   border-radius: 18px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
->>>>>>> be50c675a08e70d8145befe24ba79e3ea7859bc7
 }
 
 .entry-form {
@@ -796,9 +789,6 @@ grid-template-columns:1fr;
  .entry-panel h2 {
   color: rgb(86,210,216); /* sama väri kuin navissa */
 }
-<<<<<<< HEAD
-/* Breakpointit tänne */
-=======
 
 /* =======================
    HENGITYSHARJOITUS
@@ -1368,4 +1358,3 @@ body > nav {
   /* pieni väli ennen seuraavaa osiota */
   margin-bottom: 30px;
 }
->>>>>>> be50c675a08e70d8145befe24ba79e3ea7859bc7

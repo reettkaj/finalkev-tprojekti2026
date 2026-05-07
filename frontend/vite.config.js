@@ -8,30 +8,15 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        home: resolve(__dirname, 'index.html'),
-        bmi: resolve(__dirname, 'bmi.html'),
-        formit: resolve(__dirname, 'formit.html'),
-        login: resolve(__dirname, 'login.html'),
+        main: resolve(__dirname, 'index.html'),
+        ammattilaissivut: resolve(__dirname, 'ammattilaissivut.html'),
+        asetukset: resolve(__dirname, 'asetukset.html'),
+        etusivu: resolve(__dirname, 'etusivu.html'),
+        hengitysharjoitus: resolve(__dirname, 'hengitysharjoitus.html'),
+        hrv: resolve(__dirname, 'hrv.html'),
+        kubios: resolve(__dirname, 'kubios.html'),
         paivakirja: resolve(__dirname, 'paivakirja.html'),
-
-        viikkotehtavat: resolve(
-          __dirname,
-          'viikkoharjoitukset/viikkotehtävät.html'
-        ),
-        flexbox: resolve(__dirname, 'viikkoharjoitukset/flexbox.html'),
-        flexboxlayout: resolve(
-          __dirname,
-          'viikkoharjoitukset/flexbox-layout.html'
-        ),
-        rajapinnatv2: resolve(
-          __dirname,
-          'viikkoharjoitukset/rajapinnatv2.html'
-        ),
-        responsiivisuus: resolve(
-          __dirname,
-          'viikkoharjoitukset/responsiivisuus.html'
-        ),
-        treeni: resolve(__dirname, 'viikkoharjoitukset/treeni.html'),
+        profiili: resolve(__dirname, 'profiili.html'),
       },
     },
   },

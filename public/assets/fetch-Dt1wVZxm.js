@@ -1,0 +1,1 @@
+var e=async(e,t={})=>{let n=await fetch(e,t);if(n.status===401||n.status===403){console.log(`Token expired. Logging out...`),localStorage.removeItem(`token`),window.location.href=`index.html`;return}let r;try{r=await n.json()}catch{return console.error(`Response is not JSON:`,await n.text()),{error:`Invalid JSON response`}}return r};export{e as t};
