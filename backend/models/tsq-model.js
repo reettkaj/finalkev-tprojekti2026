@@ -3,7 +3,7 @@ import promisePool from '../utils/database.js';
 // GET /api/tsq
 const findTsqByUserId = async (id) => {
   const sql = `
-    SELECT points, created_at
+    SELECT id, points, created_at
     FROM TraumaScreeningQuestionnaire
     WHERE user_id = ?
     ORDER BY created_at DESC

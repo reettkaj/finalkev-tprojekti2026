@@ -21,6 +21,17 @@
       rel="stylesheet"
     />
   </head>
+  <dialog class="all-patients-dialog">
+
+  <h2>Kaikki potilaat</h2>
+
+  <div class="all-patients-list"></div>
+
+  <button id="close-all-patients">
+    Sulje
+  </button>
+
+</dialog>
   <body>
     <!---------------->
     <!-- Navigation -->
@@ -43,7 +54,7 @@
     </nav>
 
 <div class="hero-text">
-<h1>Tarkastele omien potilaiden PTSD seurantatietoja</h1>
+
 
 </div>
 </div>
@@ -53,15 +64,13 @@
           <h3>Hae potilaat</h3>
 
     <button class="get_users">Hae omat potilaat</button>
+    <button class="get_all_patients">Hae kaikki potilaat</button>
 
       <div class="forms">
         <div style="flex: 1">
           <table class="styled-table">
   <thead>
-    <tr>
-      <th>Nimi</th>
-      <th>Info</th>
-    </tr>
+   
   </thead>
   <tbody id="taulukko" class="tbody">
   </tbody>

@@ -129,6 +129,43 @@ const noLongerNewUser = async (id) => {
   return result;
 };
 
+const getAllPatients = async () => {
+    const sql = `
+    SELECT user_id, email, name
+    FROM Users
+    WHERE role_id = 3
+  `;
+  const [rows] = await promisePool.execute(sql);
+  return rows;
+};
+
+const changeDoctor = async (user_id, doctor_id) => {
+
+  const sql = `
+    UPDATE Users
+    SET doctor_id = ?
+    WHERE user_id = ?
+  `;
+
+  try {
+
+    const [result] = await promisePool.execute(
+      sql,
+      [doctor_id, user_id]
+    );
+
+    return result;
+
+  } catch (e) {
+
+    console.error(e.message);
+
+    return { error: e.message };
+
+  }
+
+};
+
 export {
   getAllUsers,
   findUserById,
@@ -138,7 +175,9 @@ export {
   findUserByEmail,
   findPatients,
   noLongerNewUser,
-  addPatient
+  addPatient,
+  getAllPatients,
+  changeDoctor
 };
 
 // ChatGPT:tä on hyödynnetty  yleisesti user-modelissa:

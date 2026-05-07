@@ -11,7 +11,8 @@ import {
   deleteUser,
   findPatients,
   noLongerNewUser,
-  addPatient
+  getAllPatients,
+  changeDoctor
 } from '../models/user-model.js';
 
 // TODO: lisää tietokantafunktiot user modeliin
@@ -148,6 +149,34 @@ const updateIsNew = async (req, res) => {
   }
 };
 
+const AllPatients = async (req, res) => {
+  try {
+    const users = await getAllPatients();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({error: error.message});
+  }
+};
+
+const updateDoctor = async (req, res) => {
+  try {
+    const doctor_id = req.user.user_id; // kirjautunut lääkäri
+    const user_id = req.params.id; // potilas
+
+    const result = await changeDoctor(user_id, doctor_id);
+
+    if (result.error) {
+      return res.status(500).json(result);
+    }
+
+    res.json({ message: "doctor updated" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "server error" });
+  }
+};
+
 export {
   getUsers,
   getUserById,
@@ -157,7 +186,9 @@ export {
   postLogin,
   getMe,
   getPatients,
-  updateIsNew
+  updateIsNew,
+  AllPatients,
+  updateDoctor
 };
 // ChatGPT:tä hyödynnettiin:
 // - Async/await-rakenteen toteutuksessa

@@ -10,7 +10,9 @@ tsqRouter.route('/')
 
 tsqRouter.route('/:id')
 
-.get(authenticateToken, getTsqById);
+.get(
+    //authenticateToken, 
+    getTsqById);
 
 tsqRouter.route('/user/:id')
 

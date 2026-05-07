@@ -91,7 +91,20 @@ const getTSQByUserId = async (id) => {
   });
 };
 
-  const renderPatientDialog = (patient, tsqData, entries, kubiosData) => {
+const getTSQAnswersByUserId = async (id) => {
+  const token = localStorage.getItem("token");
+
+  return await fetchData(
+    `http://localhost:3000/api/tsq/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+const renderPatientDialog = (patient, tsqData, entries, kubiosData) => {
   const dialog = document.querySelector(".diary_dialog");
   const patientInfo = dialog.querySelector(".patient-info");
   const tsqInfo = dialog.querySelector(".tsq-info");
@@ -100,7 +113,7 @@ const getTSQByUserId = async (id) => {
 
   patientInfo.innerHTML = `
     <p><strong>Nimi:</strong> ${patient.name}</p>
-    <p><strong>Email:</strong> ${patient.email}</p>
+    <p><strong>Sähköposti:</strong> ${patient.email}</p>
   `;
 
   // FIX: pakota arrayksi
@@ -110,16 +123,46 @@ const getTSQByUserId = async (id) => {
       ? [tsqData]
       : [];
 
-  if (tsqArray.length === 0) {
-    tsqInfo.innerHTML = "<p>Ei TSQ dataa</p>";
-  } else {
-    tsqInfo.innerHTML = tsqArray.map(entry => `
-      <div class="tsq-entry">
-        <p><strong>Traumaseulontakysenlyn Pisteet:</strong> ${entry.points}</p>
-        <p><strong>Vastattu: </strong><small>${new Date(entry.created_at).toLocaleDateString("fi-FI")}</small></p>
-      </div>
-    `).join("");
-  }
+if (tsqArray.length === 0) {
+
+  tsqInfo.innerHTML = "<p>Ei TSQ dataa</p>";
+
+} else {
+
+  tsqInfo.innerHTML = tsqArray.map((entry, index) => `
+
+    <div class="tsq-entry">
+
+      <p>
+        <strong>Traumaseulontakyselyn pisteet:</strong>
+        ${entry.points}
+      </p>
+
+      <p>
+        <strong>Vastattu:</strong>
+        <small>
+          ${new Date(entry.created_at)
+            .toLocaleDateString("fi-FI")}
+        </small>
+      </p>
+
+      <button
+        class="toggle-tsq-btn"
+        data-id="${entry.id}"
+        data-index="${index}"
+      >
+        Näytä TSQ-vastaukset
+      </button>
+
+      <div class="tsq-answers hidden"></div>
+
+      <hr>
+
+    </div>
+
+  `).join("");
+
+}
 
 // Päiväkirjamerkinnät
 const entryHtml =
@@ -164,8 +207,151 @@ tsqInfo.innerHTML += `
   ${entryHtml}
 `;
 
-tsqInfo.addEventListener("click", (e) => {
+tsqInfo.addEventListener("click", async (e) => {
   const btn = e.target.closest(".toggle-entry-btn");
+  // TSQ VASTAUKSET
+const tsqBtn = e.target.closest(".toggle-tsq-btn");
+
+if (tsqBtn) {
+
+  const answerContainer =
+    tsqBtn.parentElement.querySelector(".tsq-answers");
+
+  const isHidden =
+    answerContainer.classList.contains("hidden");
+
+  // PIILOTA
+  if (!isHidden) {
+
+    answerContainer.classList.add("hidden");
+
+    tsqBtn.textContent =
+      "Näytä TSQ-vastaukset";
+
+    return;
+  }
+
+  // HAE VASTAUKSET APISTA
+  const tsqId = tsqBtn.dataset.id;
+
+  answerContainer.innerHTML =
+    "<p>Ladataan vastauksia...</p>";
+
+  answerContainer.classList.remove("hidden");
+
+  try {
+
+    const answers =
+      await getTSQAnswersByUserId(tsqId);
+
+    if (!answers) {
+
+      answerContainer.innerHTML =
+        "<p>Ei vastauksia</p>";
+
+    } else {
+
+answerContainer.innerHTML = `
+
+  <p class="tsq-intro">
+    Merkitse kyllä tai ei sen mukaan, oletko kokenut seuraavia
+    vähintään kahdesti viimeisen viikon aikana.
+  </p>
+
+  <div class="tsq-question">
+    <p>
+      1. Järkyttäviä ajatuksia tai muistoja tapahtumasta,
+      jotka ovat tulleet mieleesi oman tahtosi vastaisesti.
+    </p>
+    <strong>${answers.q1 ? "Kyllä" : "Ei"}</strong>
+  </div>
+
+  <div class="tsq-question">
+    <p>2. Järkyttäviä unia tapahtumasta.</p>
+    <strong>${answers.q2 ? "Kyllä" : "Ei"}</strong>
+  </div>
+
+  <div class="tsq-question">
+    <p>
+      3. Toimimista tai tunnetta ikään kuin traumaattinen
+      kokemus tapahtuisi uudelleen.
+    </p>
+    <strong>${answers.q3 ? "Kyllä" : "Ei"}</strong>
+  </div>
+
+  <div class="tsq-question">
+    <p>
+      4. Tapahtumasta muistuttavien tekijöiden aiheuttamaa
+      järkytyksen tunnetta.
+    </p>
+    <strong>${answers.q4 ? "Kyllä" : "Ei"}</strong>
+  </div>
+
+  <div class="tsq-question">
+    <p>
+      5. Ruumiillisia reaktioita (kuten nopea sydämen syke,
+      vatsan väänteet, hikoilu, huimaus)
+      jonkin muistutettaessa tapahtumasta.
+    </p>
+    <strong>${answers.q5 ? "Kyllä" : "Ei"}</strong>
+  </div>
+
+  <div class="tsq-question">
+    <p>
+      6. Vaikeutta nukahtaa tai pysyä unessa.
+    </p>
+    <strong>${answers.q6 ? "Kyllä" : "Ei"}</strong>
+  </div>
+
+  <div class="tsq-question">
+    <p>
+      7. Ärtyisyyttä tai vihan purkauksia.
+    </p>
+    <strong>${answers.q7 ? "Kyllä" : "Ei"}</strong>
+  </div>
+
+  <div class="tsq-question">
+    <p>
+      8. Keskittymisvaikeuksia.
+    </p>
+    <strong>${answers.q8 ? "Kyllä" : "Ei"}</strong>
+  </div>
+
+  <div class="tsq-question">
+    <p>
+      9. Voimistunutta tietoisuutta mahdollisista
+      vaaroista itsellesi tai toisille.
+    </p>
+    <strong>${answers.q9 ? "Kyllä" : "Ei"}</strong>
+  </div>
+
+  <div class="tsq-question">
+    <p>
+      10. Hermostuneisuutta tai säikkymistä
+      jotain odottamatonta kohtaan.
+    </p>
+    <strong>${answers.q10 ? "Kyllä" : "Ei"}</strong>
+  </div>
+
+`;
+
+    }
+
+    tsqBtn.textContent =
+      "Piilota TSQ-vastaukset";
+
+  } catch (error) {
+
+    console.error(error);
+
+    answerContainer.innerHTML =
+      "<p>TSQ-vastausten haku epäonnistui</p>";
+
+  }
+
+  return;
+} 
+
   if (!btn) return;
 
   const card = btn.closest(".entry-card");
@@ -282,11 +468,168 @@ const initDialog = () => {
   });
 };
 
-document.addEventListener("DOMContentLoaded", initDialog);
+const getAllPatients = async () => {
+
+  const token = localStorage.getItem("token");
+
+  return await fetchData(
+    "http://localhost:3000/api/users/patients",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+};
+
+const addPatientToDoctor = async (patientId) => {
+
+  const token = localStorage.getItem("token");
+
+  return await fetchData(
+    `http://localhost:3000/api/users/patients/${patientId}/doctor`,
+    {
+      method: "PUT",
+
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+};
+
+const renderAllPatientsDialog = (patients) => {
+
+  const dialog =
+    document.querySelector(".all-patients-dialog");
+
+  const container =
+    dialog.querySelector(".all-patients-list");
+
+  if (!patients || patients.length === 0) {
+
+    container.innerHTML =
+      "<p>Ei potilaita</p>";
+
+    dialog.showModal();
+
+    return;
+  }
+
+  container.innerHTML = patients.map((patient) => `
+
+    <div class="patient-card">
+
+      <p>
+        <strong>${patient.name}</strong>
+      </p>
+
+      <p>${patient.email}</p>
+
+      <button
+        class="add-patient-btn"
+        data-id="${patient.user_id}"
+      >
+        Lisää potilaaksi
+      </button>
+
+      <hr>
+
+    </div>
+
+  `).join("");
+
+  dialog.showModal();
+
+  const addButtons =
+    container.querySelectorAll(".add-patient-btn");
+
+  addButtons.forEach((btn) => {
+
+    btn.addEventListener("click", async () => {
+
+      const patientId = btn.dataset.id;
+
+      try {
+
+        await addPatientToDoctor(patientId);
+
+        btn.disabled = true;
+        btn.textContent = "Lisätty";
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert("Potilaan lisääminen epäonnistui");
+
+      }
+
+    });
+
+  });
+
+};
+
+const initAllPatientsDialog = () => {
+
+  const dialog =
+    document.querySelector(".all-patients-dialog");
+
+  const closeBtn =
+    document.querySelector("#close-all-patients");
+
+  if (!dialog || !closeBtn) return;
+
+  closeBtn.addEventListener("click", () => {
+    dialog.close();
+  });
+
+};
+
+const getAllPatientsButton =
+  document.querySelector(".get_all_patients");
+
+document.addEventListener("DOMContentLoaded", () => {
+  initDialog();
+  initAllPatientsDialog();
+});
 
 // EVENT LISTENER
 if (getUsersButton) {
   getUsersButton.addEventListener("click", getUsers);
+}
+
+if (getAllPatientsButton) {
+
+  getAllPatientsButton.addEventListener(
+    "click",
+    async () => {
+
+      try {
+
+        const response =
+          await getAllPatients();
+
+        const patients =
+          response.users ||
+          response.data ||
+          response;
+
+        renderAllPatientsDialog(patients);
+
+      } catch (error) {
+
+        console.error(error);
+
+      }
+
+    }
+  );
+
 }
 
 const getEntriesByUserId = async (id) => {
@@ -314,6 +657,3 @@ const getKubiosDataByUserId = async (id) => {
     }
   );
 };
-
-console.log("PATIENT:", patient);
-console.log("KUBIOS:", kubiosData);

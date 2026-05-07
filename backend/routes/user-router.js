@@ -8,7 +8,9 @@ import {
   putUserById,
   deleteUserById,
   getPatients,
-  updateIsNew
+  updateIsNew,
+  AllPatients,
+  updateDoctor
 } from '../controllers/user-controller.js';
 import {authenticateToken} from '../middlewares/authentication.js';
 import {kubiospostLogin, kubiosgetMe} from '../controllers/kubios-auth-controller.js';
@@ -33,9 +35,13 @@ userRouter.get('/me', authenticateToken, getMe);
 
 userRouter.get('/kubiosme', authenticateToken, kubiosgetMe);
 
-userRouter.get('/patients/:id', getPatients);
+userRouter.get('/patients/:id',authenticateToken, getPatients);
+
+userRouter.get('/patients', AllPatients);
 
 userRouter.put('/newuser/:id',authenticateToken, updateIsNew);
+
+userRouter.put("/patients/:id/doctor",authenticateToken, updateDoctor);
 
 // TODO: get user by id
 // app.get('/api/users/:id');
