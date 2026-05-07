@@ -267,10 +267,16 @@ nav ul {
 
 /* AKTIIVINEN SIVU */
 .navlink.selected {
-  color: #1f2937;        /* musta */
-  font-size: 18px;       /* isompi */
+  color: #1f2937;
+  font-size: 18px;
   font-weight: 600;
   border-bottom: none;
+}
+
+.navlink.selected span {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
 }
 
 /* LOGO VASEMMALLE */
@@ -305,8 +311,8 @@ nav ul {
   border-radius: 20px;
 
   background:
-    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
-    url("placeholder");
+  linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)),
+    url("../img/etusivu.jpg");
 
   background-size: cover;
   background-position: center;
@@ -398,7 +404,7 @@ margin-top:60px;
 
 .about-us {
   margin-top: 80px;
-  padding: 60px;
+  padding: 40px 60px;
   border-radius: 20px;
 
   background: white;
@@ -406,6 +412,28 @@ margin-top:60px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.08);
 
   line-height: 1.7;
+}
+
+.about-text {
+  width: 65%;
+  z-index: 2;
+}
+
+.about-text h2 {
+  margin-bottom: 25px;
+}
+
+.about-us {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-image {
+  position: absolute;
+  right: 40px;
+  bottom: 0;
+
+  width: 320px;
 }
 
 /*********************/
@@ -973,4 +1001,360 @@ body > nav {
 
 .tsq-entry {
   margin-bottom: 1rem;
+}
+
+/* =======================
+   Päiväkirjamerkintäkortit – moderni tyyli
+======================= */
+
+/* Korttialue */
+.diary-card-area {
+
+  display: flex !important;
+  flex-wrap: wrap;
+
+  gap: 28px;
+
+  justify-content: flex-start;
+
+  align-items: flex-start;
+
+  padding: 0 10px 30px 10px;
+
+  margin-top: 0 !important;
+}
+
+/* Yksittäinen kortti */
+.diary-card {
+
+  background: #ffffff !important;
+
+  color: #1f2937 !important;
+
+  width: 240px !important;
+
+  padding: 24px !important;
+
+  border-radius: 22px !important;
+
+  /* pehmeä varjo */
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08) !important;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease !important;
+}
+
+/* Hover-animaatio */
+.diary-card:hover {
+
+  transform: translateY(-10px);
+
+  box-shadow: 0 22px 45px rgba(0,0,0,0.13) !important;
+}
+
+/* Päivämäärä */
+.diary-card h3 {
+
+  font-size: 30px;
+
+  font-weight: 700;
+
+  margin-bottom: 10px;
+
+  color: #1f2937;
+}
+
+/* Tekstit */
+.diary-card p {
+
+  font-size: 17px;
+
+  line-height: 1.5;
+
+  margin: 0;
+
+  color: #374151;
+}
+
+/* Korostetut tekstit */
+.diary-card strong {
+  color: #111827;
+}
+
+/* =======================
+   Korttien napit
+======================= */
+
+.diary-card button {
+
+  border: none !important;
+
+  border-radius: 16px !important;
+
+  padding: 14px 18px !important;
+
+  margin-top: 8px;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  color: white !important;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Hover */
+.diary-card button:hover {
+
+  transform: translateY(-3px);
+
+  opacity: 0.92;
+}
+
+/* Muokkaa-nappi */
+.diary-card button:first-of-type {
+
+  background:
+    linear-gradient(135deg, #4fd1c5, #63b3ed) !important;
+
+  box-shadow:
+    0 10px 20px rgba(79,209,197,0.25);
+}
+
+/* Poista-nappi */
+.diary-card button:last-of-type {
+
+  background:
+    linear-gradient(135deg, #ef4444, #dc2626) !important;
+
+  box-shadow:
+    0 10px 20px rgba(239,68,68,0.25);
+}
+
+/* =======================
+   Päiväkirjalomake – moderni tyyli
+======================= */
+
+/* Päiväkirjalomakkeen päälaatikko */
+.entry-panel {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 42px;
+
+  /* pehmeä varjo */
+  box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+}
+
+/* Lomakkeen otsikko */
+.entry-panel h2 {
+  font-size: 35px;
+  margin-bottom: 30px;
+
+  color: #1f2937 !important;
+  font-weight: 700;
+}
+
+/* Lomakkeen kysymystekstit / labelit */
+.entry-form label {
+  font-size: 17px;
+  font-weight: 600;
+
+  color: #374151 !important;
+
+  margin-bottom: 8px;
+}
+
+/* Input-kentät + textarea */
+.entry-form input,
+.entry-form textarea {
+
+  width: 100%;
+
+  padding: 18px 20px;
+
+  border-radius: 16px;
+  border: 1px solid #d6dde7;
+
+  /* kevyt harmaa tausta */
+  background: #f9fbfd;
+
+  font-size: 18px;
+  color: #1f2937;
+
+  transition: all 0.2s ease;
+}
+
+/* Kun käyttäjä klikkaa kenttää */
+.entry-form input:focus,
+.entry-form textarea:focus {
+
+  outline: none;
+
+  /* korostusväri */
+  border-color: #67d4df;
+
+  /* glow-efekti */
+  box-shadow: 0 0 0 4px rgba(103,212,223,0.15);
+
+  background: white;
+}
+
+/* Isompi tekstikenttä muistiinpanoille */
+.entry-form textarea {
+
+  min-height: 180px;
+
+  resize: vertical;
+
+  line-height: 1.6;
+}
+
+/* Lähetä / Lisää merkintä -nappi */
+.entry-form button[type="submit"] {
+
+  margin-top: 14px;
+
+  /* sama gradientti kuin hengitysharjoituksessa */
+  background: linear-gradient(135deg, #4fd1c5, #63b3ed);
+
+  color: white;
+
+  border: none;
+  border-radius: 16px;
+
+  padding: 16px;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+/* Hover-animaatio */
+.entry-form button[type="submit"]:hover {
+
+  transform: translateY(-3px);
+
+  opacity: 0.92;
+
+  box-shadow: 0 12px 24px rgba(103,212,223,0.3);
+}
+
+/* Hae päiväkirjamerkinnät -nappi */
+.get_entries {
+
+  background: linear-gradient(135deg, #4fd1c5, #63b3ed);
+
+  color: white;
+
+  border: none;
+  border-radius: 12px;
+
+  padding: 10px 18px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  margin-bottom: 24px;
+
+  transition: all 0.2s ease;
+}
+
+/* Hover-efekti */
+.get_entries:hover {
+
+  transform: translateY(-2px);
+
+  opacity: 0.92;
+}
+
+/*********************/
+/* Hengitysharjoituksen nappi */
+
+.breathing-btn {
+
+  /* Väli ylös */
+  margin-top: 10px;
+
+  /* Väli alas ennen seuraavaa osiota */
+  margin-bottom: 35px;
+
+  /* Gradienttitausta */
+  background:
+    linear-gradient(135deg, #4fd1c5, #63b3ed) !important;
+
+  /* Tekstin väri */
+  color: white !important;
+
+  /* Poistaa oletusreunan */
+  border: none !important;
+
+  /* Pyöristetyt reunat */
+  border-radius: 18px !important;
+
+  /* Sisäinen väli */
+  padding: 14px 28px !important;
+
+  /* Tekstin koko */
+  font-size: 20px !important;
+
+  /* Paksumpi teksti */
+  font-weight: 700 !important;
+
+  /* Näyttää käden hoverissa */
+  cursor: pointer;
+
+  /* Pehmeä animaatio */
+  transition: all 0.25s ease;
+}
+
+/* Hover-efekti */
+.breathing-btn:hover {
+
+  /* Nappi nousee hieman */
+  transform: translateY(-4px);
+
+  /* Kevyt läpinäkyvyys */
+  opacity: 0.92;
+}
+
+/*********************/
+/* Hengitysharjoitus spacing */
+
+.breathing-intro {
+
+  /* pieni väli otsikon alle */
+  margin-top: 12px;
+}
+
+/* Tekstikappaleiden välit */
+.breathing-intro p {
+
+  margin-bottom: 10px;
+}
+
+/* Aloita harjoitus -nappi */
+.breathing-btn {
+
+  /* pieni väli tekstin jälkeen */
+  margin-top: 8px;
+
+  /* pieni väli ennen seuraavaa osiota */
+  margin-bottom: 30px;
 }
