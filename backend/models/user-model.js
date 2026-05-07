@@ -13,7 +13,7 @@ const getAllUsers = async () => {
 // GET /api/users/:id
 const findUserById = async (id) => {
   const sql = `
-    SELECT user_id, email, created_at, role_id, isNew
+    SELECT user_id, email, name, created_at, role_id, isNew
     FROM Users
     WHERE user_id = ?
   `;

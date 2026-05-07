@@ -24,15 +24,14 @@ const renderUsers = (users) => {
     const row = document.createElement("tr");
 
     row.innerHTML = `
-      <td>${user.name}</td>
-      <td>${user.email}</td>
-      <td>
-        <button class="info-btn" data-id="${user.user_id}">
-          Info
-        </button>
-      </td>
-      <td>${user.user_id}</td>
-    `;
+  <td>${user.name}</td>
+
+  <td>
+    <button class="info-btn" data-id="${user.user_id}">
+      Avaa tiedot
+    </button>
+  </td>
+`;
 
     tableBody.appendChild(row);
   });
@@ -102,7 +101,6 @@ const getTSQByUserId = async (id) => {
   patientInfo.innerHTML = `
     <p><strong>Nimi:</strong> ${patient.name}</p>
     <p><strong>Email:</strong> ${patient.email}</p>
-    <p><strong>ID:</strong> ${patient.user_id}</p>
   `;
 
   // FIX: pakota arrayksi
@@ -117,8 +115,8 @@ const getTSQByUserId = async (id) => {
   } else {
     tsqInfo.innerHTML = tsqArray.map(entry => `
       <div class="tsq-entry">
-        <p><strong>Pisteet:</strong> ${entry.points}</p>
-        <p><small>${entry.created_at}</small></p>
+        <p><strong>Traumaseulontakysenlyn Pisteet:</strong> ${entry.points}</p>
+        <p><strong>Vastattu: </strong><small>${new Date(entry.created_at).toLocaleDateString("fi-FI")}</small></p>
       </div>
     `).join("");
   }
@@ -127,48 +125,38 @@ const getTSQByUserId = async (id) => {
 const entryHtml =
   !entries || entries.length === 0
     ? "<p>Ei päiväkirjamerkintöjä</p>"
-    : entries.map(entry => `
-        <div class="tsq-entry">
+    : entries.map((entry, index) => {
 
-          <p><strong>Päivämäärä:</strong>
-            ${new Date(entry.created_at).toLocaleDateString('fi-FI')}
-          </p>
+        const date = new Date(
+          entry.created_at || entry.entry_date
+        ).toLocaleDateString("fi-FI");
 
-          <p><strong>Paino:</strong>
-            ${entry.weight ?? "-"} kg
-          </p>
+        return `
+          <div class="entry-card" data-index="${index}">
 
-          <p><strong>Uni:</strong>
-            ${entry.sleep ?? "-"} h
-          </p>
+            <p>
+              <strong>Päivämäärä:</strong> ${date}
+            </p>
 
-          <p><strong>Energiataso:</strong>
-            ${entry.energy ?? "-"} / 10
-          </p>
+            <button class="toggle-entry-btn" data-index="${index}">
+              Näytä vastaukset
+            </button>
 
-          <p><strong>Stressitaso:</strong>
-            ${entry.stress ?? "-"} / 10
-          </p>
+            <div class="entry-details hidden">
+              <p><strong>Paino:</strong> ${entry.weight ?? "-"}</p>
+              <p><strong>Uni:</strong> ${entry.sleep ?? "-"}</p>
+              <p><strong>Energia:</strong> ${entry.energy ?? "-"}</p>
+              <p><strong>Stressi:</strong> ${entry.stress ?? "-"}</p>
+              <p><strong>Mieliala:</strong> ${entry.mood ?? "-"}</p>
+              <p><strong>Oireet:</strong> ${entry.symptoms ?? "-"}</p>
+              <p><strong>Lääkitys:</strong> ${entry.medication ?? "-"}</p>
+              <p><strong>Muistiinpanot:</strong> ${entry.notes ?? "-"}</p>
+            </div>
 
-          <p><strong>Mieliala:</strong>
-            ${entry.mood ?? "-"}
-          </p>
-
-          <p><strong>Oireet:</strong>
-            ${entry.symptoms ?? "-"}
-          </p>
-
-          <p><strong>Lääkitys:</strong>
-            ${entry.medication ?? "-"}
-          </p>
-
-          <p><strong>Muistiinpanot:</strong>
-            ${entry.notes ?? "-" }
-          </p>
-
-          <hr>
-        </div>
-      `).join("");
+            <hr>
+          </div>
+        `;
+      }).join("");
 
 tsqInfo.innerHTML += `
   <hr>
@@ -176,13 +164,28 @@ tsqInfo.innerHTML += `
   ${entryHtml}
 `;
 
+tsqInfo.addEventListener("click", (e) => {
+  const btn = e.target.closest(".toggle-entry-btn");
+  if (!btn) return;
+
+  const card = btn.closest(".entry-card");
+  const details = card.querySelector(".entry-details");
+
+  const isHidden = details.classList.contains("hidden");
+
+  details.classList.toggle("hidden");
+
+  btn.textContent = isHidden
+    ? "Piilota vastaukset"
+    : "Näytä vastaukset";
+});
+
 
 const kubiosArray = Array.isArray(kubiosData)
   ? kubiosData
   : kubiosData?.results || [];
 
-const latestKubios =
-  kubiosData?.results?.[0];
+const latestKubios = kubiosArray[0];
 
 if (latestKubios) {
 
