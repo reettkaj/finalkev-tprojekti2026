@@ -1,6 +1,6 @@
 import fetch, { Headers } from 'node-fetch';
 // import { customError } from '../middlewares/error-handler.js';
-import { insertKubiosResults } from '../models/kubios-model.js';
+import { insertKubiosResults, fetchKubiosDataForUser } from '../models/kubios-model.js';
 
 const baseUrl = process.env.KUBIOS_API_URI;
 
@@ -134,4 +134,25 @@ const getUserInfo = async (req, res, next) => {
   }
 };
 
-export { getUserData, getUserInfo };
+const getKubiosDataByUserId = async (req, res) => {
+
+  const userId = req.params.id;
+
+  try {
+
+    const data =
+      await fetchKubiosDataForUser(userId);
+
+    res.json(data);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "Kubios data fetch failed"
+    });
+  }
+};
+
+export { getUserData, getUserInfo, getKubiosDataByUserId };

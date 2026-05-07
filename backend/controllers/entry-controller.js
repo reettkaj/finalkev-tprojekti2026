@@ -1,4 +1,4 @@
-import {listAllEntries, findEntryById, addEntry, listEntriesByUserId} from "../models/entry-model.js";
+import {listAllEntries, findEntryById, addEntry, listEntriesByUserId, modifyEntry, removeEntry} from "../models/entry-model.js";
 
 const getEntries = async (req, res) => {
   // Kutsutaan modelin funktiota, joka hakee kaikki merkinnät
@@ -29,7 +29,7 @@ const getEntryById = async (req, res) => {
 
 const postEntry = async (req, res) => {
   try {
-    const user_id = req.user.userId; // 🔒 tokenista, ei frontendista
+    const user_id = req.user.userId; // tokenista, ei frontendista
 
     const {
       entry_date,
@@ -73,14 +73,59 @@ const entry = {
   }
 };
 
-const putEntry = (req, res) => {
-  // placeholder for future implementation
-  res.sendStatus(200);
+const putEntry = async (req, res) => {
+  try {
+    const user_id = req.user.userId;
+
+    const entry = {
+      created_at: req.body.entry_date,
+      weight: req.body.weight,
+      sleep: req.body.sleep_hours,
+      energy: req.body.energy_level,
+      stress: req.body.stress_level,
+      mood: req.body.mood,
+      symptoms: req.body.symptom,
+      medication: req.body.medication,
+      notes: req.body.notes
+    };
+
+    const result = await modifyEntry(
+      entry,
+      req.params.id,
+      user_id
+    );
+
+    if (result.error) {
+      return res.status(500).json(result);
+    }
+
+    res.json({ message: "entry updated" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "server error" });
+  }
 };
 
-const deleteEntry = (req, res) => {
-  // placeholder for future implementation
-  res.sendStatus(200);
+const deleteEntry = async (req, res) => {
+  try {
+    const user_id = req.user.userId;
+
+    const result = await removeEntry(
+      req.params.id,
+      user_id
+    );
+
+    if (result.error) {
+      return res.status(500).json(result);
+    }
+
+    res.json({ message: "entry deleted" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "server error" });
+  }
 };
 
 const getEntriesByUser = async (req, res) => {

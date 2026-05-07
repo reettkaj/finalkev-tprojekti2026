@@ -105,7 +105,78 @@ const listEntriesByUserId = async (id) => {
   }
 };
 
-export {listAllEntries, findEntryById, addEntry, listEntriesByUserId};
+// Päivitä merkintä
+const modifyEntry = async (entry, id, user_id) => {
+  const {
+    created_at,
+    weight,
+    sleep,
+    energy,
+    stress,
+    mood,
+    symptoms,
+    medication,
+    notes
+  } = entry;
+
+  const sql = `
+    UPDATE DiaryEntries
+    SET
+      created_at = ?,
+      weight = ?,
+      sleep = ?,
+      energy = ?,
+      stress = ?,
+      mood = ?,
+      symptoms = ?,
+      medication = ?,
+      notes = ?
+    WHERE id = ? AND user_id = ?
+  `;
+
+  const params = [
+    created_at,
+    weight,
+    sleep,
+    energy,
+    stress,
+    mood,
+    symptoms,
+    medication,
+    notes,
+    id,
+    user_id
+  ];
+
+  try {
+    const [result] = await promisePool.execute(sql, params);
+    return result;
+  } catch (e) {
+    console.error(e.message);
+    return { error: e.message };
+  }
+};
+
+// Poista merkintä
+const removeEntry = async (id, user_id) => {
+  try {
+    const sql = `
+      DELETE FROM DiaryEntries
+      WHERE id = ? AND user_id = ?
+    `;
+
+    const [result] = await promisePool.execute(sql, [id, user_id]);
+
+    return result;
+  } catch (e) {
+    console.error(e.message);
+    return { error: e.message };
+  }
+};
+
+export {
+  listAllEntries, findEntryById, addEntry, listEntriesByUserId, modifyEntry, removeEntry
+};
 
 // ChatGPT:tä hyödynnettiin:
 // - SELECT- ja INSERT-lauseiden kirjoittamisessa

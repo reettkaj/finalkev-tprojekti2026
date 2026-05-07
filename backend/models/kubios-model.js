@@ -30,4 +30,35 @@ for (const entry of results) {
 }
 };
 
-export { insertKubiosResults };
+const fetchKubiosDataForUser = async (userId) => {
+
+  const sql = `
+    SELECT *
+    FROM kubios_results
+    WHERE user_id = ?
+    ORDER BY date DESC
+  `;
+
+  try {
+
+    const [rows] =
+      await promisePool.execute(sql, [userId]);
+
+    return {
+      results: rows
+    };
+
+  } catch (error) {
+
+    console.error(error);
+
+    return {
+      error: error.message
+    };
+  }
+};
+
+export {
+  insertKubiosResults,
+  fetchKubiosDataForUser
+};
