@@ -1,0 +1,212 @@
+<!-- Sivuston layout inspiraatio -->
+<!-- https://dribbble.com/shots/23369008-Gym-Fitness-Landing-Page -->
+ <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="On tärkeää että pidät huolta itsestäsi. Seuraa treeniohjeitamme, tarkastele terveyttäsi
+      HRV tiedon avulla ja voi kokonaisvaltaisesti hyvin. Suuntaa nyt hyvinvointia ja uutta
+      elämääsi kohti."
+    />
+    <link rel="stylesheet" href="/css/style.css">
+    <title>PTSD- ja hyvinvointiseurantasovellus</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,300&family=Roboto+Slab:wght@100;200;300;400;500;600;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!---------------->
+    <!-- Navigation -->
+
+    <nav>
+
+  <!-- LOGO -->
+  <a href="etusivu.html" id="logo">
+    PTSD- ja hyvinvointiseurantasovellus
+  </a>
+
+  <!-- NAV LINKIT -->
+  <ul>
+    <li><a href="hrv.html" class="navlink">♡<span>HRV-tiedot</span></a></li>
+    <li><a href="hengitysharjoitus.html" class="navlink">⌁<span>Hengitysharjoitus</span></a></li>
+    <li><a href="paivakirja.html" class="navlink">▤<span>Oirepäiväkirja</span></a></li>
+  <li class="navlink user-menu">
+  <span id="username-display">Vieras</span>
+
+  <ul class="dropdown">
+    <li><a href="asetukset.html">Profiili</a></li>
+    <li><button id="logout-btn">Kirjaudu ulos</button></li>
+  </ul>
+</li>
+    </nav>
+
+
+
+    <div id="taustakuva"></div>
+    <div id="hero">
+
+<div class="hero-text">
+<h1>Hallitse <span>PTSD</span> oireitasi ammattilaisen avustamana</h1>
+
+</div>
+</div>
+    <main>
+
+      <div id="tsq-overlay" class="tsq-overlay hidden">
+        <div class="tsq-modal">
+          <h2>Pakollinen kysely</h2>
+
+          <p class="tsq-intro">
+            Vastaa kaikkiin kysymyksiin ennen kuin voit jatkaa.
+          </p>
+
+          <form id="tsq-form">
+            <div class="tsq-question">
+                  <p>1. Järkyttäviä ajatuksia tai muistoja tapahtumasta, jotka ovat tulleet mieleesi oman tahtosi vastaisesti.</p>
+                  <label><input type="radio" name="tsq1" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq1" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>2. Järkyttäviä unia tapahtumasta.</p>
+                  <label><input type="radio" name="tsq2" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq2" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>3. Toimimista tai tunnetta ikään kuin traumaattinen kokemus tapahtuisi uudelleen.</p>
+                  <label><input type="radio" name="tsq3" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq3" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>4. Tapahtumasta muistuttavien tekijöiden aiheuttamaa järkytyksen tunnetta.</p>
+                  <label><input type="radio" name="tsq4" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq4" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>5. Ruumiillisia reaktioita (kuten nopea sydämen syke, vatsan väänteet, hikoilu, huimaus) jonkin muistutettaessa tapahtumasta.</p>
+                  <label><input type="radio" name="tsq5" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq5" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>6. Vaikeutta nukahtaa tai pysyä unessa.</p>
+                  <label><input type="radio" name="tsq6" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq6" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>7. Ärtyisyyttä tai vihan purkauksia.</p>
+                  <label><input type="radio" name="tsq7" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq7" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>8. Keskittymisvaikeuksia.</p>
+                  <label><input type="radio" name="tsq8" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq8" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>9. Voimistunutta tietoisuutta mahdollisista vaaroista itsellesi tai toisille.</p>
+                  <label><input type="radio" name="tsq9" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq9" value="ei" /> Ei</label>
+                </div>
+
+                <div class="tsq-question">
+                  <p>10. Hermostuneisuutta tai säikkymistä jotain odottamatonta kohtaan.</p>
+                  <label><input type="radio" name="tsq10" value="kylla" /> Kyllä</label>
+                  <label><input type="radio" name="tsq10" value="ei" /> Ei</label>
+                </div>
+
+            <button type="submit">Lähetä</button>
+          </form>
+        </div>
+      </div>
+
+
+      <section class="info-area" id="info">
+        <div id="info-text">
+          Miten
+          <span class="main_cl">PTSD- ja hyvinvointiseurantasovellus</span>
+          auttaa sinua hyvinvointisi seuraamisessa
+        </div>
+      </section>
+
+      <section class="features">
+
+<div class="feature-card">
+
+<h3>HRV-tiedot</h3>
+
+<p>
+Tarkastele palautumistasi ja stressitasojasi helposti Kubios-datan avulla.
+</p>
+
+</div>
+<div class="feature-card">
+<h3>Hengitysharjoitus</h3>
+<p>
+Tee rauhoittava harjoitus ylivireyden ja stressin hallintaan. 
+</p>
+</div>
+<div class="feature-card">
+<h3>Oirepäiväkirja</h3>
+<p>
+Kirjaa päivittäinen hyvinvointisi ja seuraa
+kehitystä pitkällä aikavälillä.
+</p>
+
+</div>
+
+</section>
+
+<section class="about-us" id="contact">
+
+  <div class="about-text">
+    <h2>Tukea palautumiseen ja arjen hallintaan</h2>
+
+    <p>
+      Pitkittynyt stressi ja traumaattiset kokemukset voivat vaikuttaa
+      hyvinvointiin monin eri tavoin.
+    </p>
+
+    <p>
+      Sovelluksen avulla voit seurata oireita, harjoitella rauhoittavaa
+      hengitystä ja tarkastella palautumista HRV-mittausten avulla.
+    </p>
+
+    <p>
+      Pienet hyvinvointia tukevat rutiinit voivat auttaa vahvistamaan
+      turvallisuuden tunnetta ja tukemaan arjen tasapainoa.
+    </p>
+  </div>
+
+  <img src="/img/ptsd1.jpg" alt="Hyvinvointi" class="about-image">
+
+</section>
+    </main>
+    <footer>
+      <p>Copyright, RK</p>
+    </footer>
+    <dialog class="diary_dialog">
+  <h2>Päiväkirjamerkintä</h2>
+  <div class="diary_id"></div>
+  <button>Sulje</button>
+</dialog>
+  </body>
+  <script type="module" src="js/loggedUser.js"></script>
+  <script type="module" src="js/navbar.js"></script>
+  <script type="module" src="js/tsq.js"></script>
+</html>

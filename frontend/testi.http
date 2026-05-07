@@ -36,9 +36,9 @@ POST {{apiurl}}/users
 Content-Type: application/json
 
 {
-  "username": "reettkaj@metropolia.fi",
-  "password": "Fenix184!",
-  "email": "reettkaj@metropolia.fi"
+  "username": "joku@gmail.com",
+  "password": "joku",
+  "email": "joku@gmail.com"
 }
 
 ### Register new user FAIL (email missing)
@@ -46,8 +46,8 @@ POST {{apiurl}}/users
 Content-Type: application/json
 
 {
-  "username": "reettkaj@metropolia.fi",
-  "password": "Fenix184!"
+  "username": "joku@metropolia.fi",
+  "password": "joku"
 }
 
 ### User login
@@ -55,8 +55,8 @@ POST {{apiurl}}/users/login
 Content-Type: application/json
 
 {
-  "username": "reettkaj@metropolia.fi",
-  "password": "Fenix184!"
+  "username": "joku@metropolia.fi",
+  "password": "joku"
 }
 
 ### Get user info by token

@@ -16,7 +16,7 @@ const fetchData = async (url, options = {}) => {
     // poistetaan token
     localStorage.removeItem("token");
     // ohjataan login sivulle
-    window.location.href = "login.html";
+    window.location.href = "index.html";
     return;
   }
 let data;

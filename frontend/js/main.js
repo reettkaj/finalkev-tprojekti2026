@@ -1,10 +1,17 @@
 import '../css/style.css';
 import '../css/mobile.css';
 
-let name = localStorage.getItem('name');
+document.getElementById("showPatientLogin").addEventListener("click", function () {
+    document.querySelector(".PatientloginForm").classList.remove("hidden");
+    document.querySelector(".ProfessionalLoginForm").classList.add("hidden");
+  });
+  
+document.getElementById("showProfessionalLogin").addEventListener("click", function () {
+    document.querySelector(".ProfessionalLoginForm").classList.remove("hidden");
+    document.querySelector(".PatientloginForm").classList.add("hidden");
+  });
 
-const usernameElement = document.querySelector('.username');
-
-if (usernameElement) {
-  usernameElement.textContent = name ? name : 'vieras';
-}
+document.addEventListener("DOMContentLoaded", () => {
+    const ProfessionalLoginForm = document.querySelector(".ProfessionalLoginForm");
+    
+});

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Asetukset</title>
+</head>
+
+<body>
+
+    <nav>
+      <ul>
+        <li><a href="ammattilaissivut.html" id="logo">PTSD- ja hyvinvointiseurantasovellus</a></li>
+    <li><a href="ammattilaissivut.html" class="navlink">Koti</a></li>
+    <li class="navlink user-menu" id="user-menu">
+  <span id="username-display" class="navlink selected">Vieras</span>
+
+  <ul id="dropdown" class="dropdown hidden">
+    <li><a href="profiili.html">Profiili</a></li>
+    <li><button id="logout-btn">Kirjaudu ulos</button></li>
+  </ul>
+</li>
+      </ul>
+      <span class="header-links"></span>
+  
+    </nav>
+
+<main class="page">
+  <h1>Asetukset</h1>
+
+<div class="settings-card">
+  <button class="delete-user">Poista käyttäjä</button>
+</div>
+
+
+</main>
+<script type="module" src="js/login.js"></script>
+<script type="module" src="js/loggedUser.js"></script>
+<script type="module" src="js/navbar.js"></script>
+ <script type="module" src="js/settings.js"></script>
+</body>
+</html>

@@ -34,6 +34,7 @@
       <li><a href="asetukset.html" class="navlink">Asetukset</a></li>
     </ul>
 
+<<<<<<< HEAD
     <div class="user-area">
       Hei Käyttäjä: <span class="username">Vieras</span>
       <span id="authButtons"></span>
@@ -144,10 +145,128 @@
             placeholder="Kuvaile vointiasi, tapahtumia, mahdollisia laukaisijoita tai muita huomioita..."
           ></textarea>
 
+=======
+  <nav>
+
+  <!-- LOGO -->
+  <a href="etusivu.html" id="logo">
+    PTSD- ja hyvinvointiseurantasovellus
+  </a>
+
+  <!-- NAV LINKIT -->
+  <ul>
+    <li><a href="hrv.html" class="navlink">♡<span>HRV-tiedot</span></a></li>
+    <li><a href="hengitysharjoitus.html" class="navlink">⌁<span>Hengitysharjoitus</span></a></li>
+    <li><a href="paivakirja.html" class="navlink selected">▤<span>Oirepäiväkirja</span></a></li>
+    <li class="user-menu">
+  <span id="username-display" >Vieras</span>
+
+  <ul class="dropdown">
+    <li><a href="asetukset.html">Profiili</a></li>
+    <li><button id="logout-btn">Kirjaudu ulos</button></li>
+  </ul>
+</li>
+  </ul>
+
+
+    <!-- USER AREA -->
+    <div class="user-area">
+      Hei Käyttäjä: <span class="username">Vieras</span>
+      <span id="authButtons"></span>
+    </div>
+
+  </nav>
+
+  <main class="diary-page">
+    <h2></h2>
+
+    <div class="diary-layout">
+      <div class="entry-panel">
+        <button class="get_entries">Hae päiväkirjamerkinnät</button>
+
+        <h2>Lisää päiväkirjamerkintä</h2>
+
+        <form class="entry-form">
+          <label for="entry_date">Päivämäärä:</label>
+          <input id="entry_date" type="date" name="entry_date" required />
+
+          <label for="weight">Paino:</label>
+          <input
+            id="weight"
+            type="number"
+            name="weight"
+            placeholder="esim. 68.5"
+            required
+          />
+
+          <label for="sleep_hours">Kuinka monta tuntia nukuit viime yönä?</label>
+          <input
+            id="sleep_hours"
+            type="number"
+            name="sleep_hours"
+            placeholder="esim. 7"
+            required
+          />
+
+          
+
+
+          <label for="energy_level">Energiataso:</label>
+          <input
+            id="energy_level"
+            type="number"
+            name="energy_level"
+            placeholder="1 = erittäin matala, 10 = erittäin hyvä"
+          />
+
+
+
+          <label for="stress_level">Stressitaso:</label>
+          <input
+            id="stress_level"
+            type="number"
+            name="stress_level"
+            placeholder="1 = matala, 10 = erittäin korkea"
+          />
+
+          <label for="mood">Millainen olosi on tänään?</label>
+          <input
+            id="mood"
+            type="text"
+            name="mood"
+            placeholder="esim. ahdistunut, rauhallinen, väsynyt"
+            required
+          />
+
+          <label for="symptom">Onko sinulla ollut oireita?</label>
+          <input
+            id="symptom"
+            type="text"
+            name="symptom"
+            placeholder="esim. ahdistus, univaikeudet, ylivireys"
+          />
+
+          <label for="medication">Käytitkö lääkitystä tänään?</label>
+          <input
+            id="medication"
+            type="text"
+            name="medication"
+            placeholder="kirjoita tarvittaessa"
+          />
+
+          <label for="notes">Haluatko kirjoittaa päivästäsi tarkemmin?</label>
+          <textarea
+            id="notes"
+            name="notes"
+            placeholder="Kuvaile vointiasi, tapahtumia, mahdollisia laukaisijoita tai muita huomioita..."
+          ></textarea>
+
+>>>>>>> be50c675a08e70d8145befe24ba79e3ea7859bc7
           <button type="submit">Lisää merkintä</button>
         </form>
       </div>
 
+<<<<<<< HEAD
       <aside class="tsq-panel">
         <button type="button" id="toggle-tsq" class="tsq-toggle">
           Psyykkisten traumaoireiden seulontakysely (TSQ)
@@ -220,6 +339,8 @@
         </div>
       </aside>
     </div>
+=======
+>>>>>>> be50c675a08e70d8145befe24ba79e3ea7859bc7
 
     <section class="diary-card-area">
       <!-- Kortit luodaan JavaScriptillä -->

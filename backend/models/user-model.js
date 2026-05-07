@@ -3,7 +3,7 @@ import promisePool from '../utils/database.js';
 // GET /api/users
 const getAllUsers = async () => {
   const sql = `
-    SELECT user_id, username, email, created_at, user_level
+    SELECT user_id, email, name, created_at
     FROM Users
   `;
   const [rows] = await promisePool.execute(sql);
@@ -11,9 +11,9 @@ const getAllUsers = async () => {
 };
 
 // GET /api/users/:id
-const getUserById = async (id) => {
+const findUserById = async (id) => {
   const sql = `
-    SELECT user_id, username, email, created_at, user_level
+    SELECT user_id, email, name, created_at, role_id, isNew
     FROM Users
     WHERE user_id = ?
   `;
@@ -23,17 +23,38 @@ const getUserById = async (id) => {
 
 // POST /api/users
 const addUser = async (user) => {
-  const { username, password, email } = user;
+  const { email, password, name, auth_provider, role_id } = user;
 
   const sql = `
-    INSERT INTO Users (username, password, email)
-    VALUES (?, ?, ?)
+    INSERT INTO Users (email, password, name, auth_provider, role_id, isNew)
+    VALUES (?, ?, ?, ?, ?, 0)
   `;
 
   const [result] = await promisePool.execute(sql, [
-    username,
-    password,
     email,
+    password,
+    name,
+    auth_provider,
+    role_id,
+  ]);
+
+  return { user_id: result.insertId };
+};
+
+const addPatient = async (user) => {
+  const { email, password, name, auth_provider, role_id } = user;
+
+  const sql = `
+    INSERT INTO Users (email, password, name, auth_provider, role_id, doctor_id)
+    VALUES (?, ?, ?, ?, ?, 2)
+  `;
+
+  const [result] = await promisePool.execute(sql, [
+    email,
+    password,
+    name,
+    auth_provider,
+    role_id,
   ]);
 
   return { user_id: result.insertId };
@@ -68,34 +89,95 @@ const deleteUser = async (id) => {
 };
 
 // LOGIN helper
-const findUserByUsername = async (username) => {
-  const sql = 'SELECT * FROM Users WHERE username = ?';
-  const [rows] = await promisePool.execute(sql, [username]);
-  return rows[0];
+const findUserByEmail = async (email) => {
+  try {
+    const sql = 'SELECT * FROM Users WHERE email=?';
+    const params = [email];
+    const [rows] = await promisePool.query(sql, params);
+    // console.log(rows);
+    // if nothing is found with the user id, result array is empty []
+    if (rows.length === 0) {
+      return {error: 404, message: 'user not found'};
+    }
+    // Remove password property from result
+    //delete rows[0].password;
+    return rows[0];
+  } catch (error) {
+    console.error('selectUserByEmail', error);
+    return {error: 500, message: 'db error'};
+  }
 };
 
-const findUserById = async (id) => {
-  const [rows] = await promisePool.query(
-    'SELECT user_id, username, email FROM Users WHERE user_id = ?',
-    [id]
-  );
-  return rows[0];
+const findPatients = async (id) => {
+  try {
+    const sql = 'SELECT user_id, email, name FROM Users WHERE doctor_id=?';
+    const params = [id];
+    const [rows] = await promisePool.query(sql, params);
+    if (rows.length === 0) {
+      return {error: 404, message: 'patients not found'};
+    }
+    return rows;
+  } catch (error) {
+    console.error('findPatients', error);
+    return {error: 500, message: 'db error'};
+  }
 };
 
-const listAllUsers = async () => {
-  const [rows] = await promisePool.query('SELECT * FROM Users');
+const noLongerNewUser = async (id) => {
+  const sql = 'UPDATE Users SET isNew = 0 WHERE user_id = ?';
+  const [result] = await promisePool.query(sql, [id]);
+  return result;
+};
+
+const getAllPatients = async () => {
+    const sql = `
+    SELECT user_id, email, name
+    FROM Users
+    WHERE role_id = 3
+  `;
+  const [rows] = await promisePool.execute(sql);
   return rows;
+};
+
+const changeDoctor = async (user_id, doctor_id) => {
+
+  const sql = `
+    UPDATE Users
+    SET doctor_id = ?
+    WHERE user_id = ?
+  `;
+
+  try {
+
+    const [result] = await promisePool.execute(
+      sql,
+      [doctor_id, user_id]
+    );
+
+    return result;
+
+  } catch (e) {
+
+    console.error(e.message);
+
+    return { error: e.message };
+
+  }
+
 };
 
 export {
   getAllUsers,
-  getUserById,
+  findUserById,
   addUser,
   updateUser,
   deleteUser,
-  findUserById,
-  findUserByUsername,
-  listAllUsers
+  findUserByEmail,
+  findPatients,
+  noLongerNewUser,
+  addPatient,
+  getAllPatients,
+  changeDoctor
 };
 
 // ChatGPT:tä on hyödynnetty  yleisesti user-modelissa:

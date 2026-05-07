@@ -3,202 +3,281 @@ import { fetchData } from './fetch.js';
 // Container johon päiväkirjakortit lisätään
 const diaryContainer = document.querySelector('.diary-card-area');
 
-// nappi joka hakee merkinnät
+// Nappi joka hakee merkinnät
 const getEntriesButton = document.querySelector('.get_entries');
 
-// form jolla lisätään uusi merkintä
-const form = document.querySelector(".entry-form");
+// Form jolla lisätään / muokataan merkintä
+const form = document.querySelector('.entry-form');
 
+// Tallennetaan muokattavan merkinnän id
+let editingEntryId = null;
 
+/////////////////////////////////////////////////
 // Dialog
-/////////////////////////////
+/////////////////////////////////////////////////
 
 const dialog = document.querySelector('.diary_dialog');
 const closeButton = document.querySelector('.diary_dialog button');
 
-// "Close" button closes the dialog, changed so that an eventlistener error won't occur
+// Sulje dialogi
 if (closeButton) {
   closeButton.addEventListener('click', () => {
     dialog.close();
   });
 }
 
-
+/////////////////////////////////////////////////
 // Hae päiväkirjamerkinnät backendistä
-///////////////////////////////////////
+/////////////////////////////////////////////////
+
 const getEntries = async () => {
+  const userId = localStorage.getItem('user_id');
 
-  const url = 'http://localhost:3000/api/entries';
-
-  let headers = {};
-  let token = localStorage.getItem('token');
-
-  console.log("TOKEN:", token);
-
-  // jos token löytyy lisätään se requestiin
-  if (token) {
-    headers = {
-      Authorization: `Bearer ${token}`,
-    };
-  }
-
-  const options = {
-    headers: headers,
-  };
-
-  const response = await fetchData(url, options);
-
-  if (response.error) {
-    console.error('Error fetching entries:', response.error);
+  if (!userId) {
+    console.error('user_id puuttuu');
     return;
   }
 
-  console.log("Entries response:", response);
+  const token = localStorage.getItem('token');
 
-  // Tyhjennetään vanhat kortit
+  const url = `http://localhost:3000/api/entries/user/${userId}`;
+
+  const response = await fetchData(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response || response.error) {
+    console.error('Virhe merkintöjen haussa:', response?.error);
+    return;
+  }
+
+  // Tyhjennetään container ennen uusien korttien renderöintiä
   diaryContainer.innerHTML = '';
 
   // Jos ei merkintöjä
-  if (!response || response.length === 0) {
-    diaryContainer.innerHTML = "<p>Ei päiväkirjamerkintöjä.</p>";
+  if (response.length === 0) {
+    diaryContainer.innerHTML = '<p>Ei päiväkirjamerkintöjä.</p>';
     return;
   }
 
-  // Luodaan kortit jokaisesta merkinnästä
-  /////////////////////////////////////////
-  response.forEach((entry) => {
+  console.log('RAW RESPONSE:', response);
 
+  response.forEach((entry) => {
     const card = document.createElement('div');
     card.classList.add('diary-card');
 
-    const formattedDate = new Date(entry.entry_date).toLocaleDateString();
+    const formattedDate = new Date(
+      entry.created_at
+    ).toLocaleDateString();
 
+    // Kortin sisältö
     card.innerHTML = `
-    <img src="icone-sante-violet.png"
-      class="diary-img">
       <h3>${formattedDate}</h3>
 
-      <p>Mood: ${entry.mood}</p>
-      <p>Weight: ${entry.weight} kg</p>
-      <p>Sleep: ${entry.sleep_hours} h</p>
+      <p>Mood: ${entry.mood ?? '-'}</p>
+      <p>Weight: ${entry.weight ?? '-'} kg</p>
+      <p>Sleep: ${entry.sleep ?? '-'} h</p>
 
-      <p>Energy: ${entry.energy_level}</p>
-      <p>Water: ${entry.water_liters} L</p>
-      <p>Stress: ${entry.stress_level}</p>
+      <p>Energy: ${entry.energy ?? '-'}</p>
+      <p>Stress: ${entry.stress ?? '-'}</p>
 
-      <p>Exercise: ${entry.exercise ?? "-"}</p>
-      <p>Meal: ${entry.meal ?? "-"}</p>
-      <p>Symptom: ${entry.symptom ?? "-"}</p>
-      <p>Medication: ${entry.medication ?? "-"}</p>
+      <p>Symptom: ${entry.symptoms ?? '-'}</p>
+      <p>Medication: ${entry.medication ?? '-'}</p>
 
-      <button class="open-btn">Avaa</button>
-      <button class="delete-btn">Delete</button>
+      <button class="edit-btn">Muokkaa</button>
+      <button class="delete-btn">Poista</button>
     `;
+
+    //////////////////////////////////////////////////
+    // DELETE
+    //////////////////////////////////////////////////
+
     const deleteBtn = card.querySelector('.delete-btn');
-    const button = card.querySelector('.open-btn');
 
-    // Päiväkirjamerkinnän poisto, ChatGPT auttoi
-  deleteBtn.addEventListener('click', async () => {
+    deleteBtn.addEventListener('click', async () => {
+      const confirmDelete = confirm(
+        'Poistetaanko merkintä?'
+      );
 
-    const confirmDelete = confirm("Oletko varma että haluat poistaa merkinnän?");
-    if (!confirmDelete) return;
+      if (!confirmDelete) return;
 
-    try {
+      try {
+        const response = await fetchData(
+          `http://localhost:3000/api/entries/${entry.id}`,
+          {
+            method: 'DELETE',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      const res = await fetch(`http://localhost:3000/api/entries/${entry.entry_id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
-      });
+        console.log('Poistettu:', response);
 
-      if (!res.ok) {
-        throw new Error("Delete failed");
+        // Päivitä lista
+        await getEntries();
+
+      } catch (error) {
+        console.error('Poistovirhe:', error);
       }
-
-      getEntries();
-
-    } catch (err) {
-      console.error("Delete error:", err);
-    }
-  });
-
-    // Dialog joka näyttää tarkemmat tiedot
-    button.addEventListener('click', () => {
-
-      dialog.querySelector('.diary_id').innerHTML = `
-        <p><strong>ID:</strong> ${entry.entry_id}</p>
-        <p><strong>Notes:</strong> ${entry.notes}</p>
-      `;
-
-      dialog.showModal();
     });
 
+    //////////////////////////////////////////////////
+    // EDIT
+    //////////////////////////////////////////////////
+
+    const editBtn = card.querySelector('.edit-btn');
+
+    editBtn.addEventListener('click', () => {
+
+  console.log("EDIT ENTRY:", entry);
+
+  // Tallennetaan muokattava id
+  editingEntryId = entry.id;
+
+  // Täytetään formi vanhoilla tiedoilla
+  form.querySelector('[name="entry_date"]').value =
+    new Date(entry.created_at)
+      .toISOString()
+      .split('T')[0];
+
+  form.querySelector('[name="weight"]').value =
+    entry.weight ?? '';
+
+  form.querySelector('[name="sleep_hours"]').value =
+    entry.sleep ?? '';
+
+  form.querySelector('[name="energy_level"]').value =
+    entry.energy ?? '';
+
+  form.querySelector('[name="stress_level"]').value =
+    entry.stress ?? '';
+
+  form.querySelector('[name="mood"]').value =
+    entry.mood ?? '';
+
+  form.querySelector('[name="symptom"]').value =
+    entry.symptoms ?? '';
+
+  form.querySelector('[name="medication"]').value =
+    entry.medication ?? '';
+
+  form.querySelector('[name="notes"]').value =
+    entry.notes ?? '';
+
+  // Scrollataan formiin
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+});
+
+    // Lisää kortti sivulle
     diaryContainer.appendChild(card);
   });
+};
 
-  };
+/////////////////////////////////////////////////
+// Lisää / muokkaa päiväkirjamerkintä
+/////////////////////////////////////////////////
 
-// Lisää uusi päiväkirjamerkintä
-////////////////////////////////
 const addEntry = async (event) => {
-
   event.preventDefault();
 
   const formData = new FormData(form);
 
   const entry = {
-  entry_date: formData.get("entry_date"),
-  mood: formData.get("mood"),
-  weight: formData.get("weight"),
-  sleep_hours: formData.get("sleep_hours"),
-  energy_level: formData.get("energy_level"),
-  water_liters: formData.get("water_liters"),
-  stress_level: formData.get("stress_level"),
-  exercise: formData.get("exercise"),
-  meal: formData.get("meal"),
-  symptom: formData.get("symptom"),
-  medication: formData.get("medication"),
-  notes: formData.get("notes")
+    entry_date: formData.get('entry_date'),
+    weight: parseFloat(formData.get('weight')),
+    sleep_hours: parseFloat(formData.get('sleep_hours')),
+    energy_level: formData.get('energy_level')
+      ? parseInt(formData.get('energy_level'))
+      : null,
+    stress_level: formData.get('stress_level')
+      ? parseInt(formData.get('stress_level'))
+      : null,
+    mood: formData.get('mood'),
+    symptom: formData.get('symptom') || null,
+    medication: formData.get('medication') || null,
+    notes: formData.get('notes') || null,
   };
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify(entry)
-  };
+  if (!token) {
+    console.error('Token puuttuu');
+    return;
+  }
 
-  const response = await fetchData(
-    "http://localhost:3000/api/entries",
-    options
-  );
+  try {
 
-  console.log("POST response:", response);
+    // Jos muokataan -> PUT
+    // Muuten -> POST
+    const url = editingEntryId
+      ? `http://localhost:3000/api/entries/${editingEntryId}`
+      : 'http://localhost:3000/api/entries';
 
-  // tyhjennetään form
-  form.reset();
+    const method = editingEntryId
+      ? 'PUT'
+      : 'POST';
 
-  // päivitetään lista
-  getEntries();
+    const response = await fetchData(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(entry),
+    });
+
+    if (!response || response.error) {
+      console.error(
+        'Tallennus epäonnistui:',
+        response
+      );
+
+      alert('Merkinnän tallennus epäonnistui');
+
+      return;
+    }
+
+    console.log('Tallennettu:', response);
+
+    // Resetoi edit-mode
+    editingEntryId = null;
+
+    // Tyhjennä form
+    form.reset();
+
+    // Päivitä lista
+    await getEntries();
+
+  } catch (error) {
+    console.error('Virhe:', error);
+  }
 };
 
+/////////////////////////////////////////////////
 // Event listenerit
-////////////////////
+/////////////////////////////////////////////////
 
-// nappi joka hakee merkinnät, muokattu niin ettei tule eventlistener erroria selaimeen
+// Hae merkinnät
 if (getEntriesButton) {
-  getEntriesButton.addEventListener("click", getEntries);
+  getEntriesButton.addEventListener(
+    'click',
+    getEntries
+  );
 }
 
-// form joka lisää merkinnän, sama eventlistener error prevention
+// Lisää / muokkaa merkintä
 if (form) {
-  form.addEventListener("submit", addEntry);
+  form.addEventListener(
+    'submit',
+    addEntry
+  );
 }
 
-// export jos tarvitaan muualla
+// Export jos tarvitaan muualla
 export { getEntries };

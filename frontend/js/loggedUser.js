@@ -17,8 +17,10 @@ if (usernameSpan) {
       logoutBtn.addEventListener("click", () => {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
+        localStorage.removeItem('isNew');
+        localStorage.removeItem('user_id');
 
-        window.location.href = "login.html";
+        window.location.href = "index.html";
       });
     }
 

@@ -1,6 +1,7 @@
+
 <!-- Sivuston layout inspiraatio -->
 <!-- https://dribbble.com/shots/23369008-Gym-Fitness-Landing-Page -->
- <!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -24,34 +25,40 @@
     />
   </head>
   <body>
-    <!---------------->
-    <!-- Navigation -->
+    <div class="content-container">
+        </div>
+      <div class="hero-text">
+    <h1>Hallitse <span>PTSD</span> oireitasi ammattilaisen avulla </h1>
 
-    <nav>
-      <ul>
-        <li><a href="/" id="logo">PTSD- ja hyvinvointiseurantasovellus</a></li>
-        <li>
-          <a href="#" class="selected navlink">Koti</a>
-        </li>
-        <li><a href="hrv.html" class="navlink">HRV-tiedot</a></li>
-        <li><a href="hengitys.html" class="navlink">Hengitysharjoitus</a></li>
-        <li><a href="paivakirja.html" class="navlink">Oirepäiväkirja</a></li>
-        <li><a href="asetukset.html" class="navlink">Asetukset</a></li>
-      </ul>
-      <span class="header-links"></span>
-      <div class="user-area">
-        Hei Käyttäjä: <span class="username">Vieras</span>
-        <span id="authButtons"></span>
-      </div>
-    </nav>
+    </div>
+      
+      <!-- LOGIN -->
+    <div class="PatientloginForm">
+      <h3>Kirjaudu sisään potilaana</h3>
 
-    <div id="taustakuva"></div>
-    <div id="hero">
+      <form class="PatientloginForm">
+        <label for="email">Sähköposti</label>
+        <input type="email" name="email" placeholder="esimerkki@sähköposti.fi" />
+        <label for="password">Salasana</label>
+        <input type="password" name="password" placeholder="salasana" />
+        <input name="submit" type="submit" value="Kirjaudu sisään" class="Patientloginform"/>
+      </form>
+      <button id="showProfessionalLogin">Kirjaudu sisään ammattilaisena</button>
+    </div>
 
-<div class="hero-text">
-<h1>Taistele <span>HYVINVOINTISI</span> puolesta</h1>
+    <div class="ProfessionalLoginForm hidden">
+      <h3>Kirjaudu sisään ammattilaisena</h3>
 
-</div>
+      <form class="ProfessionalLoginForm">
+        <label for="email">Sähköposti</label>
+        <input type="email" name="email" placeholder="esimerkki@sähköposti.fi" />
+        <label for="password">Salasana</label>
+        <input type="password" name="password" placeholder="salasana" />
+        <input name="submit" type="submit" value="Kirjaudu sisään" class="ProfessionalLoginform"/>
+      </form>
+      <button id="showPatientLogin">Kirjaudu sisään potilaana</button>
+    </div>
+
 </div>
     <main>
       <section class="info-area" id="info">
@@ -64,71 +71,63 @@
 
       <section class="features">
 
-<div class="feature-card">
+        <div class="feature-card">
 
-<h3>Treeni ohjelmat</h3>
-
-<p>
-Saat henkilökohtaisia harjoitusohjelmia
-joilla kehität kuntoasi turvallisesti.
-</p>
-
-</div>
-<div class="feature-card">
-<h3>HRV seuranta</h3>
-<p>
-Seuraa sykevälivaihteluasi ja palautumistasi
-helposti.
-</p>
-</div>
-<div class="feature-card">
-<h3>Oirepäiväkirja</h3>
-<p>
-Kirjaa päivittäinen hyvinvointisi ja seuraa
-kehitystäsi.
-</p>
-
-</div>
-
-</section>
-
-      <section class="about-us" id="contact">
-        <img
-          src="hrv1.webp"
-          alt="Sykevälivaihtelu"
-          class="fl card-inside"
-        />
-        <h2 class="black_cl bolder mb-10">Tämä on meidän tarinamme</h2>
-        <p>
-          Olemme joukko nuoria yrittäjiä, jotka uskovat HRV tiedon ja
-          treeniohjelman voimaan hyvinvoinnin seurannassa.
-        </p>
-        <p>
-          Sykevälivaihtelua tai HRV:tä käytetään fysiologisiin mittauksiin kuten
-          VO2-maksimaalinen hapenottokyky, SV-stressitesti, Suoritustaso,
-          Anaerobinen kynnys ja Harjoituksen tehokkuus. Yhdistämällä HRV
-          seurannan henkilökohtaiseen treeniohjelmaasi, voit saavuttaa nopeasti,
-          tehokkaasti sekä ennenkaikkea turvallisesti uusia tasoja kuntosi
-          kehityksessä.
-        </p>
-        <p>
-          Ohjelmamme tukee kehitystäsi eri treeniohjelmien muodossa, tarjoaa
-          päiväkirjan hvyinvointisi seurantaan sekä HRV tietojesi analysointiin.
-          Voit saada kauttamme myös yhteyden terveydenhuollon ammattilaisiin,
-          sekä personal trainer palveluihin.
-        </p>
-      </section>
+          <h3>HRV-tiedot</h3>
+          
+          <p>
+          Tarkastele palautumistasi ja stressitasojasi helposti Kubios-datan avulla.
+          </p>
+          
+          </div>
+          <div class="feature-card">
+          <h3>Hengitysharjoitus</h3>
+          <p>
+          Tee rauhoittava harjoitus ylivireyden ja stressin hallintaan. 
+          </p>
+          </div>
+          <div class="feature-card">
+          <h3>Oirepäiväkirja</h3>
+          <p>
+          Kirjaa päivittäinen hyvinvointisi ja seuraa
+          kehitystä pitkällä aikavälillä.
+          </p>
+          
+          </div>
+          
+          </section>
+          
+          <section class="about-us" id="contact">
+          
+            <div class="about-text">
+              <h2>Tukea palautumiseen ja arjen hallintaan</h2>
+          
+              <p>
+                Pitkittynyt stressi ja traumaattiset kokemukset voivat vaikuttaa
+                hyvinvointiin monin eri tavoin.
+              </p>
+          
+              <p>
+                Sovelluksen avulla voit seurata oireita, harjoitella rauhoittavaa
+                hengitystä ja tarkastella palautumista HRV-mittausten avulla.
+              </p>
+          
+              <p>
+                Pienet hyvinvointia tukevat rutiinit voivat auttaa vahvistamaan
+                turvallisuuden tunnetta ja tukemaan arjen tasapainoa.
+              </p>
+            </div>
+          
+            <img src="/img/ptsd1.jpg" alt="Hyvinvointi" class="about-image">
+          
+          </section>
     </main>
     <footer>
       <p>Copyright, RK</p>
     </footer>
-    <dialog class="diary_dialog">
-  <h2>Päiväkirjamerkintä</h2>
-  <div class="diary_id"></div>
-  <button>Sulje</button>
-</dialog>
   </body>
   <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/auth.js"></script>
   <script type="module" src="js/loggedUser.js"></script>
   <script type="module" src="js/navbar.js"></script>
 </html>

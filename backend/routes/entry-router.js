@@ -4,7 +4,8 @@ import {
   getEntryById,
   postEntry,
   putEntry,
-  deleteEntry
+  deleteEntry,
+  getEntriesByUser
 } from '../controllers/entry-controller.js';
 import {authenticateToken} from '../middlewares/authentication.js';
 
@@ -34,6 +35,9 @@ entryRouter.route('/:id')
   // Palauttaa yhden merkinnän id:n perusteella
   // Tarkistaa tokenin ja päivittää merkinnän
   // Tarkistaa tokenin ja poistaa merkinnän
+
+  entryRouter.route('/user/:id')
+    .get(getEntriesByUser)
 
 
 export default entryRouter;

@@ -7,6 +7,7 @@ import { getEntries } from './entries.js';
 const getEntriesBtn = document.querySelector('.get_entries');
 getEntriesBtn.addEventListener('click', getEntries);
 
+<<<<<<< HEAD
 // --- TSQ toggle ---
 
 const toggleBtn = document.getElementById('toggle-tsq');
@@ -24,3 +25,5 @@ if (toggleBtn && tsqContent) {
     }
   });
 }
+=======
+>>>>>>> be50c675a08e70d8145befe24ba79e3ea7859bc7

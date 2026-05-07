@@ -224,6 +224,8 @@ function clearLocalStorage() {
 
   localStorage.removeItem('token');
   localStorage.removeItem('name');
+  localStorage.removeItem('isNew');
+  localStorage.removeItem('user_id');
 
   logResponse('clearResponse', 'localStorage cleared!');
 
@@ -286,6 +288,8 @@ if (userArea) {
 
       localStorage.removeItem('token');
       localStorage.removeItem('username');
+      localStorage.removeItem('isNew');
+      localStorage.removeItem('user_id');
 
       location.reload();
 
@@ -294,7 +298,7 @@ if (userArea) {
   } else {
 
     // Jos ei kirjautunut
-    userArea.innerHTML = `<a href="login.html">Kirjaudu</a>`;
+    userArea.innerHTML = `<a href="index.html">Kirjaudu</a>`;
 
   }
 

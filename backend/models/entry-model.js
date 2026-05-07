@@ -23,13 +23,11 @@ const listAllEntries = async () => {
 const findEntryById = async (id) => {
   try {
     // prepared statement
-    const [rows] = await promisePool.execute('SELECT * FROM DiaryEntries WHERE entry_id = ?', [id]);
+    const [rows] = await promisePool.execute('SELECT * FROM DiaryEntries WHERE id = ?', [id]);
 
-    // turvaton tapa, mahdollistaa sql-injektiohaavoittuvuuden:
-    //const [rows] = await promisePool.query('SELECT * FROM DiaryEntries WHERE entry_id =' + id);
 
     //console.log('rows', rows);
-    return rows[0];
+    return rows;
   } catch (e) {
     console.error('error', e.message);
     return {error: e.message};
@@ -39,14 +37,38 @@ const findEntryById = async (id) => {
 // Uusi päiväkirjamerkintä
 const addEntry = async (entry) => {
 
-  // Puretaan entry-objektista yksittäiset kentät
-  const {user_id, entry_date, mood, weight, sleep_hours, notes} = entry;
+  const {
+    user_id,
+    created_at,
+    weight,
+    sleep,
+    energy,
+    stress,
+    mood,
+    symptoms,
+    medication,
+    notes
+  } = entry;
   // SQL-lause uuden rivin lisäämiseksi
   // Käytetään placeholder-merkkejä (?) SQL-injektion estämiseksi
-  const sql = `INSERT INTO DiaryEntries (user_id, entry_date, mood, weight, sleep_hours, notes)
-               VALUES (?, ?, ?, ?, ?, ?)`;
+   const sql = `
+    INSERT INTO DiaryEntries
+    (user_id, created_at, weight, sleep, energy, stress, mood, symptoms, medication, notes)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
   // Parametrit samassa järjestyksessä kuin SQL-lauseessa
-  const params = [user_id, entry_date, mood, weight, sleep_hours, notes];
+  const params = [
+    user_id ?? null,
+    created_at ?? null,
+    weight ?? null,
+    sleep ?? null,
+    energy ?? null,
+    stress ?? null,
+    mood ?? null,
+    symptoms ?? null,
+    medication ?? null,
+    notes ?? null,
+  ];
   try {
     // Suoritetaan tietokantakysely
     const result = await promisePool.execute(sql, params);
@@ -61,7 +83,100 @@ const addEntry = async (entry) => {
   }
 };
 
-export {listAllEntries, findEntryById, addEntry};
+const listEntriesByUserId = async (id) => {
+    const sql = `
+    SELECT *
+    FROM DiaryEntries
+    WHERE user_id = ?
+    ORDER BY created_at DESC
+  `;
+    try {
+    // prepared statement
+    const [rows] = await promisePool.execute(sql, [id]);
+
+    // turvaton tapa, mahdollistaa sql-injektiohaavoittuvuuden:
+    //const [rows] = await promisePool.query('SELECT * FROM DiaryEntries WHERE entry_id =' + id);
+
+    //console.log('rows', rows);
+    return rows;
+  } catch (e) {
+    console.error('error', e.message);
+    return {error: e.message};
+  }
+};
+
+// Päivitä merkintä
+const modifyEntry = async (entry, id, user_id) => {
+  const {
+    created_at,
+    weight,
+    sleep,
+    energy,
+    stress,
+    mood,
+    symptoms,
+    medication,
+    notes
+  } = entry;
+
+  const sql = `
+    UPDATE DiaryEntries
+    SET
+      created_at = ?,
+      weight = ?,
+      sleep = ?,
+      energy = ?,
+      stress = ?,
+      mood = ?,
+      symptoms = ?,
+      medication = ?,
+      notes = ?
+    WHERE id = ? AND user_id = ?
+  `;
+
+  const params = [
+    created_at,
+    weight,
+    sleep,
+    energy,
+    stress,
+    mood,
+    symptoms,
+    medication,
+    notes,
+    id,
+    user_id
+  ];
+
+  try {
+    const [result] = await promisePool.execute(sql, params);
+    return result;
+  } catch (e) {
+    console.error(e.message);
+    return { error: e.message };
+  }
+};
+
+// Poista merkintä
+const removeEntry = async (id, user_id) => {
+  try {
+    const sql = `
+      DELETE FROM DiaryEntries
+      WHERE id = ? AND user_id = ?
+    `;
+
+    const [result] = await promisePool.execute(sql, [id, user_id]);
+
+    return result;
+  } catch (e) {
+    console.error(e.message);
+    return { error: e.message };
+  }
+};
+
+export {
+  listAllEntries, findEntryById, addEntry, listEntriesByUserId, modifyEntry, removeEntry
+};
 
 // ChatGPT:tä hyödynnettiin:
 // - SELECT- ja INSERT-lauseiden kirjoittamisessa
