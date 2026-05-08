@@ -1,5 +1,7 @@
 import { fetchData } from "./fetch";
 
+const API_BASE = "https://ptsdjahyvinvointiseurantasovellus.polandcentral.cloudapp.azure.com/api";
+
 const deleteUser = async () => {
   const userId = localStorage.getItem("user_id");
   const token = localStorage.getItem("token");
@@ -17,7 +19,7 @@ const deleteUser = async () => {
 
   try {
     const response = await fetchData(
-      `http://localhost:3000/api/users/${userId}`,
+      `${API_BASE}/users/${userId}`,
       {
         method: "DELETE",
         headers: {
@@ -32,12 +34,10 @@ const deleteUser = async () => {
       return;
     }
 
-    // clear session
     localStorage.clear();
 
     alert("Käyttäjä poistettu");
 
-    // redirect login / landing
     window.location.href = "index.html";
 
   } catch (error) {

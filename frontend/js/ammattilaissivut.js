@@ -1,4 +1,7 @@
 import { fetchData } from "./fetch.js";
+
+const API_BASE = "https://ptsdjahyvinvointiseurantasovellus.polandcentral.cloudapp.azure.com/api";
+
 const renderByRole = () => {
   const roleId = Number(localStorage.getItem("role_id"));
 
@@ -7,7 +10,6 @@ const renderByRole = () => {
 
   if (!doctorContent || !adminContent) return;
 
-  // piilota kaikki ensin
   doctorContent.classList.add("hidden");
   adminContent.classList.add("hidden");
 
@@ -46,10 +48,10 @@ const handleRegister = () => {
       name: document.getElementById("name").value,
       password: document.getElementById("password").value,
       role_id: Number(document.getElementById("role").value),
-      auth_provider: 'local'
+      auth_provider: "local"
     };
 
-    const response = await fetchData("http://localhost:3000/api/users", {
+    const response = await fetchData(`${API_BASE}/users`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -64,14 +66,12 @@ const handleRegister = () => {
     }
 
     alert("Käyttäjä luotu");
-
     form.reset();
   });
 };
 
-
 document.addEventListener("DOMContentLoaded", () => {
-  renderByRole();        
+  renderByRole();
   initRegisterToggle();
-  handleRegister(); 
+  handleRegister();
 });

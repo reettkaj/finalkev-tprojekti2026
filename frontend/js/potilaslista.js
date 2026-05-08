@@ -1,5 +1,7 @@
 import { fetchData } from "./fetch.js";
 
+const API_BASE = "https://ptsdjahyvinvointiseurantasovellus.polandcentral.cloudapp.azure.com/api";
+
 const tableBody = document.querySelector("#taulukko");
 const getUsersButton = document.querySelector(".get_users");
 
@@ -24,19 +26,17 @@ const renderUsers = (users) => {
     const row = document.createElement("tr");
 
     row.innerHTML = `
-  <td>${user.name}</td>
-
-  <td>
-    <button class="info-btn" data-id="${user.user_id}">
-      Avaa tiedot
-    </button>
-  </td>
-`;
+      <td>${user.name}</td>
+      <td>
+        <button class="info-btn" data-id="${user.user_id}">
+          Avaa tiedot
+        </button>
+      </td>
+    `;
 
     tableBody.appendChild(row);
   });
 
-  // tärkeä
   addInfoListeners();
 };
 
@@ -45,7 +45,7 @@ const getUsers = async () => {
   if (!userId) return;
 
   try {
-    const url = `http://localhost:3000/api/users/patients/${userId}`;
+    const url = `${API_BASE}/users/patients/${userId}`;
 
     const response = await fetchData(url, {
       method: "GET",
@@ -55,7 +55,6 @@ const getUsers = async () => {
       },
     });
 
-    // NORMALISOINTI
     const users = response?.users || response?.data || response;
 
     if (!Array.isArray(users)) {
@@ -64,7 +63,7 @@ const getUsers = async () => {
     }
 
     renderUsers(users);
-    console.log(users)
+    console.log(users);
 
   } catch (error) {
     console.error("Virhe haettaessa potilaita:", error);
@@ -74,586 +73,149 @@ const getUsers = async () => {
 const getPatientById = async (id) => {
   const token = localStorage.getItem("token");
 
-  return await fetchData(`http://localhost:3000/api/users/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  return await fetchData(`${API_BASE}/users/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 const getTSQByUserId = async (id) => {
   const token = localStorage.getItem("token");
 
-  return await fetchData(`http://localhost:3000/api/tsq/user/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  return await fetchData(`${API_BASE}/tsq/user/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 const getTSQAnswersByUserId = async (id) => {
   const token = localStorage.getItem("token");
 
-  return await fetchData(
-    `http://localhost:3000/api/tsq/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  return await fetchData(`${API_BASE}/tsq/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
+
+// ============================
+// PATIENT / TSQ / ENTRY VIEW
+// ============================
 
 const renderPatientDialog = (patient, tsqData, entries, kubiosData) => {
   const dialog = document.querySelector(".diary_dialog");
   const patientInfo = dialog.querySelector(".patient-info");
   const tsqInfo = dialog.querySelector(".tsq-info");
 
-  console.log("TSQ DATA:", tsqData);
-
   patientInfo.innerHTML = `
     <p><strong>Nimi:</strong> ${patient.name}</p>
     <p><strong>Sähköposti:</strong> ${patient.email}</p>
   `;
 
-  // FIX: pakota arrayksi
   const tsqArray = Array.isArray(tsqData)
     ? tsqData
     : tsqData
       ? [tsqData]
       : [];
 
-if (tsqArray.length === 0) {
+  if (tsqArray.length === 0) {
+    tsqInfo.innerHTML = "<p>Ei TSQ dataa</p>";
+  } else {
+    tsqInfo.innerHTML = tsqArray.map((entry, index) => `
+      <div class="tsq-entry">
+        <p><strong>Traumaseulontakyselyn pisteet:</strong> ${entry.points}</p>
+        <p><strong>Vastattu:</strong> <small>${new Date(entry.created_at).toLocaleDateString("fi-FI")}</small></p>
 
-  tsqInfo.innerHTML = "<p>Ei TSQ dataa</p>";
+        <button class="toggle-tsq-btn" data-id="${entry.id}" data-index="${index}">
+          Näytä TSQ-vastaukset
+        </button>
 
-} else {
+        <div class="tsq-answers hidden"></div>
+        <hr>
+      </div>
+    `).join("");
+  }
 
-  tsqInfo.innerHTML = tsqArray.map((entry, index) => `
+  const entryHtml =
+    !entries || entries.length === 0
+      ? "<p>Ei päiväkirjamerkintöjä</p>"
+      : entries.map((entry, index) => {
+          const date = new Date(entry.created_at || entry.entry_date)
+            .toLocaleDateString("fi-FI");
 
-    <div class="tsq-entry">
+          return `
+            <div class="entry-card" data-index="${index}">
+              <p><strong>Päivämäärä:</strong> ${date}</p>
 
-      <p>
-        <strong>Traumaseulontakyselyn pisteet:</strong>
-        ${entry.points}
-      </p>
+              <button class="toggle-entry-btn" data-index="${index}">
+                Näytä vastaukset
+              </button>
 
-      <p>
-        <strong>Vastattu:</strong>
-        <small>
-          ${new Date(entry.created_at)
-            .toLocaleDateString("fi-FI")}
-        </small>
-      </p>
+              <div class="entry-details hidden">
+                <p><strong>Paino:</strong> ${entry.weight ?? "-"}</p>
+                <p><strong>Uni:</strong> ${entry.sleep ?? "-"}</p>
+                <p><strong>Energia:</strong> ${entry.energy ?? "-"}</p>
+                <p><strong>Stressi:</strong> ${entry.stress ?? "-"}</p>
+                <p><strong>Mieliala:</strong> ${entry.mood ?? "-"}</p>
+                <p><strong>Oireet:</strong> ${entry.symptoms ?? "-"}</p>
+                <p><strong>Lääkitys:</strong> ${entry.medication ?? "-"}</p>
+                <p><strong>Muistiinpanot:</strong> ${entry.notes ?? "-"}</p>
+              </div>
 
-      <button
-        class="toggle-tsq-btn"
-        data-id="${entry.id}"
-        data-index="${index}"
-      >
-        Näytä TSQ-vastaukset
-      </button>
-
-      <div class="tsq-answers hidden"></div>
-
-      <hr>
-
-    </div>
-
-  `).join("");
-
-}
-
-// Päiväkirjamerkinnät
-const entryHtml =
-  !entries || entries.length === 0
-    ? "<p>Ei päiväkirjamerkintöjä</p>"
-    : entries.map((entry, index) => {
-
-        const date = new Date(
-          entry.created_at || entry.entry_date
-        ).toLocaleDateString("fi-FI");
-
-        return `
-          <div class="entry-card" data-index="${index}">
-
-            <p>
-              <strong>Päivämäärä:</strong> ${date}
-            </p>
-
-            <button class="toggle-entry-btn" data-index="${index}">
-              Näytä vastaukset
-            </button>
-
-            <div class="entry-details hidden">
-              <p><strong>Paino:</strong> ${entry.weight ?? "-"}</p>
-              <p><strong>Uni:</strong> ${entry.sleep ?? "-"}</p>
-              <p><strong>Energia:</strong> ${entry.energy ?? "-"}</p>
-              <p><strong>Stressi:</strong> ${entry.stress ?? "-"}</p>
-              <p><strong>Mieliala:</strong> ${entry.mood ?? "-"}</p>
-              <p><strong>Oireet:</strong> ${entry.symptoms ?? "-"}</p>
-              <p><strong>Lääkitys:</strong> ${entry.medication ?? "-"}</p>
-              <p><strong>Muistiinpanot:</strong> ${entry.notes ?? "-"}</p>
+              <hr>
             </div>
-
-            <hr>
-          </div>
-        `;
-      }).join("");
-
-tsqInfo.innerHTML += `
-  <hr>
-  <h3>Päiväkirjamerkinnät</h3>
-  ${entryHtml}
-`;
-
-tsqInfo.addEventListener("click", async (e) => {
-  const btn = e.target.closest(".toggle-entry-btn");
-  // TSQ VASTAUKSET
-const tsqBtn = e.target.closest(".toggle-tsq-btn");
-
-if (tsqBtn) {
-
-  const answerContainer =
-    tsqBtn.parentElement.querySelector(".tsq-answers");
-
-  const isHidden =
-    answerContainer.classList.contains("hidden");
-
-  // PIILOTA
-  if (!isHidden) {
-
-    answerContainer.classList.add("hidden");
-
-    tsqBtn.textContent =
-      "Näytä TSQ-vastaukset";
-
-    return;
-  }
-
-  // HAE VASTAUKSET APISTA
-  const tsqId = tsqBtn.dataset.id;
-
-  answerContainer.innerHTML =
-    "<p>Ladataan vastauksia...</p>";
-
-  answerContainer.classList.remove("hidden");
-
-  try {
-
-    const answers =
-      await getTSQAnswersByUserId(tsqId);
-
-    if (!answers) {
-
-      answerContainer.innerHTML =
-        "<p>Ei vastauksia</p>";
-
-    } else {
-
-answerContainer.innerHTML = `
-
-  <p class="tsq-intro">
-    Merkitse kyllä tai ei sen mukaan, oletko kokenut seuraavia
-    vähintään kahdesti viimeisen viikon aikana.
-  </p>
-
-  <div class="tsq-question">
-    <p>
-      1. Järkyttäviä ajatuksia tai muistoja tapahtumasta,
-      jotka ovat tulleet mieleesi oman tahtosi vastaisesti.
-    </p>
-    <strong>${answers.q1 ? "Kyllä" : "Ei"}</strong>
-  </div>
-
-  <div class="tsq-question">
-    <p>2. Järkyttäviä unia tapahtumasta.</p>
-    <strong>${answers.q2 ? "Kyllä" : "Ei"}</strong>
-  </div>
-
-  <div class="tsq-question">
-    <p>
-      3. Toimimista tai tunnetta ikään kuin traumaattinen
-      kokemus tapahtuisi uudelleen.
-    </p>
-    <strong>${answers.q3 ? "Kyllä" : "Ei"}</strong>
-  </div>
-
-  <div class="tsq-question">
-    <p>
-      4. Tapahtumasta muistuttavien tekijöiden aiheuttamaa
-      järkytyksen tunnetta.
-    </p>
-    <strong>${answers.q4 ? "Kyllä" : "Ei"}</strong>
-  </div>
-
-  <div class="tsq-question">
-    <p>
-      5. Ruumiillisia reaktioita (kuten nopea sydämen syke,
-      vatsan väänteet, hikoilu, huimaus)
-      jonkin muistutettaessa tapahtumasta.
-    </p>
-    <strong>${answers.q5 ? "Kyllä" : "Ei"}</strong>
-  </div>
-
-  <div class="tsq-question">
-    <p>
-      6. Vaikeutta nukahtaa tai pysyä unessa.
-    </p>
-    <strong>${answers.q6 ? "Kyllä" : "Ei"}</strong>
-  </div>
-
-  <div class="tsq-question">
-    <p>
-      7. Ärtyisyyttä tai vihan purkauksia.
-    </p>
-    <strong>${answers.q7 ? "Kyllä" : "Ei"}</strong>
-  </div>
-
-  <div class="tsq-question">
-    <p>
-      8. Keskittymisvaikeuksia.
-    </p>
-    <strong>${answers.q8 ? "Kyllä" : "Ei"}</strong>
-  </div>
-
-  <div class="tsq-question">
-    <p>
-      9. Voimistunutta tietoisuutta mahdollisista
-      vaaroista itsellesi tai toisille.
-    </p>
-    <strong>${answers.q9 ? "Kyllä" : "Ei"}</strong>
-  </div>
-
-  <div class="tsq-question">
-    <p>
-      10. Hermostuneisuutta tai säikkymistä
-      jotain odottamatonta kohtaan.
-    </p>
-    <strong>${answers.q10 ? "Kyllä" : "Ei"}</strong>
-  </div>
-
-`;
-
-    }
-
-    tsqBtn.textContent =
-      "Piilota TSQ-vastaukset";
-
-  } catch (error) {
-
-    console.error(error);
-
-    answerContainer.innerHTML =
-      "<p>TSQ-vastausten haku epäonnistui</p>";
-
-  }
-
-  return;
-} 
-
-  if (!btn) return;
-
-  const card = btn.closest(".entry-card");
-  const details = card.querySelector(".entry-details");
-
-  const isHidden = details.classList.contains("hidden");
-
-  details.classList.toggle("hidden");
-
-  btn.textContent = isHidden
-    ? "Piilota vastaukset"
-    : "Näytä vastaukset";
-});
-
-
-const kubiosArray = Array.isArray(kubiosData)
-  ? kubiosData
-  : kubiosData?.results || [];
-
-const latestKubios = kubiosArray[0];
-
-if (latestKubios) {
-
-const readiness =
-  Math.round(latestKubios.readiness ?? 0);
-
-const stress =
-  Math.round(latestKubios.stress_index ?? 0);
-
-  const readinessColor =
-    readiness >= 80
-      ? "green"
-      : readiness >= 60
-      ? "orange"
-      : "red";
-
-        const stressColor =
-    stress <= 10
-      ? "green"
-      : stress <= 20
-      ? "orange"
-      : "red";
+          `;
+        }).join("");
 
   tsqInfo.innerHTML += `
     <hr>
-
-    <h3>HRV / Hyvinvointidata</h3>
-
-    <p>
-      <strong>Palautuminen:</strong>
-      <span style="color:${readinessColor}">
-        ${readiness}
-      </span>
-    </p>
-
-    <p>
-      <span style="color:${stressColor}">
-      ${stress}
-      </span>
-    </p>
+    <h3>Päiväkirjamerkinnät</h3>
+    ${entryHtml}
   `;
-}
 
   dialog.showModal();
 };
 
-const addInfoListeners = () => {
-  const buttons = document.querySelectorAll(".info-btn");
-
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", async (e) => {
-      const userId = e.target.dataset.id;
-
-      const dialog = document.querySelector(".diary_dialog");
-      const patientInfo = dialog.querySelector(".patient-info");
-      const tsqInfo = dialog.querySelector(".tsq-info");
-
-      // loading state
-      patientInfo.innerHTML = "<p>Ladataan...</p>";
-      tsqInfo.innerHTML = "";
-      dialog.showModal();
-
-      try {
-        const patient = await getPatientById(userId);
-        const tsqData = await getTSQByUserId(userId);
-        const entries = await getEntriesByUserId(userId);
-
-        const kubiosData =
-          await getKubiosDataByUserId(userId);
-
-        if (!patient || patient.error) {
-          patientInfo.innerHTML = "<p>Virhe potilaan haussa</p>";
-          return;
-        }
-
-        renderPatientDialog(patient, tsqData, entries, kubiosData);
-
-      } catch (error) {
-        console.error(error);
-        patientInfo.innerHTML = "<p>Virhe haussa</p>";
-      }
-    });
-  });
-};
-
-const initDialog = () => {
-  const dialog = document.querySelector(".diary_dialog");
-  const closeBtn = document.getElementById("close-dialog");
-
-  if (!dialog || !closeBtn) return;
-
-  closeBtn.addEventListener("click", () => {
-    dialog.close();
-  });
-};
+// ============================
+// PATIENT LIST ACTIONS
+// ============================
 
 const getAllPatients = async () => {
-
   const token = localStorage.getItem("token");
 
-  return await fetchData(
-    "http://localhost:3000/api/users/patients",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
+  return await fetchData(`${API_BASE}/users/patients`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
 
 const addPatientToDoctor = async (patientId) => {
-
   const token = localStorage.getItem("token");
 
-  return await fetchData(
-    `http://localhost:3000/api/users/patients/${patientId}/doctor`,
-    {
-      method: "PUT",
-
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-};
-
-const renderAllPatientsDialog = (patients) => {
-
-  const dialog =
-    document.querySelector(".all-patients-dialog");
-
-  const container =
-    dialog.querySelector(".all-patients-list");
-
-  if (!patients || patients.length === 0) {
-
-    container.innerHTML =
-      "<p>Ei potilaita</p>";
-
-    dialog.showModal();
-
-    return;
-  }
-
-  container.innerHTML = patients.map((patient) => `
-
-    <div class="patient-card">
-
-      <p>
-        <strong>${patient.name}</strong>
-      </p>
-
-      <p>${patient.email}</p>
-
-      <button
-        class="add-patient-btn"
-        data-id="${patient.user_id}"
-      >
-        Lisää potilaaksi
-      </button>
-
-      <hr>
-
-    </div>
-
-  `).join("");
-
-  dialog.showModal();
-
-  const addButtons =
-    container.querySelectorAll(".add-patient-btn");
-
-  addButtons.forEach((btn) => {
-
-    btn.addEventListener("click", async () => {
-
-      const patientId = btn.dataset.id;
-
-      try {
-
-        await addPatientToDoctor(patientId);
-
-        btn.disabled = true;
-        btn.textContent = "Lisätty";
-
-      } catch (error) {
-
-        console.error(error);
-
-        alert("Potilaan lisääminen epäonnistui");
-
-      }
-
-    });
-
+  return await fetchData(`${API_BASE}/users/patients/${patientId}/doctor`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   });
-
 };
-
-const initAllPatientsDialog = () => {
-
-  const dialog =
-    document.querySelector(".all-patients-dialog");
-
-  const closeBtn =
-    document.querySelector("#close-all-patients");
-
-  if (!dialog || !closeBtn) return;
-
-  closeBtn.addEventListener("click", () => {
-    dialog.close();
-  });
-
-};
-
-const getAllPatientsButton =
-  document.querySelector(".get_all_patients");
-
-document.addEventListener("DOMContentLoaded", () => {
-  initDialog();
-  initAllPatientsDialog();
-});
-
-// EVENT LISTENER
-if (getUsersButton) {
-  getUsersButton.addEventListener("click", getUsers);
-}
-
-if (getAllPatientsButton) {
-
-  getAllPatientsButton.addEventListener(
-    "click",
-    async () => {
-
-      try {
-
-        const response =
-          await getAllPatients();
-
-        const patients =
-          response.users ||
-          response.data ||
-          response;
-
-        renderAllPatientsDialog(patients);
-
-      } catch (error) {
-
-        console.error(error);
-
-      }
-
-    }
-  );
-
-}
 
 const getEntriesByUserId = async (id) => {
   const token = localStorage.getItem("token");
 
-  return await fetchData(
-    `http://localhost:3000/api/entries/user/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  return await fetchData(`${API_BASE}/entries/user/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
 
 const getKubiosDataByUserId = async (id) => {
   const token = localStorage.getItem("token");
 
-  return await fetchData(
-    `http://localhost:3000/api/kubios/user-data/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  return await fetchData(`${API_BASE}/kubios/user-data/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
+
+// ============================
+// USER LIST EVENTS
+// ============================
+
+if (getUsersButton) {
+  getUsersButton.addEventListener("click", getUsers);
+}

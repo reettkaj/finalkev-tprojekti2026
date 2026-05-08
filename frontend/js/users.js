@@ -1,14 +1,16 @@
 import { fetchData } from './fetch.js';
+
+const API_BASE = "https://ptsdjahyvinvointiseurantasovellus.polandcentral.cloudapp.azure.com/api";
+
 // Käyttäjän rekisteröinti
 const addUser = async (event) => {
-
   event.preventDefault();
 
   const username = document.querySelector('#username').value;
   const password = document.querySelector('#password').value;
   const email = document.querySelector('#email').value;
 
-  const url = 'http://localhost:3000/api/users';
+  const url = `${API_BASE}/users`;
 
   const options = {
     method: 'POST',
@@ -26,11 +28,11 @@ const addUser = async (event) => {
 
   console.log(result);
 
-  if(result.error){
+  if (result.error) {
     alert(result.error);
     return;
   }
-// Ilmoittaa rekisteröidystä käyttäjästä
+
   alert("User added!");
 };
 

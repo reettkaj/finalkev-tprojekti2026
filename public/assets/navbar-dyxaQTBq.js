@@ -1,1 +1,0 @@
-var e=()=>{let e=localStorage.getItem(`username`)||`Vieras`,t=document.getElementById(`username-display`);t&&(t.textContent=e)},t=()=>{let e=document.getElementById(`logout-btn`);e&&e.addEventListener(`click`,()=>{localStorage.clear(),window.location.href=`index.html`})};document.addEventListener(`DOMContentLoaded`,()=>{e(),t()});
