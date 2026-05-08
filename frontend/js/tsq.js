@@ -1,5 +1,7 @@
 import { fetchData } from "./fetch";
 
+const API_BASE = "https://ptsdjahyvinvointiseurantasovellus.polandcentral.cloudapp.azure.com/api";
+
 const collectTSQAnswers = () => {
   const answers = [];
 
@@ -21,7 +23,7 @@ const sendTSQ = async (answers) => {
   const userId = localStorage.getItem('user_id');
   const token = localStorage.getItem('token');
 
-  const url = `http://localhost:3000/api/tsq`;
+  const url = `${API_BASE}/tsq`;
 
   return await fetchData(url, {
     method: 'POST',
@@ -40,7 +42,7 @@ const removeNewUserTag = async () => {
   const userId = localStorage.getItem('user_id');
   const token = localStorage.getItem('token');
 
-  const url = `http://localhost:3000/api/users/newuser/${userId}`;
+  const url = `${API_BASE}/users/newuser/${userId}`;
 
   const data = await fetchData(url, {
     method: 'PUT',
@@ -63,12 +65,10 @@ const initTSQBlocking = () => {
 
   if (!overlay || !form) return;
 
-  // 🔹 pakollinen onboarding
   if (isNew === "1" || isNew === "true") {
     overlay.classList.remove("hidden");
   }
 
-  // 🔹 nappi avaa TSQ:n aina
   const tsqButton = document.querySelector("#open-tsq-btn");
 
   if (tsqButton) {

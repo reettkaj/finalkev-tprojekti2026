@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="fi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="On tärkeää että pidät huolta itsestäsi. Seuraa treeniohjeitamme, tarkastele terveyttäsi HRV tiedon avulla ja voi kokonaisvaltaisesti hyvin. Suuntaa nyt hyvinvointia ja uutta elämääsi kohti."
+    />
+
+    <title>HyteGym</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,300&family=Roboto+Slab:wght@100;200;300;400;500;600;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- oma yleinen css -->
+    <!-- tämä viimeiseksi -->
+    <script type="module" crossorigin src="./assets/style-DDgsSj9f.js"></script>
+    <script type="module" crossorigin src="./assets/fetch-Dt1wVZxm.js"></script>
+    <script type="module" crossorigin src="./assets/kubios-DYInqJxc.js"></script>
+    <script type="module" crossorigin src="./assets/loggedUser-CNi0HL4K.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/style-DIygRjFe.css">
+    <link rel="stylesheet" crossorigin href="./assets/kubios-C2f03ddS.css">
+    <link rel="stylesheet" crossorigin href="./assets/mobile-DLmb8xhN.css">
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="" id="logo">HyteGym</a></li>
+        <li><a href="#" class="selected navlink">Koti</a></li>
+        <li><a href="bmi.html" class="navlink">BMI laskuri</a></li>
+        <li>
+          <a href="viikkotehtavat.html" class="navlink">Viikkotehtävät</a>
+        </li>
+        <li><a href="paivakirja.html" class="navlink">Päiväkirja</a></li>
+        <li><a href="kubios.html" class="navlink">Kubios</a></li>
+      </ul>
+      <div>Hei Käyttäjä:&nbsp;<span class="username">Vieras</span>
+      <span id="authButtons"></span></div>
+    </nav>
+
+    <main class="kubios-page">
+
+        <aside class="kubios-card kubios-card--actions">
+          <h2 class="kubios-section-title">Hyvinvointidata</h2>
+        <p class="kubios-text">
+            Hae ja visualisoi Kubiosin mittaama palautumis- ja stressidata.
+        </p>
+
+          <div class="kubios-action-group">
+            <h3 class="kubios-subtitle">Kubios käyttäjätiedot console logiin</h3>
+            <button class="kubios-btn get_user_info">
+              Käyttäjätiedot
+            </button>
+          </div>
+
+          <div class="kubios-action-group">
+            <h3 class="kubios-subtitle">Kubios käyttäjädata</h3>
+            <button class="kubios-btn get_user_data">
+              Hae mittausdata
+            </button>
+          </div>
+        </aside>
+      </section>
+
+      <section class="kubios-results">
+        <div class="kubios-card">
+          <h2 class="kubios-section-title">Chart.js tulos</h2>
+          <div class="kubios-canvas-wrap">
+            <canvas id="jsChart"></canvas>
+          </div>
+        </div>
+
+        <div class="kubios-card">
+          <h2 class="kubios-section-title">amCharts tulos</h2>
+          <div id="chartdiv" class="kubios-amchart"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Resources -->
+    <!-- Resources -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+  </body>
+</html>
