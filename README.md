@@ -10,5 +10,5 @@
 
 ## Testiraportit
 
-- [Robot Framework raportti](./outputs/report.html)
-- [Robot Framework loki](./outputs/log.html)
+- [Test Report](https://reettkaj.github.io/finalkev-tprojekti2026/outputs/report.html)
+- [Test Log](https://reettkaj.github.io/finalkev-tprojekti2026/outputs/log.html)
