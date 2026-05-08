@@ -31,3 +31,9 @@ dist-ssr
 *.xml
 # *.png
 **/__pycache__
+
+#robottestit
+.venv
+outputs/
+node_modules/
+playwright/
